@@ -1,0 +1,1580 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Orbit</title>
+    <style>
+        /* ========================================================
+           1. ベース・宇宙デザインスタイル
+           ======================================================== */
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-image: linear-gradient(135deg, #02001f 0%, #0b093a 40%, #17115c 70%, #030013 100%);
+            background-size: cover;
+            background-attachment: fixed;
+            margin: 0px;
+            padding-top: 20px;
+            padding-right: 20px;
+            padding-bottom: 20px;
+            padding-left: 40px;
+            color: #ffffff;
+            box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.8);
+            min-width: 1100px;
+            overflow-x: auto;
+        }
+
+        h2 {
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-shadow: 0px 0px 10px rgba(0, 162, 255, 0.8);
+            margin: 0px;
+            white-space: nowrap;
+        }
+
+        /* ========================================================
+           2. ログイン画面（認証オーバーレイ）
+           ======================================================== */
+        #authOverlay {
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            height: 100%;
+            background: rgba(2, 0, 31, 0.9);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .auth-box {
+            background: rgba(11, 13, 34, 0.8);
+            border: 1px solid rgba(0, 210, 255, 0.3);
+            padding: 40px;
+            border-radius: 12px;
+            text-align: center;
+            width: 300px;
+            box-shadow: 0 0 30px rgba(0, 210, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .auth-input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            border-radius: 4px;
+            outline: none;
+        }
+
+        .auth-input:focus {
+            border-color: #00d2ff;
+        }
+
+        .auth-error {
+            color: #ff7676;
+            font-size: 13px;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        .auth-success {
+            color: #10b981;
+            font-size: 13px;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        /* ========================================================
+           3. メインアプリケーションUI
+           ======================================================== */
+        #appContainer {
+            display: none;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            min-width: max-content;
+            gap: 20px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            flex-shrink: 0;
+        }
+
+        .board-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .board-controls-top {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .board-selector {
+            padding: 8px 12px;
+            background: rgba(0, 210, 255, 0.1);
+            border: 1px solid rgba(0, 210, 255, 0.4);
+            border-radius: 6px;
+            color: #ffffff;
+            font-size: 16px;
+            outline: none;
+            cursor: pointer;
+            width: 180px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex-shrink: 0;
+        }
+
+        .board-selector option {
+            background: #0b0d22;
+            color: #ffffff;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-shrink: 0;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .input-area {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            flex-shrink: 0;
+        }
+
+        .input-area input {
+            padding: 10px;
+            font-size: 14px;
+            width: 200px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            color: #ffffff;
+            outline: none;
+            flex-shrink: 0;
+        }
+
+        .board {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+            overflow-x: auto;
+            padding-bottom: 20px;
+            min-height: 500px;
+        }
+
+        .column {
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            width: 310px;
+            min-width: 310px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            max-height: calc(100vh - 150px);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            cursor: grab;
+        }
+
+        .column:active {
+            cursor: grabbing;
+        }
+
+        .column.dragging-col {
+            opacity: 0.5;
+            transform: scale(0.98);
+        }
+
+        .column-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            cursor: grab;
+        }
+
+        .column-header h3 {
+            margin: 0px;
+            font-size: 16px;
+            font-weight: 500;
+            color: #ffffff;
+            text-shadow: 0px 0px 5px rgba(255, 255, 255, 0.3);
+        }
+
+        .col-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .col-actions button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #a0aec0;
+            font-size: 13px;
+            margin-left: 5px;
+        }
+        
+        .color-picker {
+            width: 20px;
+            height: 20px;
+            padding: 0px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background: none;
+            margin-left: 5px;
+        }
+
+        .task-list {
+            flex: 1;
+            overflow-y: auto;
+            min-height: 20px;
+            margin-bottom: 10px;
+            padding-right: 5px;
+        }
+
+        .task-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .task-list::-webkit-scrollbar-thumb {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+        }
+
+        .card {
+            background-color: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            margin-bottom: 12px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .card:hover {
+            background-color: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+            border-color: rgba(0, 210, 255, 0.5);
+        }
+
+        .card.dragging-task {
+            opacity: 0.4;
+        }
+
+        .card-due-badge {
+            font-size: 11px;
+            background-color: rgba(238, 92, 92, 0.2);
+            color: #ff7676;
+            padding: 2px 6px;
+            border-radius: 3px;
+            display: inline-block;
+            margin-top: 6px;
+            border: 1px solid rgba(238, 92, 92, 0.3);
+        }
+
+        .add-task-btn {
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            cursor: pointer;
+            text-align: left;
+            padding: 8px;
+            font-size: 14px;
+            border-radius: 4px;
+            text-shadow: 0px 0px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        .add-task-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .btn {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background: linear-gradient(90deg, #0052cc, #00d2ff);
+            color: #ffffff;
+            font-weight: 500;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .btn-danger {
+            background: #de350b;
+        }
+
+        .btn-success {
+            background: #10b981;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px dashed rgba(255, 255, 255, 0.4);
+            padding: 6px 12px;
+            font-size: 12px;
+            color: #ffffff;
+            text-align: center;
+        }
+
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* ========================================================
+           4. モーダル ＆ 詳細デザイン
+           ======================================================== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(5px);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: #101224;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            width: 850px;
+            max-width: 95%;
+            max-height: 85vh;
+            border-radius: 12px;
+            padding: 25px;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            cursor: pointer;
+            color: #a0aec0;
+        }
+
+        .close-btn:hover {
+            color: #ffffff;
+        }
+
+        .modal-body {
+            display: flex;
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .modal-left {
+            flex: 2;
+        }
+
+        .modal-right {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            box-sizing: border-box;
+            background-color: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 4px;
+            color: #ffffff;
+            resize: vertical;
+            outline: none;
+        }
+
+        .meta-section {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 12px;
+            border-radius: 6px;
+        }
+
+        .meta-block {
+            flex: 1;
+        }
+
+        .meta-block h4 {
+            margin: 0px 0px 5px 0px;
+            font-size: 12px;
+            color: #a0aec0;
+            text-transform: uppercase;
+        }
+
+        .checklist-container {
+            margin-top: 25px;
+            background: rgba(255, 255, 255, 0.01);
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .progress-bar-container {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            height: 8px;
+            width: 100%;
+            margin: 10px 0px 15px 0px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            background: linear-gradient(90deg, #10b981, #00ffaa);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            padding: 4px 0px;
+        }
+
+        .checklist-item-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .checklist-item-left.checked span {
+            color: #718096;
+            text-decoration: line-through;
+        }
+
+        .comment-box {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 10px 0px;
+            font-size: 13px;
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .comment-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .comment-author {
+            font-weight: bold;
+            color: #00d2ff;
+        }
+
+        .comment-time {
+            font-size: 11px;
+            color: #718096;
+        }
+
+        .comment-input-area {
+            display: flex;
+            gap: 5px;
+            margin-top: 15px;
+        }
+
+        .comment-input-area input {
+            flex: 1;
+            padding: 8px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="authOverlay">
+        <div class="auth-box">
+            <h2 style="margin-bottom: 5px;">Orbit Identity</h2>
+            <p style="color: #a0aec0; font-size: 12px; margin-bottom: 20px;">衛星開発チーム 認証ゲートウェイ</p>
+            
+            <div id="authError" class="auth-error">エラーメッセージ</div>
+            <div id="authSuccess" class="auth-success">成功メッセージ</div>
+            
+            <input type="text" id="authUsername" class="auth-input" placeholder="ユーザー名" autocomplete="off">
+            <input type="password" id="authPassword" class="auth-input" placeholder="パスワード">
+            
+            <div style="display: flex; gap: 10px; margin-top: 10px;">
+                <button class="btn" style="flex: 1;" onclick="handleLogin()">ログイン</button>
+                <button class="btn" style="flex: 1; background: #2d3748;" onclick="handleRegister()">新規登録申請</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="appContainer">
+        <div class="header">
+            <div class="header-left">
+                <h2>🌌 Orbit</h2>
+                <div class="board-controls">
+                    <div class="board-controls-top">
+                        <select id="boardSelect" class="board-selector" onchange="switchBoard()"></select>
+                        <button class="btn btn-outline" onclick="renameCurrentBoard()">✏️ 名前変更</button>
+                        <button class="btn btn-outline" style="color: #ff7676; border-color: rgba(255, 118, 118, 0.4);" onclick="deleteCurrentBoard()">🗑️ 削除</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="header-right">
+                <div class="input-area">
+                    <input type="text" id="newColumnTitle" placeholder="新しい列の名前...">
+                    <button class="btn" onclick="addColumn()">列を追加</button>
+                </div>
+                <button class="btn" style="background: #2d3748;" onclick="openArchiveModal()">アーカイブ</button>
+                
+                <div class="user-profile">
+                    👤 <span id="currentUsernameDisplay">User</span>
+                    <span id="adminBadge" style="display: none; background: #ee5c5c; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: bold;">ADMIN</span>
+                    <button style="background:none; border:none; color:#00d2ff; cursor:pointer; font-size:12px; margin-left:10px; white-space:nowrap;" onclick="openAccountModal()">⚙️ アカウント管理</button>
+                    <button style="background:none; border:none; color:#ff7676; cursor:pointer; font-size:12px; margin-left:10px; white-space:nowrap;" onclick="logout()">ログアウト</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="board" id="board" ondragover="handleBoardDragOver(event)" ondrop="handleBoardDrop(event)"></div>
+    </div>
+
+    <div class="modal-overlay" id="taskModal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('taskModal')">&times;</span>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h2 id="modalTaskTitle" style="margin:0px;">タスク名</h2>
+                <button style="background:none; border:none; cursor:pointer; font-size:16px; white-space:nowrap;" onclick="editTaskTitle()">✏️ 名前を変更</button>
+            </div>
+            
+            <div class="meta-section">
+                <div class="meta-block" style="flex: 1;">
+                    <h4>期限日</h4>
+                    <input type="date" id="modalDueDate" onchange="saveDueDate()" style="background: #000; color: #ffffff; border: 1px solid rgba(255,255,255,0.2); padding: 4px; border-radius: 3px;">
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <div class="modal-left">
+                    <h3>詳細説明</h3>
+                    <textarea id="modalDescription" placeholder="タスクの詳細・宇宙飛行ログを記入してください..."></textarea>
+                    <button class="btn" style="margin-top: 8px;" onclick="saveDescription()">説明を保存</button>
+
+                    <div class="checklist-container">
+                        <h3 style="margin: 0px;">📋 チェックリスト</h3>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar-fill" id="checklistProgress"></div>
+                        </div>
+                        <div id="checklistItems"></div>
+                        <div style="display: flex; gap: 5px; margin-top: 10px;">
+                            <input type="text" id="newChecklistItem" placeholder="アイテムを追加..." style="flex: 1; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); color: #ffffff; padding: 6px; border-radius: 4px;">
+                            <button class="btn" style="padding: 6px 12px;" onclick="addChecklistItem()">追加</button>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 30px;">
+                        <button class="btn btn-danger" onclick="archiveTask()">このタスクをアーカイブ移動</button>
+                    </div>
+                </div>
+                
+                <div class="modal-right">
+                    <h3>💬 進捗タイムライン</h3>
+                    <div id="commentList" style="max-height: 280px; overflow-y: auto;"></div>
+                    <div class="comment-input-area">
+                        <input type="text" id="newComment" placeholder="進捗ログを入力...">
+                        <button class="btn" style="padding: 8px 12px;" onclick="addComment()">記録</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="archiveModal">
+        <div class="modal-content" style="width: 500px;">
+            <span class="close-btn" onclick="closeModal('archiveModal')">&times;</span>
+            <h2>📦 アーカイブ格納庫</h2>
+            <div id="archiveList"></div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="accountModal">
+        <div class="modal-content" style="width: 650px;">
+            <span class="close-btn" onclick="closeModal('accountModal')">&times;</span>
+            <h2>👤 アカウント・アクセス権限管理</h2>
+            <div id="accountList"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentTaskId = null;
+        let currentUser = null;
+        let isCurrentUserAdmin = false;
+        let currentBoardId = null;
+        let draggedColumn = null;
+
+        function hexToRgba(hex, alpha) {
+            let r = parseInt(hex.slice(1, 3), 16);
+            let g = parseInt(hex.slice(3, 5), 16);
+            let b = parseInt(hex.slice(5, 7), 16);
+            return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+        }
+
+        // ========================================================
+        // 認証 (Auth) ロジック
+        // ========================================================
+        function checkAuth() {
+            const savedUser = localStorage.getItem('orbit_username');
+            const savedAdmin = localStorage.getItem('orbit_is_admin');
+            
+            if (savedUser) {
+                currentUser = savedUser;
+                isCurrentUserAdmin = (savedAdmin === 'true');
+                
+                document.getElementById('currentUsernameDisplay').textContent = currentUser;
+                
+                if (isCurrentUserAdmin) {
+                    document.getElementById('adminBadge').style.display = 'inline-block';
+                } else {
+                    document.getElementById('adminBadge').style.display = 'none';
+                }
+                
+                document.getElementById('authOverlay').style.display = 'none';
+                document.getElementById('appContainer').style.display = 'block';
+                
+                fetchBoards();
+            } else {
+                document.getElementById('authOverlay').style.display = 'flex';
+                document.getElementById('appContainer').style.display = 'none';
+            }
+        }
+
+        async function handleLogin() {
+            const u = document.getElementById('authUsername').value;
+            const p = document.getElementById('authPassword').value;
+            const errDiv = document.getElementById('authError');
+            const sucDiv = document.getElementById('authSuccess');
+            
+            errDiv.style.display = 'none';
+            sucDiv.style.display = 'none';
+            
+            if (!u || !p) {
+                errDiv.textContent = "入力が不完全です";
+                errDiv.style.display = 'block';
+                return;
+            }
+
+            const res = await fetch('/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username: u, password: p })
+            });
+            
+            const data = await res.json();
+            
+            if (data.error) {
+                errDiv.textContent = data.error;
+                errDiv.style.display = 'block';
+            } else {
+                localStorage.setItem('orbit_username', data.username);
+                localStorage.setItem('orbit_is_admin', data.is_admin);
+                checkAuth();
+            }
+        }
+
+        async function handleRegister() {
+            const u = document.getElementById('authUsername').value;
+            const p = document.getElementById('authPassword').value;
+            const errDiv = document.getElementById('authError');
+            const sucDiv = document.getElementById('authSuccess');
+            
+            errDiv.style.display = 'none';
+            sucDiv.style.display = 'none';
+            
+            if (!u || !p) {
+                errDiv.textContent = "入力が不完全です";
+                errDiv.style.display = 'block';
+                return;
+            }
+
+            const res = await fetch('/api/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username: u, password: p })
+            });
+            
+            const data = await res.json();
+            
+            if (data.error) {
+                errDiv.textContent = data.error;
+                errDiv.style.display = 'block';
+            } else {
+                if (data.is_approved) {
+                    sucDiv.textContent = "初期管理者として登録されました。ログインしてください。";
+                } else {
+                    sucDiv.textContent = "登録申請を受け付けました。管理者の承認をお待ちください。";
+                }
+                sucDiv.style.display = 'block';
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('orbit_username');
+            localStorage.removeItem('orbit_is_admin');
+            
+            currentUser = null;
+            isCurrentUserAdmin = false;
+            currentBoardId = null;
+            
+            document.getElementById('authUsername').value = '';
+            document.getElementById('authPassword').value = '';
+            
+            document.getElementById('authError').style.display = 'none';
+            document.getElementById('authSuccess').style.display = 'none';
+            
+            checkAuth();
+        }
+
+        // ========================================================
+        // アカウント・承認管理ロジック
+        // ========================================================
+        async function openAccountModal() {
+            const listDiv = document.getElementById('accountList');
+            listDiv.innerHTML = '';
+            
+            if (isCurrentUserAdmin) {
+                listDiv.innerHTML = '<p style="color:#00d2ff; font-size:12px;">※ 管理者権限：アクセス承認と管理者権限の付与が可能です</p>';
+                
+                const res = await fetch('/api/users');
+                const users = await res.json();
+                
+                users.forEach(u => {
+                    const isAdminText = u.is_admin ? '<span style="color:#ee5c5c; font-weight:bold; font-size:12px;">[ADMIN]</span>' : '';
+                    
+                    const approvalText = u.is_approved ? '<span style="color:#10b981; font-size:12px;">[承認済]</span>' : '<span style="color:#f59e0b; font-weight:bold; font-size:12px;">[承認待ち]</span>';
+                    const approveBtnText = u.is_approved ? 'アクセス権 剥奪' : 'アクセス 承認';
+                    const approveBtnClass = u.is_approved ? 'btn' : 'btn btn-warning';
+
+                    const adminBtnText = u.is_admin ? '管理者を外す' : '管理者にする';
+                    const adminBtnClass = u.is_admin ? 'btn' : 'btn btn-success';
+                    
+                    listDiv.innerHTML += `
+                        <div style="display:flex; justify-content:space-between; padding:10px; background:rgba(255,255,255,0.05); margin-bottom:8px; border-radius:4px; align-items:center;">
+                            <span style="flex:1;">${u.username} ${isAdminText} ${approvalText}</span>
+                            <div style="display:flex; gap:5px;">
+                                <button class="${approveBtnClass}" style="padding:4px 8px; font-size:12px;" onclick="toggleApprove('${u.username}', ${!u.is_approved})">${approveBtnText}</button>
+                                <button class="${adminBtnClass}" style="padding:4px 8px; font-size:12px;" onclick="toggleAdmin('${u.username}', ${!u.is_admin})">${adminBtnText}</button>
+                                <button class="btn btn-danger" style="padding:4px 8px; font-size:12px;" onclick="deleteAccount('${u.username}')">削除</button>
+                            </div>
+                        </div>
+                    `;
+                });
+            } else {
+                listDiv.innerHTML = `
+                    <div style="display:flex; justify-content:space-between; padding:10px; background:rgba(255,255,255,0.05); margin-bottom:8px; border-radius:4px; align-items:center;">
+                        <span>${currentUser}</span>
+                        <button class="btn btn-danger" style="padding:4px 8px; font-size:12px;" onclick="deleteAccount('${currentUser}')">自分のアカウントを削除</button>
+                    </div>
+                `;
+            }
+            
+            document.getElementById('accountModal').style.display = 'flex';
+        }
+
+        async function toggleApprove(targetUser, makeApproved) {
+            await fetch(`/api/users/${targetUser}/approve`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ is_approved: makeApproved })
+            });
+            
+            if (targetUser === currentUser && !makeApproved) {
+                logout();
+                closeModal('accountModal');
+            } else {
+                openAccountModal();
+            }
+        }
+
+        async function toggleAdmin(targetUser, makeAdmin) {
+            if (!confirm(`${targetUser} の管理者権限を変更しますか？`)) {
+                return;
+            }
+            
+            await fetch(`/api/users/${targetUser}/admin`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ is_admin: makeAdmin })
+            });
+            
+            if (targetUser === currentUser && !makeAdmin) {
+                localStorage.setItem('orbit_is_admin', 'false');
+                checkAuth();
+                closeModal('accountModal');
+            } else {
+                openAccountModal();
+            }
+        }
+
+        async function deleteAccount(targetUser) {
+            if (!confirm(`本当に ${targetUser} のアカウントを削除しますか？`)) {
+                return;
+            }
+            
+            await fetch(`/api/users/${targetUser}`, {
+                method: 'DELETE'
+            });
+            
+            if (targetUser === currentUser) {
+                logout();
+                closeModal('accountModal');
+            } else {
+                openAccountModal();
+            }
+        }
+
+        // ========================================================
+        // ボード管理ロジック
+        // ========================================================
+        async function fetchBoards() {
+            const res = await fetch('/api/boards');
+            const boards = await res.json();
+            
+            const select = document.getElementById('boardSelect');
+            select.innerHTML = '';
+
+            // ★ 追加：見えないプレースホルダー（常に選択状態をリセットするためのクッション）
+            const placeholderOpt = document.createElement('option');
+            placeholderOpt.value = "";
+            placeholderOpt.textContent = boards.length > 0 ? "ボードを選択..." : "ボードがありません";
+            placeholderOpt.disabled = true;
+            placeholderOpt.hidden = true; // ドロップダウンのリストには表示させない
+            select.appendChild(placeholderOpt);
+            
+            if (boards.length > 0) {
+                boards.forEach(b => {
+                    const opt = document.createElement('option');
+                    opt.value = b.id;
+                    opt.textContent = b.title;
+                    select.appendChild(opt);
+                });
+            }
+            
+            const newOpt = document.createElement('option');
+            newOpt.value = "create_new";
+            newOpt.textContent = "＋ 新規ボードを作成";
+            newOpt.style.color = "#00d2ff";
+            select.appendChild(newOpt);
+            
+            if (!currentBoardId || !boards.find(b => b.id == currentBoardId)) {
+                if (boards.length > 0) {
+                    currentBoardId = boards[0].id;
+                } else {
+                    currentBoardId = null;
+                }
+            }
+            
+            if (currentBoardId) {
+                select.value = currentBoardId;
+            } else {
+                select.value = ""; // ボードがない場合はプレースホルダーを選ぶ
+            }
+            
+            fetchBoardData();
+        }
+
+        async function createNewBoard() {
+            const title = prompt("新しいボードの名前を入力 (10文字以内):");
+            
+            if (!title) {
+                // キャンセルされた場合は元の選択状態（またはプレースホルダー）に戻す
+                const select = document.getElementById('boardSelect');
+                select.value = currentBoardId ? currentBoardId : "";
+                return;
+            }
+            
+            if (title.length > 10) {
+                alert("ボード名は10文字以内で入力してください。");
+                const select = document.getElementById('boardSelect');
+                select.value = currentBoardId ? currentBoardId : "";
+                return;
+            }
+            
+            const res = await fetch('/api/boards', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title: title })
+            });
+            
+            const newBoard = await res.json();
+            currentBoardId = newBoard.id;
+            
+            fetchBoards();
+        }
+
+        function switchBoard() {
+            const select = document.getElementById('boardSelect');
+            const selectedValue = select.value;
+            
+            if (selectedValue === "create_new") {
+                if (currentBoardId) {
+                    select.value = currentBoardId; // 一旦表示を元に戻す
+                }
+                createNewBoard();
+            } else {
+                currentBoardId = parseInt(selectedValue);
+                fetchBoardData();
+            }
+        }
+
+        async function renameCurrentBoard() {
+            if (!currentBoardId) return;
+            
+            const select = document.getElementById('boardSelect');
+            const currentTitle = select.options[select.selectedIndex].text;
+            
+            const newTitle = prompt("ボードの名前を変更 (10文字以内):", currentTitle);
+            
+            if (!newTitle || newTitle === currentTitle) {
+                return;
+            }
+            
+            if (newTitle.length > 10) {
+                alert("ボード名は10文字以内で入力してください。");
+                return;
+            }
+            
+            await fetch(`/api/boards/${currentBoardId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title: newTitle })
+            });
+            
+            fetchBoards();
+        }
+
+        async function deleteCurrentBoard() {
+            if (!currentBoardId) return;
+            
+            const select = document.getElementById('boardSelect');
+            const currentTitle = select.options[select.selectedIndex].text;
+            
+            if (!confirm(`警告：ボード「${currentTitle}」を完全に削除しますか？\n（このボード内のすべての列とタスクが消滅します。復元はできません！）`)) {
+                return;
+            }
+            
+            await fetch(`/api/boards/${currentBoardId}`, {
+                method: 'DELETE'
+            });
+            
+            currentBoardId = null;
+            fetchBoards();
+        }
+
+        // ========================================================
+        // 列とタスクの取得・表示
+        // ========================================================
+        async function fetchBoardData() {
+            if (!currentBoardId) {
+                const boardDiv = document.getElementById('board');
+                boardDiv.innerHTML = '';
+                return;
+            }
+            
+            const boardDiv = document.getElementById('board');
+            boardDiv.innerHTML = ''; 
+            
+            const columnsRes = await fetch(`/api/boards/${currentBoardId}/columns`);
+            const columns = await columnsRes.json();
+            
+            const tasksRes = await fetch(`/api/boards/${currentBoardId}/tasks`);
+            const tasks = await tasksRes.json();
+
+            columns.forEach(column => {
+                const colDiv = document.createElement('div');
+                colDiv.className = 'column';
+                colDiv.id = `col-${column.id}`;
+                
+                if(column.color && column.color !== "#0b0d22") {
+                    colDiv.style.backgroundColor = hexToRgba(column.color, 0.55);
+                } else {
+                    colDiv.style.backgroundColor = "rgba(11, 13, 34, 0.65)";
+                }
+                
+                colDiv.draggable = true;
+                
+                colDiv.addEventListener('dragstart', (e) => {
+                    if (e.target.classList.contains('card')) {
+                        return;
+                    }
+                    
+                    draggedColumn = colDiv;
+                    colDiv.classList.add('dragging-col');
+                    e.dataTransfer.setData('text/plain', 'col:' + column.id);
+                });
+                
+                colDiv.addEventListener('dragend', () => {
+                    colDiv.classList.remove('dragging-col');
+                    draggedColumn = null;
+                });
+                
+                colDiv.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                });
+                
+                colDiv.addEventListener('drop', (e) => {
+                    handleDrop(e, column.id);
+                });
+
+                const headerDiv = document.createElement('div');
+                headerDiv.className = 'column-header';
+                
+                headerDiv.innerHTML = `
+                    <h3>${column.title}</h3>
+                    <div class="col-actions">
+                        <input type="color" class="color-picker" value="${column.color}" onchange="changeColumnColor(${column.id}, this.value)" title="列の背景色を変更">
+                        <button onclick="editColumn(${column.id}, '${column.title}')">✏️</button>
+                        <button onclick="deleteColumn(${column.id})">❌</button>
+                    </div>
+                `;
+                
+                colDiv.appendChild(headerDiv);
+
+                const taskListDiv = document.createElement('div');
+                taskListDiv.className = 'task-list';
+                
+                const colTasks = tasks.filter(t => t.column_id === column.id && t.is_archived === false);
+                
+                colTasks.forEach(task => {
+                    taskListDiv.appendChild(createCardElement(task));
+                });
+                
+                colDiv.appendChild(taskListDiv);
+
+                const addTaskBtn = document.createElement('button');
+                addTaskBtn.className = 'add-task-btn';
+                addTaskBtn.textContent = '＋ タスクを追加';
+                
+                addTaskBtn.onclick = () => {
+                    promptAddTask(column.id);
+                };
+                
+                colDiv.appendChild(addTaskBtn);
+                boardDiv.appendChild(colDiv);
+            });
+        }
+
+        // ========================================================
+        // 列の移動・色変更ロジック
+        // ========================================================
+        function handleBoardDragOver(e) {
+            e.preventDefault();
+            
+            if (!draggedColumn) {
+                return;
+            }
+            
+            const board = document.getElementById('board');
+            const afterElement = getDragAfterElement(board, e.clientX);
+            
+            if (afterElement == null) {
+                board.appendChild(draggedColumn);
+            } else {
+                board.insertBefore(draggedColumn, afterElement);
+            }
+        }
+
+        function getDragAfterElement(container, x) {
+            const draggableElements = [...container.querySelectorAll('.column:not(.dragging-col)')];
+            
+            return draggableElements.reduce((closest, child) => {
+                const box = child.getBoundingClientRect();
+                const offset = x - box.left - box.width / 2;
+                
+                if (offset < 0 && offset > closest.offset) {
+                    return { offset: offset, element: child };
+                } else {
+                    return closest;
+                }
+            }, { offset: Number.NEGATIVE_INFINITY }).element;
+        }
+
+        async function handleBoardDrop(e) {
+            e.preventDefault();
+            const data = e.dataTransfer.getData('text/plain');
+            
+            if (data.startsWith('col:')) {
+                const columnsDOM = document.querySelectorAll('.column');
+                const newOrders = [];
+                
+                columnsDOM.forEach((col, index) => {
+                    const id = parseInt(col.id.replace('col-', ''));
+                    newOrders.push({ id: id, order_idx: index });
+                });
+                
+                await fetch('/api/columns/reorder/batch', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(newOrders)
+                });
+                
+                fetchBoardData();
+            }
+        }
+
+        async function changeColumnColor(id, newColor) {
+            await fetch(`/api/columns/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ color: newColor })
+            });
+            
+            fetchBoardData();
+        }
+
+        async function addColumn() {
+            const titleInput = document.getElementById('newColumnTitle');
+            
+            if (!titleInput.value) {
+                return;
+            }
+            
+            if (!currentBoardId) {
+                alert("ボードを作成または選択してください");
+                return;
+            }
+            
+            await fetch('/api/columns', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ board_id: currentBoardId, title: titleInput.value })
+            });
+            
+            titleInput.value = '';
+            fetchBoardData();
+        }
+
+        async function editColumn(id, currentTitle) {
+            const newTitle = prompt("列の名前を変更:", currentTitle);
+            
+            if (!newTitle || newTitle === currentTitle) {
+                return;
+            }
+            
+            await fetch(`/api/columns/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title: newTitle })
+            });
+            
+            fetchBoardData();
+        }
+
+        async function deleteColumn(id) {
+            if (!confirm("この列を完全解体しますか？")) {
+                return;
+            }
+            
+            await fetch(`/api/columns/${id}`, {
+                method: 'DELETE'
+            });
+            
+            fetchBoardData();
+        }
+
+        // ========================================================
+        // タスク操作ロジック
+        // ========================================================
+        function createCardElement(task) {
+            const card = document.createElement('div');
+            card.className = 'card';
+            
+            let dueHtml = '';
+            
+            if (task.due_date) {
+                dueHtml = `<div class="card-due-badge">📅 ${task.due_date}</div>`;
+            }
+            
+            card.innerHTML = `<div>${task.title}</div>${dueHtml}`;
+            card.draggable = true;
+            
+            card.addEventListener('dragstart', (e) => {
+                e.stopPropagation();
+                card.classList.add('dragging-task');
+                e.dataTransfer.setData('text/plain', 'task:' + task.id);
+            });
+            
+            card.addEventListener('dragend', (e) => {
+                e.stopPropagation();
+                card.classList.remove('dragging-task');
+            });
+            
+            card.addEventListener('click', () => {
+                openTaskModal(task);
+            });
+            
+            return card;
+        }
+
+        async function promptAddTask(columnId) {
+            const title = prompt("タスクのタイトルを入力:");
+            
+            if (!title) {
+                return;
+            }
+            
+            await fetch('/api/tasks', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ board_id: currentBoardId, column_id: columnId, title: title })
+            });
+            
+            fetchBoardData();
+        }
+
+        async function handleDrop(e, newColumnId) {
+            const data = e.dataTransfer.getData('text/plain');
+            
+            if (data.startsWith('task:')) {
+                e.stopPropagation();
+                
+                const taskId = parseInt(data.replace('task:', ''));
+                
+                await fetch(`/api/tasks/${taskId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ column_id: newColumnId })
+                });
+                
+                fetchBoardData();
+            }
+        }
+
+        async function openTaskModal(task) {
+            currentTaskId = task.id;
+            
+            document.getElementById('modalTaskTitle').textContent = task.title;
+            document.getElementById('modalDescription').value = task.description || "";
+            document.getElementById('modalDueDate').value = task.due_date || "";
+            
+            await loadChecklist();
+            await loadComments();
+            
+            document.getElementById('taskModal').style.display = 'flex';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            
+            if (modalId === 'taskModal') {
+                currentTaskId = null;
+                fetchBoardData();
+            }
+        }
+
+        async function editTaskTitle() {
+            const currentEl = document.getElementById('modalTaskTitle');
+            const newTitle = prompt("タスク名を変更:", currentEl.textContent);
+            
+            if (!newTitle || newTitle === currentEl.textContent) {
+                return;
+            }
+            
+            await fetch(`/api/tasks/${currentTaskId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title: newTitle })
+            });
+            
+            currentEl.textContent = newTitle;
+            fetchBoardData();
+        }
+
+        async function saveDescription() {
+            const desc = document.getElementById('modalDescription').value;
+            
+            await fetch(`/api/tasks/${currentTaskId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ description: desc })
+            });
+        }
+
+        async function saveDueDate() {
+            const dateVal = document.getElementById('modalDueDate').value;
+            
+            await fetch(`/api/tasks/${currentTaskId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ due_date: dateVal })
+            });
+        }
+
+        // ========================================================
+        // チェックリストロジック
+        // ========================================================
+        async function loadChecklist() {
+            const res = await fetch(`/api/tasks/${currentTaskId}/checklist`);
+            const items = await res.json();
+            const container = document.getElementById('checklistItems');
+            
+            container.innerHTML = '';
+            let checkedCount = 0;
+            
+            items.forEach(item => {
+                if (item.is_checked) {
+                    checkedCount++;
+                }
+                
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'checklist-item';
+                
+                itemDiv.innerHTML = `
+                    <div class="checklist-item-left ${item.is_checked ? 'checked' : ''}">
+                        <input type="checkbox" ${item.is_checked ? 'checked' : ''} onchange="toggleChecklistItem(${item.id}, ${item.is_checked})">
+                        <span>${item.title}</span>
+                    </div>
+                    <button style="background:none; border:none; color:#ff7676; cursor:pointer;" onclick="deleteChecklistItem(${item.id})">❌</button>
+                `;
+                
+                container.appendChild(itemDiv);
+            });
+            
+            const percent = items.length > 0 ? Math.round((checkedCount / items.length) * 100) : 0;
+            document.getElementById('checklistProgress').style.width = percent + '%';
+        }
+
+        async function addChecklistItem() {
+            const input = document.getElementById('newChecklistItem');
+            
+            if (!input.value) {
+                return;
+            }
+            
+            await fetch(`/api/tasks/${currentTaskId}/checklist`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title: input.value })
+            });
+            
+            input.value = '';
+            loadChecklist();
+        }
+
+        async function toggleChecklistItem(id, currentStatus) {
+            await fetch(`/api/checklist/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ is_checked: !currentStatus })
+            });
+            
+            loadChecklist();
+        }
+
+        async function deleteChecklistItem(id) {
+            await fetch(`/api/checklist/${id}`, {
+                method: 'DELETE'
+            });
+            
+            loadChecklist();
+        }
+
+        // ========================================================
+        // コメントログロジック
+        // ========================================================
+        async function loadComments() {
+            const res = await fetch(`/api/tasks/${currentTaskId}/comments`);
+            const comments = await res.json();
+            const listDiv = document.getElementById('commentList');
+            
+            listDiv.innerHTML = '';
+            
+            comments.forEach(c => {
+                const date = new Date(c.created_at).toLocaleString('ja-JP');
+                
+                listDiv.innerHTML += `
+                    <div class="comment-box">
+                        <div class="comment-header">
+                            <div class="comment-meta">
+                                <span class="comment-author">👤 ${c.author}</span>
+                                <span class="comment-time">${date}</span>
+                            </div>
+                            <div>
+                                <button style="background:none; border:none; cursor:pointer;" onclick="editComment(${c.id})">✏️</button>
+                                <button style="background:none; border:none; cursor:pointer;" onclick="deleteComment(${c.id})">❌</button>
+                            </div>
+                        </div>
+                        <div id="comment-text-${c.id}">${c.content}</div>
+                    </div>
+                `;
+            });
+            
+            listDiv.scrollTop = listDiv.scrollHeight;
+        }
+
+        async function addComment() {
+            const input = document.getElementById('newComment');
+            
+            if (!input.value) {
+                return;
+            }
+            
+            await fetch(`/api/tasks/${currentTaskId}/comments`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ content: input.value, author: currentUser })
+            });
+            
+            input.value = '';
+            loadComments();
+        }
+
+        async function editComment(id) {
+            const cur = document.getElementById(`comment-text-${id}`).innerText;
+            const text = prompt("ログを編集:", cur);
+            
+            if (!text || text === cur) {
+                return;
+            }
+            
+            await fetch(`/api/comments/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ content: text })
+            });
+            
+            loadComments();
+        }
+
+        async function deleteComment(id) {
+            if (!confirm("ログを削除しますか？")) {
+                return;
+            }
+            
+            await fetch(`/api/comments/${id}`, {
+                method: 'DELETE'
+            });
+            
+            loadComments();
+        }
+
+        // ========================================================
+        // アーカイブ・完全削除ロジック
+        // ========================================================
+        async function archiveTask() {
+            if (!confirm("このタスクを格納庫（アーカイブ）へ送りますか？")) {
+                return;
+            }
+            
+            await fetch(`/api/tasks/${currentTaskId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ is_archived: true })
+            });
+            
+            closeModal('taskModal');
+        }
+
+        async function openArchiveModal() {
+            if (!currentBoardId) {
+                return;
+            }
+            
+            const res = await fetch(`/api/boards/${currentBoardId}/tasks`);
+            const tasks = await res.json();
+            
+            const archived = tasks.filter(t => t.is_archived === true);
+            const listDiv = document.getElementById('archiveList');
+            
+            listDiv.innerHTML = '';
+            
+            if (archived.length === 0) {
+                listDiv.innerHTML = '<p style="color:#718096;">格納庫は空です。</p>';
+            } else {
+                archived.forEach(t => {
+                    listDiv.innerHTML += `
+                        <div style="display:flex; justify-content:space-between; padding:10px; background:rgba(255,255,255,0.05); margin-bottom:8px; border-radius:4px; align-items:center;">
+                            <span>${t.title}</span>
+                            <button class="btn btn-danger" style="padding:4px 8px; font-size:12px;" onclick="deleteTaskPermanently(${t.id})">完全消滅</button>
+                        </div>
+                    `;
+                });
+            }
+            
+            document.getElementById('archiveModal').style.display = 'flex';
+        }
+
+        async function deleteTaskPermanently(id) {
+            if (!confirm("データを完全消滅させます。復元できません。")) {
+                return;
+            }
+            
+            await fetch(`/api/tasks/${id}`, {
+                method: 'DELETE'
+            });
+            
+            openArchiveModal();
+            fetchBoardData();
+        }
+
+        // 起動時のチェック
+        window.onload = checkAuth;
+    </script>
+</body>
+</html>
