@@ -114,6 +114,10 @@ class AdminToggle(BaseModel):
 class ApprovalToggle(BaseModel):
     is_approved: bool
 
+# ★新規追加：パスワード強制リセット用
+class PasswordReset(BaseModel):
+    new_password: str
+
 class BoardCreate(BaseModel):
     title: str
 
@@ -245,6 +249,19 @@ def toggle_approve(username: str, toggle: ApprovalToggle, db: Session = Depends(
         
     return {"error": "Not found"}
 
+# ★新規追加：パスワードの強制リセットエンドポイント
+@app.put("/api/users/{username}/password")
+def reset_password(username: str, pwd_data: PasswordReset, db: Session = Depends(get_db)):
+    target = db.query(UserDB).filter(UserDB.username == username).first()
+    
+    if target:
+        # 新しいパスワードを再度暗号化して上書き保存する
+        target.password = get_password_hash(pwd_data.new_password)
+        db.commit()
+        return {"message": "Success"}
+        
+    return {"error": "Not found"}
+
 @app.delete("/api/users/{username}")
 def delete_user(username: str, db: Session = Depends(get_db)):
     target = db.query(UserDB).filter(UserDB.username == username).first()
@@ -287,7 +304,6 @@ def delete_board(board_id: int, db: Session = Depends(get_db)):
     target = db.query(BoardDB).filter(BoardDB.id == board_id).first()
     
     if target:
-        # ボードに紐づく列とタスクも一斉に削除する
         db.query(ColumnDB).filter(ColumnDB.board_id == board_id).delete()
         db.query(TaskDB).filter(TaskDB.board_id == board_id).delete()
         

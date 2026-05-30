@@ -345,6 +345,10 @@
             background: #de350b;
         }
 
+        .btn-warning {
+            background: #f59e0b;
+        }
+
         .btn-success {
             background: #10b981;
         }
@@ -655,7 +659,7 @@
     </div>
 
     <div class="modal-overlay" id="accountModal">
-        <div class="modal-content" style="width: 650px;">
+        <div class="modal-content" style="width: 700px;">
             <span class="close-btn" onclick="closeModal('accountModal')">&times;</span>
             <h2>👤 アカウント・アクセス権限管理</h2>
             <div id="accountList"></div>
@@ -799,7 +803,7 @@
             listDiv.innerHTML = '';
             
             if (isCurrentUserAdmin) {
-                listDiv.innerHTML = '<p style="color:#00d2ff; font-size:12px;">※ 管理者権限：アクセス承認と管理者権限の付与が可能です</p>';
+                listDiv.innerHTML = '<p style="color:#00d2ff; font-size:12px;">※ 管理者権限：アクセス承認、PWリセット、管理者権限の付与が可能です</p>';
                 
                 const res = await fetch('/api/users');
                 const users = await res.json();
@@ -814,10 +818,12 @@
                     const adminBtnText = u.is_admin ? '管理者を外す' : '管理者にする';
                     const adminBtnClass = u.is_admin ? 'btn' : 'btn btn-success';
                     
+                    // ★PWリセットボタンを追加
                     listDiv.innerHTML += `
                         <div style="display:flex; justify-content:space-between; padding:10px; background:rgba(255,255,255,0.05); margin-bottom:8px; border-radius:4px; align-items:center;">
                             <span style="flex:1;">${u.username} ${isAdminText} ${approvalText}</span>
                             <div style="display:flex; gap:5px;">
+                                <button class="btn btn-outline" style="padding:4px 8px; font-size:12px;" onclick="resetUserPassword('${u.username}')">PWリセット</button>
                                 <button class="${approveBtnClass}" style="padding:4px 8px; font-size:12px;" onclick="toggleApprove('${u.username}', ${!u.is_approved})">${approveBtnText}</button>
                                 <button class="${adminBtnClass}" style="padding:4px 8px; font-size:12px;" onclick="toggleAdmin('${u.username}', ${!u.is_admin})">${adminBtnText}</button>
                                 <button class="btn btn-danger" style="padding:4px 8px; font-size:12px;" onclick="deleteAccount('${u.username}')">削除</button>
@@ -835,6 +841,34 @@
             }
             
             document.getElementById('accountModal').style.display = 'flex';
+        }
+
+        // ★新規追加：ユーザーのパスワードを管理者がリセットする関数
+        async function resetUserPassword(targetUser) {
+            const newPwd = prompt(`${targetUser} の新しいパスワードを入力してください:\n（メンバーには口頭等で新しいパスワードを伝えてください）`);
+            
+            if (!newPwd) {
+                return;
+            }
+            
+            if (newPwd.length < 4) {
+                alert("パスワードは4文字以上にしてください。");
+                return;
+            }
+            
+            const res = await fetch(`/api/users/${targetUser}/password`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ new_password: newPwd })
+            });
+            
+            const data = await res.json();
+            
+            if (data.message === "Success") {
+                alert(`${targetUser} のパスワードをリセットしました！`);
+            } else {
+                alert("エラーが発生しました。");
+            }
         }
 
         async function toggleApprove(targetUser, makeApproved) {
@@ -899,12 +933,11 @@
             const select = document.getElementById('boardSelect');
             select.innerHTML = '';
 
-            // ★ 追加：見えないプレースホルダー（常に選択状態をリセットするためのクッション）
             const placeholderOpt = document.createElement('option');
             placeholderOpt.value = "";
             placeholderOpt.textContent = boards.length > 0 ? "ボードを選択..." : "ボードがありません";
             placeholderOpt.disabled = true;
-            placeholderOpt.hidden = true; // ドロップダウンのリストには表示させない
+            placeholderOpt.hidden = true;
             select.appendChild(placeholderOpt);
             
             if (boards.length > 0) {
@@ -933,7 +966,7 @@
             if (currentBoardId) {
                 select.value = currentBoardId;
             } else {
-                select.value = ""; // ボードがない場合はプレースホルダーを選ぶ
+                select.value = "";
             }
             
             fetchBoardData();
@@ -943,7 +976,6 @@
             const title = prompt("新しいボードの名前を入力 (10文字以内):");
             
             if (!title) {
-                // キャンセルされた場合は元の選択状態（またはプレースホルダー）に戻す
                 const select = document.getElementById('boardSelect');
                 select.value = currentBoardId ? currentBoardId : "";
                 return;
@@ -974,7 +1006,7 @@
             
             if (selectedValue === "create_new") {
                 if (currentBoardId) {
-                    select.value = currentBoardId; // 一旦表示を元に戻す
+                    select.value = currentBoardId;
                 }
                 createNewBoard();
             } else {
