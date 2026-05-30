@@ -550,7 +550,7 @@
         /* ★ベータ版バッジのCSS */
         .beta-badge {
             position: fixed;
-            top: 20px;
+            top: 70px;
             right: 20px;
             background: linear-gradient(90deg, #f59e0b, #d97706);
             color: #ffffff;
@@ -938,7 +938,7 @@
             }
         }
 
-        // ========================================================
+// ========================================================
         // ボード管理ロジック
         // ========================================================
         async function fetchBoards() {
@@ -970,12 +970,15 @@
             newOpt.style.color = "#00d2ff";
             select.appendChild(newOpt);
             
-            if (!currentBoardId || !boards.find(b => b.id == currentBoardId)) {
-                if (boards.length > 0) {
-                    currentBoardId = boards[0].id;
-                } else {
-                    currentBoardId = null;
-                }
+            // ★修正：ローカルストレージから前回のボードIDを読み込む
+            const savedBoardId = localStorage.getItem('orbit_current_board_id');
+            
+            if (savedBoardId && boards.find(b => b.id == savedBoardId)) {
+                currentBoardId = parseInt(savedBoardId);
+            } else if (boards.length > 0) {
+                currentBoardId = boards[0].id;
+            } else {
+                currentBoardId = null;
             }
             
             if (currentBoardId) {
@@ -985,34 +988,6 @@
             }
             
             fetchBoardData();
-        }
-
-        async function createNewBoard() {
-            const title = prompt("新しいボードの名前を入力 (10文字以内):");
-            
-            if (!title) {
-                const select = document.getElementById('boardSelect');
-                select.value = currentBoardId ? currentBoardId : "";
-                return;
-            }
-            
-            if (title.length > 10) {
-                alert("ボード名は10文字以内で入力してください。");
-                const select = document.getElementById('boardSelect');
-                select.value = currentBoardId ? currentBoardId : "";
-                return;
-            }
-            
-            const res = await fetch('/api/boards', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ title: title })
-            });
-            
-            const newBoard = await res.json();
-            currentBoardId = newBoard.id;
-            
-            fetchBoards();
         }
 
         function switchBoard() {
@@ -1026,6 +1001,8 @@
                 createNewBoard();
             } else {
                 currentBoardId = parseInt(selectedValue);
+                // ★修正：ボードを切り替えるたびにIDを記録
+                localStorage.setItem('orbit_current_board_id', currentBoardId);
                 fetchBoardData();
             }
         }
