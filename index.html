@@ -653,7 +653,7 @@
     <div class="modal-overlay" id="archiveModal">
         <div class="modal-content" style="width: 500px;">
             <span class="close-btn" onclick="closeModal('archiveModal')">&times;</span>
-            <h2>📦 アーカイブ格納庫</h2>
+            <h2>📦 アーカイブ</h2>
             <div id="archiveList"></div>
         </div>
     </div>
@@ -1550,7 +1550,7 @@
         // アーカイブ・完全削除ロジック
         // ========================================================
         async function archiveTask() {
-            if (!confirm("このタスクを格納庫（アーカイブ）へ送りますか？")) {
+            if (!confirm("このタスクを（アーカイブ）へ送りますか？")) {
                 return;
             }
             
@@ -1577,7 +1577,7 @@
             listDiv.innerHTML = '';
             
             if (archived.length === 0) {
-                listDiv.innerHTML = '<p style="color:#718096;">格納庫は空です。</p>';
+                listDiv.innerHTML = '<p style="color:#718096;">は空です。</p>';
             } else {
                 archived.forEach(t => {
                     listDiv.innerHTML += `
