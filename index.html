@@ -1055,6 +1055,15 @@
         // 列とタスクの取得・表示
         // ========================================================
         async function fetchBoardData() {
+            currentBoardId = localStorage.getItem('orbit_current_board_id') ? parseInt(localStorage.getItem('orbit_current_board_id')) : currentBoardId;
+
+            if (!currentBoardId) {
+                const boardDiv = document.getElementById('board');
+                boardDiv.innerHTML = '';
+                return;
+            }
+            
+            // ...以下、既存のコードはそのまま！...
             if (!currentBoardId) {
                 const boardDiv = document.getElementById('board');
                 boardDiv.innerHTML = '';
