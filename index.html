@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Orbit</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Orbit">
+    
     <style>
         /* ========================================================
            1. ベース・宇宙デザインスタイル
@@ -53,7 +58,7 @@
             padding: 40px;
             border-radius: 12px;
             text-align: center;
-            width: 300px;
+            width: 320px;
             box-shadow: 0 0 30px rgba(0, 210, 255, 0.2);
             backdrop-filter: blur(10px);
         }
@@ -86,6 +91,16 @@
             font-size: 13px;
             margin-bottom: 15px;
             display: none;
+        }
+
+        /* ★追加：セキュリティ警告スタイル */
+        .security-warning {
+            font-size: 11px;
+            color: #a0aec0;
+            margin-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 10px;
+            text-align: left;
         }
 
         /* ========================================================
@@ -561,10 +576,28 @@
             z-index: 9999;
             box-shadow: 0 4px 6px rgba(0,0,0,0.3);
         }
+
+        /* ★パスワード変更エリアのスタイル */
+        .pw-change-area {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+        }
+        .pw-change-area input {
+            padding: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            border-radius: 4px;
+            margin-right: 10px;
+            outline: none;
+        }
     </style>
 </head>
 <body>
-    <div class="beta-badge">BETA v1.0</div>
+    <div class="beta-badge">BETA v1.1</div>
     <div id="authOverlay">
         <div class="auth-box">
             <h2 style="margin-bottom: 5px;">Orbit Identity</h2>
@@ -579,6 +612,10 @@
             <div style="display: flex; gap: 10px; margin-top: 10px;">
                 <button class="btn" style="flex: 1;" onclick="handleLogin()">ログイン</button>
                 <button class="btn" style="flex: 1; background: #2d3748;" onclick="handleRegister()">新規登録申請</button>
+            </div>
+            
+            <div class="security-warning">
+                ⚠️ 本システム内のタスクおよび設計データはチーム外秘です。取り扱いには十分注意してください。
             </div>
         </div>
     </div>
@@ -606,7 +643,7 @@
                 <div class="user-profile">
                     👤 <span id="currentUsernameDisplay">User</span>
                     <span id="adminBadge" style="display: none; background: #ee5c5c; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: bold;">ADMIN</span>
-                    <button style="background:none; border:none; color:#00d2ff; cursor:pointer; font-size:12px; margin-left:10px; white-space:nowrap;" onclick="openAccountModal()">⚙️ アカウント管理</button>
+                    <button style="background:none; border:none; color:#00d2ff; cursor:pointer; font-size:12px; margin-left:10px; white-space:nowrap;" onclick="openAccountModal()">⚙️ アカウント</button>
                     <button style="background:none; border:none; color:#ff7676; cursor:pointer; font-size:12px; margin-left:10px; white-space:nowrap;" onclick="logout()">ログアウト</button>
                 </div>
             </div>
@@ -676,7 +713,17 @@
     <div class="modal-overlay" id="accountModal">
         <div class="modal-content" style="width: 700px;">
             <span class="close-btn" onclick="closeModal('accountModal')">&times;</span>
-            <h2>👤 アカウント・アクセス権限管理</h2>
+            <h2>👤 アカウント管理</h2>
+            
+            <div class="pw-change-area">
+                <h4 style="margin-top: 0; margin-bottom: 10px; color: #00d2ff;">🔑 自分のパスワードを変更</h4>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <input type="password" id="myOldPw" placeholder="現在のパスワード" style="width: 150px;">
+                    <input type="password" id="myNewPw" placeholder="新しいパスワード" style="width: 150px;">
+                    <button class="btn" onclick="changeMyPassword()" style="padding: 6px 12px;">変更を保存</button>
+                </div>
+            </div>
+
             <div id="accountList"></div>
         </div>
     </div>
@@ -687,9 +734,11 @@
         let isCurrentUserAdmin = false;
         let currentBoardId = null;
         
-        // ★ドラッグ＆ドロップ用の変数をタスク用と列用に分ける
         let draggedColumn = null;
         let draggedTask = null;
+
+        // ★追加：セッション切れ（24時間で自動ログアウト）の設定
+        const SESSION_TIMEOUT_MS = 24 * 60 * 60 * 1000; // 24時間
 
         function hexToRgba(hex, alpha) {
             let r = parseInt(hex.slice(1, 3), 16);
@@ -704,6 +753,17 @@
         function checkAuth() {
             const savedUser = localStorage.getItem('orbit_username');
             const savedAdmin = localStorage.getItem('orbit_is_admin');
+            const loginTime = localStorage.getItem('orbit_login_time');
+            
+            // ★セッション切れのチェック
+            if (savedUser && loginTime) {
+                const now = new Date().getTime();
+                if (now - parseInt(loginTime) > SESSION_TIMEOUT_MS) {
+                    alert("セキュリティのため、自動的にログアウトしました。再度ログインしてください。");
+                    logout();
+                    return;
+                }
+            }
             
             if (savedUser) {
                 currentUser = savedUser;
@@ -756,6 +816,8 @@
             } else {
                 localStorage.setItem('orbit_username', data.username);
                 localStorage.setItem('orbit_is_admin', data.is_admin);
+                // ★ログイン時刻を記録
+                localStorage.setItem('orbit_login_time', new Date().getTime().toString());
                 checkAuth();
             }
         }
@@ -799,6 +861,7 @@
         function logout() {
             localStorage.removeItem('orbit_username');
             localStorage.removeItem('orbit_is_admin');
+            localStorage.removeItem('orbit_login_time');
             
             currentUser = null;
             isCurrentUserAdmin = false;
@@ -820,8 +883,12 @@
             const listDiv = document.getElementById('accountList');
             listDiv.innerHTML = '';
             
+            // パスワード入力欄をリセット
+            document.getElementById('myOldPw').value = '';
+            document.getElementById('myNewPw').value = '';
+            
             if (isCurrentUserAdmin) {
-                listDiv.innerHTML = '<p style="color:#00d2ff; font-size:12px;">※ 管理者権限：アクセス承認、PWリセット、管理者権限の付与が可能です</p>';
+                listDiv.innerHTML = '<p style="color:#00d2ff; font-size:12px; margin-top:30px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom:5px;">🛠️ 全メンバーの権限管理（管理者専用）</p>';
                 
                 const res = await fetch('/api/users');
                 const users = await res.json();
@@ -838,7 +905,7 @@
                         <div style="display:flex; justify-content:space-between; padding:10px; background:rgba(255,255,255,0.05); margin-bottom:8px; border-radius:4px; align-items:center;">
                             <span style="flex:1;">${u.username} ${isAdminText} ${approvalText}</span>
                             <div style="display:flex; gap:5px;">
-                                <button class="btn btn-outline" style="padding:4px 8px; font-size:12px;" onclick="resetUserPassword('${u.username}')">PWリセット</button>
+                                <button class="btn btn-outline" style="padding:4px 8px; font-size:12px;" onclick="resetUserPassword('${u.username}')">PW強制リセット</button>
                                 <button class="${approveBtnClass}" style="padding:4px 8px; font-size:12px;" onclick="toggleApprove('${u.username}', ${!u.is_approved})">${approveBtnText}</button>
                                 <button class="${adminBtnClass}" style="padding:4px 8px; font-size:12px;" onclick="toggleAdmin('${u.username}', ${!u.is_admin})">${adminBtnText}</button>
                                 <button class="btn btn-danger" style="padding:4px 8px; font-size:12px;" onclick="deleteAccount('${u.username}')">削除</button>
@@ -848,13 +915,48 @@
                 });
             } else {
                 listDiv.innerHTML = `
-                    <div style="display:flex; justify-content:space-between; padding:10px; background:rgba(255,255,255,0.05); margin-bottom:8px; border-radius:4px; align-items:center;">
+                    <div style="display:flex; justify-content:space-between; padding:10px; background:rgba(255,255,255,0.05); margin-bottom:8px; border-radius:4px; align-items:center; margin-top:30px;">
                         <span>${currentUser}</span>
                         <button class="btn btn-danger" style="padding:4px 8px; font-size:12px;" onclick="deleteAccount('${currentUser}')">自分のアカウントを削除</button>
                     </div>
                 `;
             }
             document.getElementById('accountModal').style.display = 'flex';
+        }
+
+        // ★追加：自分のパスワードを変更する関数
+        async function changeMyPassword() {
+            const oldPw = document.getElementById('myOldPw').value;
+            const newPw = document.getElementById('myNewPw').value;
+            
+            if (!oldPw || !newPw) {
+                alert("現在のパスワードと新しいパスワードを両方入力してください。");
+                return;
+            }
+            if (newPw.length < 4) {
+                alert("新しいパスワードは4文字以上にしてください。");
+                return;
+            }
+            
+            const res = await fetch('/api/users/me/password', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    username: currentUser, 
+                    current_password: oldPw, 
+                    new_password: newPw 
+                })
+            });
+            
+            const data = await res.json();
+            
+            if (data.message === "Success") {
+                alert("パスワードを変更しました。再度ログインしてください。");
+                logout();
+                closeModal('accountModal');
+            } else {
+                alert(data.error || "エラーが発生しました。");
+            }
         }
 
         async function resetUserPassword(targetUser) {
@@ -1005,7 +1107,6 @@
             });
             const newBoard = await res.json();
             
-            // ★不具合1の修正箇所：新規ボード作成後、すぐにIDを記憶させる
             currentBoardId = newBoard.id;
             localStorage.setItem('orbit_current_board_id', currentBoardId);
             
@@ -1077,7 +1178,6 @@
                 
                 colDiv.draggable = true;
                 
-                // 列のドラッグ処理
                 colDiv.addEventListener('dragstart', (e) => {
                     if (e.target.classList.contains('card')) return;
                     draggedColumn = colDiv;
@@ -1089,12 +1189,10 @@
                     draggedColumn = null;
                 });
                 
-                // ★不具合2の修正：列（Column）へのドラッグと、タスク（Task）のドラッグを明確に分ける
                 colDiv.addEventListener('dragover', (e) => {
-                    e.preventDefault(); // ドロップを許可
+                    e.preventDefault(); 
                     
                     if (draggedTask) {
-                        // タスクの縦移動の視覚処理
                         const taskList = colDiv.querySelector('.task-list');
                         const afterElement = getDragAfterTaskElement(taskList, e.clientY);
                         if (afterElement == null) {
@@ -1109,9 +1207,8 @@
                     e.preventDefault();
                     
                     if (draggedTask) {
-                        e.stopPropagation(); // ボード全体のイベントに干渉させない
+                        e.stopPropagation(); 
                         
-                        // タスクのドロップ処理：データベースに縦の順番を保存する
                         const taskList = colDiv.querySelector('.task-list');
                         const taskElements = [...taskList.querySelectorAll('.card')];
                         
@@ -1127,7 +1224,7 @@
                             body: JSON.stringify(newOrders)
                         });
                         
-                        fetchBoardData(); // 描画を更新して固定
+                        fetchBoardData(); 
                     }
                 });
 
@@ -1146,7 +1243,6 @@
                 const taskListDiv = document.createElement('div');
                 taskListDiv.className = 'task-list';
                 
-                // タスクを描画（APIから返ってくる時点で order_idx 順になっています）
                 const colTasks = tasks.filter(t => t.column_id === column.id && t.is_archived === false);
                 colTasks.forEach(task => {
                     taskListDiv.appendChild(createCardElement(task));
@@ -1166,8 +1262,6 @@
         // ========================================================
         // ドラッグ＆ドロップ（列とタスクの位置計算ロジック）
         // ========================================================
-        
-        // --- 列（横移動）の計算 ---
         function handleBoardDragOver(e) {
             e.preventDefault();
             if (!draggedColumn) return;
@@ -1211,7 +1305,6 @@
             }
         }
 
-        // --- ★追加：タスク（縦移動）の計算 ---
         function getDragAfterTaskElement(container, y) {
             const draggableElements = [...container.querySelectorAll('.card:not(.dragging-task)')];
             return draggableElements.reduce((closest, child) => {
@@ -1276,7 +1369,7 @@
         function createCardElement(task) {
             const card = document.createElement('div');
             card.className = 'card';
-            card.dataset.id = task.id; // ★追加：裏側での並び替え判定用にIDを持たせる
+            card.dataset.id = task.id; 
             
             let dueHtml = '';
             if (task.due_date) {
@@ -1287,7 +1380,7 @@
             card.draggable = true;
             
             card.addEventListener('dragstart', (e) => {
-                e.stopPropagation(); // 列のドラッグを誤作動させない
+                e.stopPropagation(); 
                 card.classList.add('dragging-task');
                 draggedTask = card;
             });
