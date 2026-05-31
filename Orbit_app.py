@@ -7,6 +7,7 @@ from sqlalchemy.orm import sessionmaker, declarative_base, Session
 from datetime import datetime
 import hashlib
 import secrets
+import os
 
 # =========================================================
 # 1. セキュリティ：パスワード暗号化の仕組み
