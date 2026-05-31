@@ -93,7 +93,6 @@
             display: none;
         }
 
-        /* ★追加：セキュリティ警告スタイル */
         .security-warning {
             font-size: 11px;
             color: #a0aec0;
@@ -398,12 +397,13 @@
             z-index: 1000;
         }
 
+        /* ★モーダルの幅と高さを少し拡張 */
         .modal-content {
             background: #101224;
             border: 1px solid rgba(255, 255, 255, 0.15);
-            width: 850px;
+            width: 950px;
             max-width: 95%;
-            max-height: 85vh;
+            max-height: 90vh;
             border-radius: 12px;
             padding: 25px;
             overflow-y: auto;
@@ -427,7 +427,7 @@
         .modal-body {
             display: flex;
             gap: 25px;
-            margin-top: 20px;
+            margin-top: 15px;
         }
 
         .modal-left {
@@ -444,7 +444,7 @@
 
         textarea {
             width: 100%;
-            height: 100px;
+            height: 220px; /* ★説明欄の高さを大幅アップ */
             padding: 10px;
             box-sizing: border-box;
             background-color: rgba(0, 0, 0, 0.3);
@@ -455,28 +455,8 @@
             outline: none;
         }
 
-        .meta-section {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-            background: rgba(255, 255, 255, 0.02);
-            padding: 12px;
-            border-radius: 6px;
-        }
-
-        .meta-block {
-            flex: 1;
-        }
-
-        .meta-block h4 {
-            margin: 0px 0px 5px 0px;
-            font-size: 12px;
-            color: #a0aec0;
-            text-transform: uppercase;
-        }
-
         .checklist-container {
-            margin-top: 25px;
+            margin-top: 15px;
             background: rgba(255, 255, 255, 0.01);
             padding: 15px;
             border-radius: 6px;
@@ -562,7 +542,6 @@
             color: #ffffff;
         }
 
-        /* ★ベータ版バッジのCSS */
         .beta-badge {
             position: fixed;
             top: 70px;
@@ -577,7 +556,6 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.3);
         }
 
-        /* ★パスワード変更エリアのスタイル */
         .pw-change-area {
             background: rgba(255, 255, 255, 0.02);
             padding: 15px;
@@ -597,7 +575,7 @@
     </style>
 </head>
 <body>
-    <div class="beta-badge">BETA v1.1</div>
+    <div class="beta-badge">BETA v1.2</div>
     <div id="authOverlay">
         <div class="auth-box">
             <h2 style="margin-bottom: 5px;">Orbit Identity</h2>
@@ -655,27 +633,37 @@
     <div class="modal-overlay" id="taskModal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('taskModal')">&times;</span>
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-                <h2 id="modalTaskTitle" style="margin:0px;">タスク名</h2>
-                <button style="background:none; border:none; cursor:pointer; font-size:16px; white-space:nowrap;" onclick="editTaskTitle()">✏️ 名前を変更</button>
-            </div>
             
-            <div class="meta-section">
-                <div class="meta-block" style="flex: 1;">
-                    <h4>期限日</h4>
-                    <input type="date" id="modalDueDate" onchange="saveDueDate()" style="background: #000; color: #ffffff; border: 1px solid rgba(255,255,255,0.2); padding: 4px; border-radius: 3px;">
+            <!-- ★大改修：ヘッダー部分に期限日を移動し、横一列にスッキリ配置 -->
+            <div style="display:flex; justify-content:space-between; align-items:center; padding-right: 30px; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px;">
+                <h2 id="modalTaskTitle" style="margin:0px; flex: 1; overflow: hidden; text-overflow: ellipsis;">タスク名</h2>
+                
+                <div style="display:flex; align-items:center; gap: 20px;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="font-size: 13px; color: #a0aec0;">📅 期限日:</span>
+                        <input type="date" id="modalDueDate" onchange="saveDueDate()" style="background: #000; color: #ffffff; border: 1px solid rgba(255,255,255,0.2); padding: 6px; border-radius: 4px; outline: none;">
+                    </div>
+                    <button class="btn btn-outline" onclick="editTaskTitle()" style="padding: 6px 12px;">✏️ 名前を変更</button>
                 </div>
             </div>
 
+            <!-- ★無駄な余白を取っていた meta-section を完全削除 -->
+
             <div class="modal-body">
                 <div class="modal-left">
-                    <h3>詳細説明</h3>
+                    <!-- ★保存ボタンを説明のタイトル横に移動してスペース節約 -->
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+                        <h3 style="margin: 0;">詳細説明</h3>
+                        <button class="btn" style="padding: 4px 12px; font-size: 12px;" onclick="saveDescription()">保存</button>
+                    </div>
                     <textarea id="modalDescription" placeholder="タスクの詳細・宇宙飛行ログを記入してください..."></textarea>
-                    <button class="btn" style="margin-top: 8px;" onclick="saveDescription()">説明を保存</button>
 
                     <div class="checklist-container">
-                        <h3 style="margin: 0px;">📋 チェックリスト</h3>
-                        <div class="progress-bar-container">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <h3 style="margin: 0px;">📋 チェックリスト</h3>
+                            <button id="toggleCompletedBtn" class="btn btn-outline" style="font-size:11px; padding:4px 8px; display:none;" onclick="toggleCompleted()">完了済みを表示</button>
+                        </div>
+                        <div class="progress-bar-container" id="progressContainer" style="display: none;">
                             <div class="progress-bar-fill" id="checklistProgress"></div>
                         </div>
                         <div id="checklistItems"></div>
@@ -691,8 +679,9 @@
                 </div>
                 
                 <div class="modal-right">
-                    <h3>💬 進捗タイムライン</h3>
-                    <div id="commentList" style="max-height: 280px; overflow-y: auto;"></div>
+                    <h3 style="margin-top: 0;">💬 進捗タイムライン</h3>
+                    <!-- ★コメント欄の高さを大幅アップ (max-height: 450px) -->
+                    <div id="commentList" style="max-height: 450px; overflow-y: auto;"></div>
                     <div class="comment-input-area">
                         <input type="text" id="newComment" placeholder="進捗ログを入力...">
                         <button class="btn" style="padding: 8px 12px;" onclick="addComment()">記録</button>
@@ -736,8 +725,8 @@
         
         let draggedColumn = null;
         let draggedTask = null;
+        let isHideCompleted = true; // ★デフォルトで完了済みを隠す設定
 
-        // ★追加：セッション切れ（24時間で自動ログアウト）の設定
         const SESSION_TIMEOUT_MS = 24 * 60 * 60 * 1000; // 24時間
 
         function hexToRgba(hex, alpha) {
@@ -755,7 +744,6 @@
             const savedAdmin = localStorage.getItem('orbit_is_admin');
             const loginTime = localStorage.getItem('orbit_login_time');
             
-            // ★セッション切れのチェック
             if (savedUser && loginTime) {
                 const now = new Date().getTime();
                 if (now - parseInt(loginTime) > SESSION_TIMEOUT_MS) {
@@ -816,7 +804,6 @@
             } else {
                 localStorage.setItem('orbit_username', data.username);
                 localStorage.setItem('orbit_is_admin', data.is_admin);
-                // ★ログイン時刻を記録
                 localStorage.setItem('orbit_login_time', new Date().getTime().toString());
                 checkAuth();
             }
@@ -883,7 +870,6 @@
             const listDiv = document.getElementById('accountList');
             listDiv.innerHTML = '';
             
-            // パスワード入力欄をリセット
             document.getElementById('myOldPw').value = '';
             document.getElementById('myNewPw').value = '';
             
@@ -924,7 +910,6 @@
             document.getElementById('accountModal').style.display = 'flex';
         }
 
-        // ★追加：自分のパスワードを変更する関数
         async function changeMyPassword() {
             const oldPw = document.getElementById('myOldPw').value;
             const newPw = document.getElementById('myNewPw').value;
@@ -1409,8 +1394,20 @@
             fetchBoardData();
         }
 
+        function toggleCompleted() {
+            isHideCompleted = !isHideCompleted;
+            document.getElementById('toggleCompletedBtn').textContent = isHideCompleted ? "完了済みを表示" : "完了済みを隠す";
+            loadChecklist(); 
+        }
+
         async function openTaskModal(task) {
             currentTaskId = task.id;
+            
+            // ★デフォルト設定：開いた時は必ず「完了済みを隠す」モードにする
+            isHideCompleted = true;
+            const btn = document.getElementById('toggleCompletedBtn');
+            if(btn) btn.textContent = "完了済みを表示";
+            
             document.getElementById('modalTaskTitle').textContent = task.title;
             document.getElementById('modalDescription').value = task.description || "";
             document.getElementById('modalDueDate').value = task.due_date || "";
@@ -1465,12 +1462,34 @@
             const res = await fetch(`/api/tasks/${currentTaskId}/checklist`);
             const items = await res.json();
             const container = document.getElementById('checklistItems');
+            const toggleBtn = document.getElementById('toggleCompletedBtn');
+            const progressContainer = document.getElementById('progressContainer');
             
             container.innerHTML = '';
             let checkedCount = 0;
             
             items.forEach(item => {
                 if (item.is_checked) checkedCount++;
+            });
+
+            if (checkedCount > 0) {
+                toggleBtn.style.display = 'block';
+                toggleBtn.textContent = isHideCompleted ? "完了済みを表示" : "完了済みを隠す";
+            } else {
+                toggleBtn.style.display = 'none';
+            }
+            
+            if (items.length > 0) {
+                progressContainer.style.display = 'block';
+                const percent = Math.round((checkedCount / items.length) * 100);
+                document.getElementById('checklistProgress').style.width = percent + '%';
+            } else {
+                progressContainer.style.display = 'none';
+            }
+
+            items.forEach(item => {
+                if (isHideCompleted && item.is_checked) return; // ★完了済みは描画スキップ
+                
                 const itemDiv = document.createElement('div');
                 itemDiv.className = 'checklist-item';
                 itemDiv.innerHTML = `
@@ -1482,9 +1501,6 @@
                 `;
                 container.appendChild(itemDiv);
             });
-            
-            const percent = items.length > 0 ? Math.round((checkedCount / items.length) * 100) : 0;
-            document.getElementById('checklistProgress').style.width = percent + '%';
         }
 
         async function addChecklistItem() {
