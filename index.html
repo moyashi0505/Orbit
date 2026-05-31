@@ -686,7 +686,10 @@
         let currentUser = null;
         let isCurrentUserAdmin = false;
         let currentBoardId = null;
+        
+        // ★ドラッグ＆ドロップ用の変数をタスク用と列用に分ける
         let draggedColumn = null;
+        let draggedTask = null;
 
         function hexToRgba(hex, alpha) {
             let r = parseInt(hex.slice(1, 3), 16);
@@ -825,15 +828,12 @@
                 
                 users.forEach(u => {
                     const isAdminText = u.is_admin ? '<span style="color:#ee5c5c; font-weight:bold; font-size:12px;">[ADMIN]</span>' : '';
-                    
                     const approvalText = u.is_approved ? '<span style="color:#10b981; font-size:12px;">[承認済]</span>' : '<span style="color:#f59e0b; font-weight:bold; font-size:12px;">[承認待ち]</span>';
                     const approveBtnText = u.is_approved ? 'アクセス権 剥奪' : 'アクセス 承認';
                     const approveBtnClass = u.is_approved ? 'btn' : 'btn btn-warning';
-
                     const adminBtnText = u.is_admin ? '管理者を外す' : '管理者にする';
                     const adminBtnClass = u.is_admin ? 'btn' : 'btn btn-success';
                     
-                    // ★PWリセットボタンを追加
                     listDiv.innerHTML += `
                         <div style="display:flex; justify-content:space-between; padding:10px; background:rgba(255,255,255,0.05); margin-bottom:8px; border-radius:4px; align-items:center;">
                             <span style="flex:1;">${u.username} ${isAdminText} ${approvalText}</span>
@@ -854,31 +854,22 @@
                     </div>
                 `;
             }
-            
             document.getElementById('accountModal').style.display = 'flex';
         }
 
-        // ★新規追加：ユーザーのパスワードを管理者がリセットする関数
         async function resetUserPassword(targetUser) {
             const newPwd = prompt(`${targetUser} の新しいパスワードを入力してください:\n（メンバーには口頭等で新しいパスワードを伝えてください）`);
-            
-            if (!newPwd) {
-                return;
-            }
-            
+            if (!newPwd) return;
             if (newPwd.length < 4) {
                 alert("パスワードは4文字以上にしてください。");
                 return;
             }
-            
             const res = await fetch(`/api/users/${targetUser}/password`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ new_password: newPwd })
             });
-            
             const data = await res.json();
-            
             if (data.message === "Success") {
                 alert(`${targetUser} のパスワードをリセットしました！`);
             } else {
@@ -892,7 +883,6 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ is_approved: makeApproved })
             });
-            
             if (targetUser === currentUser && !makeApproved) {
                 logout();
                 closeModal('accountModal');
@@ -902,16 +892,12 @@
         }
 
         async function toggleAdmin(targetUser, makeAdmin) {
-            if (!confirm(`${targetUser} の管理者権限を変更しますか？`)) {
-                return;
-            }
-            
+            if (!confirm(`${targetUser} の管理者権限を変更しますか？`)) return;
             await fetch(`/api/users/${targetUser}/admin`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ is_admin: makeAdmin })
             });
-            
             if (targetUser === currentUser && !makeAdmin) {
                 localStorage.setItem('orbit_is_admin', 'false');
                 checkAuth();
@@ -922,14 +908,8 @@
         }
 
         async function deleteAccount(targetUser) {
-            if (!confirm(`本当に ${targetUser} のアカウントを削除しますか？`)) {
-                return;
-            }
-            
-            await fetch(`/api/users/${targetUser}`, {
-                method: 'DELETE'
-            });
-            
+            if (!confirm(`本当に ${targetUser} のアカウントを削除しますか？`)) return;
+            await fetch(`/api/users/${targetUser}`, { method: 'DELETE' });
             if (targetUser === currentUser) {
                 logout();
                 closeModal('accountModal');
@@ -938,7 +918,7 @@
             }
         }
 
-// ========================================================
+        // ========================================================
         // ボード管理ロジック
         // ========================================================
         async function fetchBoards() {
@@ -970,7 +950,6 @@
             newOpt.style.color = "#00d2ff";
             select.appendChild(newOpt);
             
-            // ★修正：ローカルストレージから前回のボードIDを読み込む
             const savedBoardId = localStorage.getItem('orbit_current_board_id');
             
             if (savedBoardId && boards.find(b => b.id == savedBoardId)) {
@@ -1001,51 +980,64 @@
                 createNewBoard();
             } else {
                 currentBoardId = parseInt(selectedValue);
-                // ★修正：ボードを切り替えるたびにIDを記録
                 localStorage.setItem('orbit_current_board_id', currentBoardId);
                 fetchBoardData();
             }
         }
 
+        async function createNewBoard() {
+            const title = prompt("新しいボードの名前を入力 (10文字以内):");
+            if (!title) {
+                const select = document.getElementById('boardSelect');
+                select.value = currentBoardId ? currentBoardId : "";
+                return;
+            }
+            if (title.length > 10) {
+                alert("ボード名は10文字以内で入力してください。");
+                const select = document.getElementById('boardSelect');
+                select.value = currentBoardId ? currentBoardId : "";
+                return;
+            }
+            const res = await fetch('/api/boards', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title: title })
+            });
+            const newBoard = await res.json();
+            
+            // ★不具合1の修正箇所：新規ボード作成後、すぐにIDを記憶させる
+            currentBoardId = newBoard.id;
+            localStorage.setItem('orbit_current_board_id', currentBoardId);
+            
+            fetchBoards();
+        }
+
         async function renameCurrentBoard() {
             if (!currentBoardId) return;
-            
             const select = document.getElementById('boardSelect');
             const currentTitle = select.options[select.selectedIndex].text;
             
             const newTitle = prompt("ボードの名前を変更 (10文字以内):", currentTitle);
-            
-            if (!newTitle || newTitle === currentTitle) {
-                return;
-            }
-            
+            if (!newTitle || newTitle === currentTitle) return;
             if (newTitle.length > 10) {
                 alert("ボード名は10文字以内で入力してください。");
                 return;
             }
-            
             await fetch(`/api/boards/${currentBoardId}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ title: newTitle })
             });
-            
             fetchBoards();
         }
 
         async function deleteCurrentBoard() {
             if (!currentBoardId) return;
-            
             const select = document.getElementById('boardSelect');
             const currentTitle = select.options[select.selectedIndex].text;
             
-            if (!confirm(`警告：ボード「${currentTitle}」を完全に削除しますか？\n（このボード内のすべての列とタスクが消滅します。復元はできません！）`)) {
-                return;
-            }
-            
-            await fetch(`/api/boards/${currentBoardId}`, {
-                method: 'DELETE'
-            });
+            if (!confirm(`警告：ボード「${currentTitle}」を完全に削除しますか？\n（このボード内のすべての列とタスクが消滅します。復元はできません！）`)) return;
+            await fetch(`/api/boards/${currentBoardId}`, { method: 'DELETE' });
             
             currentBoardId = null;
             fetchBoards();
@@ -1057,13 +1049,6 @@
         async function fetchBoardData() {
             currentBoardId = localStorage.getItem('orbit_current_board_id') ? parseInt(localStorage.getItem('orbit_current_board_id')) : currentBoardId;
 
-            if (!currentBoardId) {
-                const boardDiv = document.getElementById('board');
-                boardDiv.innerHTML = '';
-                return;
-            }
-            
-            // ...以下、既存のコードはそのまま！...
             if (!currentBoardId) {
                 const boardDiv = document.getElementById('board');
                 boardDiv.innerHTML = '';
@@ -1092,14 +1077,11 @@
                 
                 colDiv.draggable = true;
                 
+                // 列のドラッグ処理
                 colDiv.addEventListener('dragstart', (e) => {
-                    if (e.target.classList.contains('card')) {
-                        return;
-                    }
-                    
+                    if (e.target.classList.contains('card')) return;
                     draggedColumn = colDiv;
                     colDiv.classList.add('dragging-col');
-                    e.dataTransfer.setData('text/plain', 'col:' + column.id);
                 });
                 
                 colDiv.addEventListener('dragend', () => {
@@ -1107,17 +1089,50 @@
                     draggedColumn = null;
                 });
                 
+                // ★不具合2の修正：列（Column）へのドラッグと、タスク（Task）のドラッグを明確に分ける
                 colDiv.addEventListener('dragover', (e) => {
-                    e.preventDefault();
+                    e.preventDefault(); // ドロップを許可
+                    
+                    if (draggedTask) {
+                        // タスクの縦移動の視覚処理
+                        const taskList = colDiv.querySelector('.task-list');
+                        const afterElement = getDragAfterTaskElement(taskList, e.clientY);
+                        if (afterElement == null) {
+                            taskList.appendChild(draggedTask);
+                        } else {
+                            taskList.insertBefore(draggedTask, afterElement);
+                        }
+                    }
                 });
                 
-                colDiv.addEventListener('drop', (e) => {
-                    handleDrop(e, column.id);
+                colDiv.addEventListener('drop', async (e) => {
+                    e.preventDefault();
+                    
+                    if (draggedTask) {
+                        e.stopPropagation(); // ボード全体のイベントに干渉させない
+                        
+                        // タスクのドロップ処理：データベースに縦の順番を保存する
+                        const taskList = colDiv.querySelector('.task-list');
+                        const taskElements = [...taskList.querySelectorAll('.card')];
+                        
+                        const newOrders = taskElements.map((el, index) => ({
+                            id: parseInt(el.dataset.id),
+                            order_idx: index,
+                            column_id: column.id
+                        }));
+                        
+                        await fetch('/api/tasks/reorder/batch', {
+                            method: 'PUT',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(newOrders)
+                        });
+                        
+                        fetchBoardData(); // 描画を更新して固定
+                    }
                 });
 
                 const headerDiv = document.createElement('div');
                 headerDiv.className = 'column-header';
-                
                 headerDiv.innerHTML = `
                     <h3>${column.title}</h3>
                     <div class="col-actions">
@@ -1126,27 +1141,22 @@
                         <button onclick="deleteColumn(${column.id})">❌</button>
                     </div>
                 `;
-                
                 colDiv.appendChild(headerDiv);
 
                 const taskListDiv = document.createElement('div');
                 taskListDiv.className = 'task-list';
                 
+                // タスクを描画（APIから返ってくる時点で order_idx 順になっています）
                 const colTasks = tasks.filter(t => t.column_id === column.id && t.is_archived === false);
-                
                 colTasks.forEach(task => {
                     taskListDiv.appendChild(createCardElement(task));
                 });
-                
                 colDiv.appendChild(taskListDiv);
 
                 const addTaskBtn = document.createElement('button');
                 addTaskBtn.className = 'add-task-btn';
                 addTaskBtn.textContent = '＋ タスクを追加';
-                
-                addTaskBtn.onclick = () => {
-                    promptAddTask(column.id);
-                };
+                addTaskBtn.onclick = () => { promptAddTask(column.id); };
                 
                 colDiv.appendChild(addTaskBtn);
                 boardDiv.appendChild(colDiv);
@@ -1154,18 +1164,15 @@
         }
 
         // ========================================================
-        // 列の移動・色変更ロジック
+        // ドラッグ＆ドロップ（列とタスクの位置計算ロジック）
         // ========================================================
+        
+        // --- 列（横移動）の計算 ---
         function handleBoardDragOver(e) {
             e.preventDefault();
-            
-            if (!draggedColumn) {
-                return;
-            }
-            
+            if (!draggedColumn) return;
             const board = document.getElementById('board');
             const afterElement = getDragAfterElement(board, e.clientX);
-            
             if (afterElement == null) {
                 board.appendChild(draggedColumn);
             } else {
@@ -1175,11 +1182,9 @@
 
         function getDragAfterElement(container, x) {
             const draggableElements = [...container.querySelectorAll('.column:not(.dragging-col)')];
-            
             return draggableElements.reduce((closest, child) => {
                 const box = child.getBoundingClientRect();
                 const offset = x - box.left - box.width / 2;
-                
                 if (offset < 0 && offset > closest.offset) {
                     return { offset: offset, element: child };
                 } else {
@@ -1190,84 +1195,78 @@
 
         async function handleBoardDrop(e) {
             e.preventDefault();
-            const data = e.dataTransfer.getData('text/plain');
-            
-            if (data.startsWith('col:')) {
+            if (draggedColumn) {
                 const columnsDOM = document.querySelectorAll('.column');
                 const newOrders = [];
-                
                 columnsDOM.forEach((col, index) => {
                     const id = parseInt(col.id.replace('col-', ''));
                     newOrders.push({ id: id, order_idx: index });
                 });
-                
                 await fetch('/api/columns/reorder/batch', {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(newOrders)
                 });
-                
                 fetchBoardData();
             }
         }
 
+        // --- ★追加：タスク（縦移動）の計算 ---
+        function getDragAfterTaskElement(container, y) {
+            const draggableElements = [...container.querySelectorAll('.card:not(.dragging-task)')];
+            return draggableElements.reduce((closest, child) => {
+                const box = child.getBoundingClientRect();
+                const offset = y - box.top - box.height / 2;
+                if (offset < 0 && offset > closest.offset) {
+                    return { offset: offset, element: child };
+                } else {
+                    return closest;
+                }
+            }, { offset: Number.NEGATIVE_INFINITY }).element;
+        }
+
+        // ========================================================
+        // 列操作ロジック
+        // ========================================================
         async function changeColumnColor(id, newColor) {
             await fetch(`/api/columns/${id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ color: newColor })
             });
-            
             fetchBoardData();
         }
 
         async function addColumn() {
             const titleInput = document.getElementById('newColumnTitle');
-            
-            if (!titleInput.value) {
-                return;
-            }
-            
+            if (!titleInput.value) return;
             if (!currentBoardId) {
                 alert("ボードを作成または選択してください");
                 return;
             }
-            
             await fetch('/api/columns', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ board_id: currentBoardId, title: titleInput.value })
             });
-            
             titleInput.value = '';
             fetchBoardData();
         }
 
         async function editColumn(id, currentTitle) {
             const newTitle = prompt("列の名前を変更:", currentTitle);
-            
-            if (!newTitle || newTitle === currentTitle) {
-                return;
-            }
-            
+            if (!newTitle || newTitle === currentTitle) return;
             await fetch(`/api/columns/${id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ title: newTitle })
             });
-            
             fetchBoardData();
         }
 
         async function deleteColumn(id) {
-            if (!confirm("この列を完全解体しますか？")) {
-                return;
-            }
-            
-            await fetch(`/api/columns/${id}`, {
-                method: 'DELETE'
-            });
-            
+            if (!confirm("この列を完全解体しますか？")) return;
+            await fetch(`/api/columns/${id}`, { method: 'DELETE' });
             fetchBoardData();
         }
 
@@ -1277,9 +1276,9 @@
         function createCardElement(task) {
             const card = document.createElement('div');
             card.className = 'card';
+            card.dataset.id = task.id; // ★追加：裏側での並び替え判定用にIDを持たせる
             
             let dueHtml = '';
-            
             if (task.due_date) {
                 dueHtml = `<div class="card-due-badge">📅 ${task.due_date}</div>`;
             }
@@ -1288,14 +1287,15 @@
             card.draggable = true;
             
             card.addEventListener('dragstart', (e) => {
-                e.stopPropagation();
+                e.stopPropagation(); // 列のドラッグを誤作動させない
                 card.classList.add('dragging-task');
-                e.dataTransfer.setData('text/plain', 'task:' + task.id);
+                draggedTask = card;
             });
             
             card.addEventListener('dragend', (e) => {
                 e.stopPropagation();
                 card.classList.remove('dragging-task');
+                draggedTask = null;
             });
             
             card.addEventListener('click', () => {
@@ -1307,54 +1307,27 @@
 
         async function promptAddTask(columnId) {
             const title = prompt("タスクのタイトルを入力:");
-            
-            if (!title) {
-                return;
-            }
-            
+            if (!title) return;
             await fetch('/api/tasks', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ board_id: currentBoardId, column_id: columnId, title: title })
             });
-            
             fetchBoardData();
-        }
-
-        async function handleDrop(e, newColumnId) {
-            const data = e.dataTransfer.getData('text/plain');
-            
-            if (data.startsWith('task:')) {
-                e.stopPropagation();
-                
-                const taskId = parseInt(data.replace('task:', ''));
-                
-                await fetch(`/api/tasks/${taskId}`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ column_id: newColumnId })
-                });
-                
-                fetchBoardData();
-            }
         }
 
         async function openTaskModal(task) {
             currentTaskId = task.id;
-            
             document.getElementById('modalTaskTitle').textContent = task.title;
             document.getElementById('modalDescription').value = task.description || "";
             document.getElementById('modalDueDate').value = task.due_date || "";
-            
             await loadChecklist();
             await loadComments();
-            
             document.getElementById('taskModal').style.display = 'flex';
         }
 
         function closeModal(modalId) {
             document.getElementById(modalId).style.display = 'none';
-            
             if (modalId === 'taskModal') {
                 currentTaskId = null;
                 fetchBoardData();
@@ -1364,24 +1337,18 @@
         async function editTaskTitle() {
             const currentEl = document.getElementById('modalTaskTitle');
             const newTitle = prompt("タスク名を変更:", currentEl.textContent);
-            
-            if (!newTitle || newTitle === currentEl.textContent) {
-                return;
-            }
-            
+            if (!newTitle || newTitle === currentEl.textContent) return;
             await fetch(`/api/tasks/${currentTaskId}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ title: newTitle })
             });
-            
             currentEl.textContent = newTitle;
             fetchBoardData();
         }
 
         async function saveDescription() {
             const desc = document.getElementById('modalDescription').value;
-            
             await fetch(`/api/tasks/${currentTaskId}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
@@ -1391,7 +1358,6 @@
 
         async function saveDueDate() {
             const dateVal = document.getElementById('modalDueDate').value;
-            
             await fetch(`/api/tasks/${currentTaskId}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
@@ -1411,13 +1377,9 @@
             let checkedCount = 0;
             
             items.forEach(item => {
-                if (item.is_checked) {
-                    checkedCount++;
-                }
-                
+                if (item.is_checked) checkedCount++;
                 const itemDiv = document.createElement('div');
                 itemDiv.className = 'checklist-item';
-                
                 itemDiv.innerHTML = `
                     <div class="checklist-item-left ${item.is_checked ? 'checked' : ''}">
                         <input type="checkbox" ${item.is_checked ? 'checked' : ''} onchange="toggleChecklistItem(${item.id}, ${item.is_checked})">
@@ -1425,7 +1387,6 @@
                     </div>
                     <button style="background:none; border:none; color:#ff7676; cursor:pointer;" onclick="deleteChecklistItem(${item.id})">❌</button>
                 `;
-                
                 container.appendChild(itemDiv);
             });
             
@@ -1435,17 +1396,12 @@
 
         async function addChecklistItem() {
             const input = document.getElementById('newChecklistItem');
-            
-            if (!input.value) {
-                return;
-            }
-            
+            if (!input.value) return;
             await fetch(`/api/tasks/${currentTaskId}/checklist`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ title: input.value })
             });
-            
             input.value = '';
             loadChecklist();
         }
@@ -1456,15 +1412,11 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ is_checked: !currentStatus })
             });
-            
             loadChecklist();
         }
 
         async function deleteChecklistItem(id) {
-            await fetch(`/api/checklist/${id}`, {
-                method: 'DELETE'
-            });
-            
+            await fetch(`/api/checklist/${id}`, { method: 'DELETE' });
             loadChecklist();
         }
 
@@ -1475,12 +1427,9 @@
             const res = await fetch(`/api/tasks/${currentTaskId}/comments`);
             const comments = await res.json();
             const listDiv = document.getElementById('commentList');
-            
             listDiv.innerHTML = '';
-            
             comments.forEach(c => {
                 const date = new Date(c.created_at).toLocaleString('ja-JP');
-                
                 listDiv.innerHTML += `
                     <div class="comment-box">
                         <div class="comment-header">
@@ -1497,23 +1446,17 @@
                     </div>
                 `;
             });
-            
             listDiv.scrollTop = listDiv.scrollHeight;
         }
 
         async function addComment() {
             const input = document.getElementById('newComment');
-            
-            if (!input.value) {
-                return;
-            }
-            
+            if (!input.value) return;
             await fetch(`/api/tasks/${currentTaskId}/comments`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ content: input.value, author: currentUser })
             });
-            
             input.value = '';
             loadComments();
         }
@@ -1521,29 +1464,18 @@
         async function editComment(id) {
             const cur = document.getElementById(`comment-text-${id}`).innerText;
             const text = prompt("ログを編集:", cur);
-            
-            if (!text || text === cur) {
-                return;
-            }
-            
+            if (!text || text === cur) return;
             await fetch(`/api/comments/${id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ content: text })
             });
-            
             loadComments();
         }
 
         async function deleteComment(id) {
-            if (!confirm("ログを削除しますか？")) {
-                return;
-            }
-            
-            await fetch(`/api/comments/${id}`, {
-                method: 'DELETE'
-            });
-            
+            if (!confirm("ログを削除しますか？")) return;
+            await fetch(`/api/comments/${id}`, { method: 'DELETE' });
             loadComments();
         }
 
@@ -1551,30 +1483,21 @@
         // アーカイブ・完全削除ロジック
         // ========================================================
         async function archiveTask() {
-            if (!confirm("このタスクを（アーカイブ）へ送りますか？")) {
-                return;
-            }
-            
+            if (!confirm("このタスクを（アーカイブ）へ送りますか？")) return;
             await fetch(`/api/tasks/${currentTaskId}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ is_archived: true })
             });
-            
             closeModal('taskModal');
         }
 
         async function openArchiveModal() {
-            if (!currentBoardId) {
-                return;
-            }
-            
+            if (!currentBoardId) return;
             const res = await fetch(`/api/boards/${currentBoardId}/tasks`);
             const tasks = await res.json();
-            
             const archived = tasks.filter(t => t.is_archived === true);
             const listDiv = document.getElementById('archiveList');
-            
             listDiv.innerHTML = '';
             
             if (archived.length === 0) {
@@ -1589,24 +1512,16 @@
                     `;
                 });
             }
-            
             document.getElementById('archiveModal').style.display = 'flex';
         }
 
         async function deleteTaskPermanently(id) {
-            if (!confirm("データを完全消滅させます。復元できません。")) {
-                return;
-            }
-            
-            await fetch(`/api/tasks/${id}`, {
-                method: 'DELETE'
-            });
-            
+            if (!confirm("データを完全消滅させます。復元できません。")) return;
+            await fetch(`/api/tasks/${id}`, { method: 'DELETE' });
             openArchiveModal();
             fetchBoardData();
         }
 
-        // 起動時のチェック
         window.onload = checkAuth;
     </script>
 </body>

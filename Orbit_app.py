@@ -2,7 +2,7 @@ from fastapi import FastAPI, Depends
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from typing import Optional, List
-from sqlalchemy import create_engine, Column, Integer, String, Boolean, DateTime
+from sqlalchemy import create_engine, Column, Integer, String, Boolean, DateTime, text
 from sqlalchemy.orm import sessionmaker, declarative_base, Session
 from datetime import datetime
 import hashlib
@@ -38,14 +38,11 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
 # =========================================================
 # 2. データベースの初期設定
 # =========================================================
-# クラウド（Render）のURLを読み込む。無ければ手元のPC用（SQLite）を使う
 DATABASE_URL = os.environ.get("DATABASE_URL", "sqlite:///./orbit.db")
 
-# SQLAlchemyのルールに合わせて、URLの先頭を修正する（Render特有の対応）
 if DATABASE_URL.startswith("postgres://"):
     DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
 
-# SQLiteかPostgreSQLかで接続方法を分岐
 if "sqlite" in DATABASE_URL:
     engine = create_engine(
         DATABASE_URL, 
@@ -94,6 +91,7 @@ class TaskDB(Base):
     description = Column(String, default="")
     is_archived = Column(Boolean, default=False)
     due_date = Column(String, default="")
+    order_idx = Column(Integer, default=0) # ★追加：タスクの並び順
 
 class ChecklistItemDB(Base):
     __tablename__ = "checklist_items"
@@ -111,6 +109,14 @@ class CommentDB(Base):
     created_at = Column(DateTime, default=datetime.now)
 
 Base.metadata.create_all(bind=engine)
+
+# ★追加：古いデータベースに並び順（order_idx）カラムを自動で追加するマイグレーション
+try:
+    with engine.begin() as conn:
+        conn.execute(text("ALTER TABLE tasks ADD COLUMN order_idx INTEGER DEFAULT 0"))
+except Exception:
+    pass # 既にカラムが存在する場合はエラーを無視
+
 app = FastAPI()
 
 # =========================================================
@@ -126,7 +132,6 @@ class AdminToggle(BaseModel):
 class ApprovalToggle(BaseModel):
     is_approved: bool
 
-# ★新規追加：パスワード強制リセット用
 class PasswordReset(BaseModel):
     new_password: str
 
@@ -160,6 +165,12 @@ class TaskUpdate(BaseModel):
     description: Optional[str] = None
     is_archived: Optional[bool] = None
     due_date: Optional[str] = None
+
+# ★追加：タスクの一括並び替え用
+class TaskOrderUpdate(BaseModel):
+    id: int
+    order_idx: int
+    column_id: int
 
 class ChecklistItemCreate(BaseModel):
     title: str
@@ -261,13 +272,11 @@ def toggle_approve(username: str, toggle: ApprovalToggle, db: Session = Depends(
         
     return {"error": "Not found"}
 
-# ★新規追加：パスワードの強制リセットエンドポイント
 @app.put("/api/users/{username}/password")
 def reset_password(username: str, pwd_data: PasswordReset, db: Session = Depends(get_db)):
     target = db.query(UserDB).filter(UserDB.username == username).first()
     
     if target:
-        # 新しいパスワードを再度暗号化して上書き保存する
         target.password = get_password_hash(pwd_data.new_password)
         db.commit()
         return {"message": "Success"}
@@ -383,14 +392,16 @@ def delete_column(column_id: int, db: Session = Depends(get_db)):
 # --- タスク (Task) ---
 @app.get("/api/boards/{board_id}/tasks")
 def get_tasks(board_id: int, db: Session = Depends(get_db)):
-    return db.query(TaskDB).filter(TaskDB.board_id == board_id).all()
+    return db.query(TaskDB).filter(TaskDB.board_id == board_id).order_by(TaskDB.order_idx).all() # ★順序で取得
 
 @app.post("/api/tasks")
 def create_task(task: TaskCreate, db: Session = Depends(get_db)):
+    count = db.query(TaskDB).filter(TaskDB.column_id == task.column_id).count()
     new_task = TaskDB(
         board_id=task.board_id,
         column_id=task.column_id,
-        title=task.title
+        title=task.title,
+        order_idx=count
     )
     
     db.add(new_task)
@@ -419,6 +430,17 @@ def update_task(task_id: int, task_update: TaskUpdate, db: Session = Depends(get
         return target
         
     return {"error": "Not found"}
+
+# ★追加：タスクの一括並び替えAPI
+@app.put("/api/tasks/reorder/batch")
+def reorder_tasks(orders: List[TaskOrderUpdate], db: Session = Depends(get_db)):
+    for order in orders:
+        target = db.query(TaskDB).filter(TaskDB.id == order.id).first()
+        if target:
+            target.order_idx = order.order_idx
+            target.column_id = order.column_id
+    db.commit()
+    return {"message": "Success"}
 
 @app.delete("/api/tasks/{task_id}")
 def delete_task(task_id: int, db: Session = Depends(get_db)):
