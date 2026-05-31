@@ -37,11 +37,22 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
 # =========================================================
 # 2. データベースの初期設定
 # =========================================================
-SQLALCHEMY_DATABASE_URL = "sqlite:///./orbit.db"
-engine = create_engine(
-    SQLALCHEMY_DATABASE_URL, 
-    connect_args={"check_same_thread": False}
-)
+# クラウド（Render）のURLを読み込む。無ければ手元のPC用（SQLite）を使う
+DATABASE_URL = os.environ.get("DATABASE_URL", "sqlite:///./orbit.db")
+
+# SQLAlchemyのルールに合わせて、URLの先頭を修正する（Render特有の対応）
+if DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+
+# SQLiteかPostgreSQLかで接続方法を分岐
+if "sqlite" in DATABASE_URL:
+    engine = create_engine(
+        DATABASE_URL, 
+        connect_args={"check_same_thread": False}
+    )
+else:
+    engine = create_engine(DATABASE_URL)
+
 SessionLocal = sessionmaker(
     autocommit=False, 
     autoflush=False, 
