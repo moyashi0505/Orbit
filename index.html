@@ -575,7 +575,7 @@
     </style>
 </head>
 <body>
-    <div class="beta-badge">BETA v1.2</div>
+    <div class="beta-badge">BETA v1.0</div>
     <div id="authOverlay">
         <div class="auth-box">
             <h2 style="margin-bottom: 5px;">Orbit Identity</h2>
@@ -1616,7 +1616,7 @@
                     listDiv.innerHTML += `
                         <div style="display:flex; justify-content:space-between; padding:10px; background:rgba(255,255,255,0.05); margin-bottom:8px; border-radius:4px; align-items:center;">
                             <span>${t.title}</span>
-                            <button class="btn btn-danger" style="padding:4px 8px; font-size:12px;" onclick="deleteTaskPermanently(${t.id})">完全消滅</button>
+                            <button class="btn btn-danger" style="padding:4px 8px; font-size:12px;" onclick="deleteTaskPermanently(${t.id})">削除</button>
                         </div>
                     `;
                 });
@@ -1625,7 +1625,7 @@
         }
 
         async function deleteTaskPermanently(id) {
-            if (!confirm("データを完全消滅させます。復元できません。")) return;
+            if (!confirm("データを削除させます。復元できません。")) return;
             await fetch(`/api/tasks/${id}`, { method: 'DELETE' });
             openArchiveModal();
             fetchBoardData();
