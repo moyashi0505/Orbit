@@ -1,4 +1,4 @@
 fastapi
 uvicorn
 sqlalchemy
-postgresql://orbit_db_ukn1_user:8mmRODuzOuNQukGtOjvxogWY9iJossT8@dpg-d8duo7urnols739oe8eg-a/orbit_db_ukn1
+psycopg2-binary
