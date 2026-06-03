@@ -8,14 +8,18 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Orbit">
     
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛰️</text></svg>">
+    
     <style>
         /* ========================================================
            1. ベース・宇宙デザインスタイル
            ======================================================== */
         body {
             font-family: 'Segoe UI', sans-serif;
-            background-image: linear-gradient(135deg, #02001f 0%, #0b093a 40%, #17115c 70%, #030013 100%);
+            background-color: #030013; /* 背景画像がない時のベースカラー */
+            background-image: linear-gradient(135deg, #02001f 0%, #0b093a 40%, #17115c 70%, #030013 100%); /* デフォルト背景 */
             background-size: cover;
+            background-position: center;
             background-attachment: fixed;
             margin: 0px;
             padding-top: 20px;
@@ -26,6 +30,7 @@
             box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.8);
             min-width: 1100px;
             overflow-x: auto;
+            transition: background-image 0.5s ease-in-out;
         }
 
         h2 {
@@ -300,6 +305,7 @@
             font-size: 14px;
             cursor: pointer;
             transition: background 0.2s, transform 0.1s;
+            backdrop-filter: blur(5px); /* 背景を入れた時用に見やすく */
         }
 
         .card:hover {
@@ -397,7 +403,6 @@
             z-index: 1000;
         }
 
-        /* ★モーダルの幅と高さを少し拡張 */
         .modal-content {
             background: #101224;
             border: 1px solid rgba(255, 255, 255, 0.15);
@@ -444,7 +449,7 @@
 
         textarea {
             width: 100%;
-            height: 220px; /* ★説明欄の高さを大幅アップ */
+            height: 220px; 
             padding: 10px;
             box-sizing: border-box;
             background-color: rgba(0, 0, 0, 0.3);
@@ -575,7 +580,7 @@
     </style>
 </head>
 <body>
-    <div class="beta-badge">BETA v1.0</div>
+    <div class="beta-badge">BETA v1.3</div>
     <div id="authOverlay">
         <div class="auth-box">
             <h2 style="margin-bottom: 5px;">Orbit Identity</h2>
@@ -606,6 +611,7 @@
                     <div class="board-controls-top">
                         <select id="boardSelect" class="board-selector" onchange="switchBoard()"></select>
                         <button class="btn btn-outline" onclick="renameCurrentBoard()">✏️ 名前変更</button>
+                        <button id="bgChangeBtn" class="btn btn-outline" style="display: none; color: #10b981; border-color: rgba(16, 185, 129, 0.4);" onclick="changeBoardBackground()">🌌 背景変更</button>
                         <button class="btn btn-outline" style="color: #ff7676; border-color: rgba(255, 118, 118, 0.4);" onclick="deleteCurrentBoard()">🗑️ 削除</button>
                     </div>
                 </div>
@@ -634,7 +640,6 @@
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('taskModal')">&times;</span>
             
-            <!-- ★大改修：ヘッダー部分に期限日を移動し、横一列にスッキリ配置 -->
             <div style="display:flex; justify-content:space-between; align-items:center; padding-right: 30px; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px;">
                 <h2 id="modalTaskTitle" style="margin:0px; flex: 1; overflow: hidden; text-overflow: ellipsis;">タスク名</h2>
                 
@@ -647,11 +652,8 @@
                 </div>
             </div>
 
-            <!-- ★無駄な余白を取っていた meta-section を完全削除 -->
-
             <div class="modal-body">
                 <div class="modal-left">
-                    <!-- ★保存ボタンを説明のタイトル横に移動してスペース節約 -->
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
                         <h3 style="margin: 0;">詳細説明</h3>
                         <button class="btn" style="padding: 4px 12px; font-size: 12px;" onclick="saveDescription()">保存</button>
@@ -680,7 +682,6 @@
                 
                 <div class="modal-right">
                     <h3 style="margin-top: 0;">💬 進捗タイムライン</h3>
-                    <!-- ★コメント欄の高さを大幅アップ (max-height: 450px) -->
                     <div id="commentList" style="max-height: 450px; overflow-y: auto;"></div>
                     <div class="comment-input-area">
                         <input type="text" id="newComment" placeholder="進捗ログを入力...">
@@ -692,7 +693,7 @@
     </div>
 
     <div class="modal-overlay" id="archiveModal">
-        <div class="modal-content" style="width: 500px;">
+        <div class="modal-content" style="width: 550px;">
             <span class="close-btn" onclick="closeModal('archiveModal')">&times;</span>
             <h2>📦 アーカイブ</h2>
             <div id="archiveList"></div>
@@ -725,7 +726,9 @@
         
         let draggedColumn = null;
         let draggedTask = null;
-        let isHideCompleted = true; // ★デフォルトで完了済みを隠す設定
+        let isHideCompleted = true; 
+        
+        window.allBoards = []; // ★全ボード情報を一時保存する用
 
         const SESSION_TIMEOUT_MS = 24 * 60 * 60 * 1000; // 24時間
 
@@ -761,8 +764,10 @@
                 
                 if (isCurrentUserAdmin) {
                     document.getElementById('adminBadge').style.display = 'inline-block';
+                    document.getElementById('bgChangeBtn').style.display = 'inline-block'; // ★背景変更ボタンを表示
                 } else {
                     document.getElementById('adminBadge').style.display = 'none';
+                    document.getElementById('bgChangeBtn').style.display = 'none'; // ★背景変更ボタンを隠す
                 }
                 
                 document.getElementById('authOverlay').style.display = 'none';
@@ -874,7 +879,12 @@
             document.getElementById('myNewPw').value = '';
             
             if (isCurrentUserAdmin) {
-                listDiv.innerHTML = '<p style="color:#00d2ff; font-size:12px; margin-top:30px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom:5px;">🛠️ 全メンバーの権限管理（管理者専用）</p>';
+                listDiv.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top:30px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom:5px;">
+                        <p style="color:#00d2ff; font-size:12px; margin: 0;">🛠️ 全メンバーの権限管理（管理者専用）</p>
+                        <button class="btn btn-success" style="font-size: 12px; padding: 4px 10px;" onclick="downloadBackup()">💾 全データバックアップ</button>
+                    </div>
+                `;
                 
                 const res = await fetch('/api/users');
                 const users = await res.json();
@@ -908,6 +918,12 @@
                 `;
             }
             document.getElementById('accountModal').style.display = 'flex';
+        }
+
+        function downloadBackup() {
+            if(confirm("全フライトデータをJSON形式でダウンロードしますか？\n※アップデート作業の前には必ず実施してください。")) {
+                window.open('/api/backup', '_blank');
+            }
         }
 
         async function changeMyPassword() {
@@ -1011,6 +1027,7 @@
         async function fetchBoards() {
             const res = await fetch('/api/boards');
             const boards = await res.json();
+            window.allBoards = boards; // ★背景適用のためグローバルに保存
             
             const select = document.getElementById('boardSelect');
             select.innerHTML = '';
@@ -1117,6 +1134,20 @@
             fetchBoards();
         }
 
+        // ★追加：管理者専用 背景変更ロジック
+        async function changeBoardBackground() {
+            if (!currentBoardId) return;
+            const url = prompt("背景画像のURLを入力してください\n※クリアする場合は空欄のままOKを押してください。");
+            if (url === null) return; // キャンセル時
+            
+            await fetch(`/api/boards/${currentBoardId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ background_url: url })
+            });
+            fetchBoards(); // 再読み込みして適用
+        }
+
         async function deleteCurrentBoard() {
             if (!currentBoardId) return;
             const select = document.getElementById('boardSelect');
@@ -1134,6 +1165,14 @@
         // ========================================================
         async function fetchBoardData() {
             currentBoardId = localStorage.getItem('orbit_current_board_id') ? parseInt(localStorage.getItem('orbit_current_board_id')) : currentBoardId;
+
+            // ★背景画像の適用処理
+            const currentBoardData = window.allBoards.find(b => b.id === currentBoardId);
+            if (currentBoardData && currentBoardData.background_url) {
+                document.body.style.backgroundImage = `linear-gradient(rgba(2, 0, 31, 0.7), rgba(3, 0, 19, 0.9)), url('${currentBoardData.background_url}')`;
+            } else {
+                document.body.style.backgroundImage = "linear-gradient(135deg, #02001f 0%, #0b093a 40%, #17115c 70%, #030013 100%)";
+            }
 
             if (!currentBoardId) {
                 const boardDiv = document.getElementById('board');
@@ -1403,7 +1442,6 @@
         async function openTaskModal(task) {
             currentTaskId = task.id;
             
-            // ★デフォルト設定：開いた時は必ず「完了済みを隠す」モードにする
             isHideCompleted = true;
             const btn = document.getElementById('toggleCompletedBtn');
             if(btn) btn.textContent = "完了済みを表示";
@@ -1488,7 +1526,7 @@
             }
 
             items.forEach(item => {
-                if (isHideCompleted && item.is_checked) return; // ★完了済みは描画スキップ
+                if (isHideCompleted && item.is_checked) return; 
                 
                 const itemDiv = document.createElement('div');
                 itemDiv.className = 'checklist-item';
@@ -1589,7 +1627,7 @@
         }
 
         // ========================================================
-        // アーカイブ・完全削除ロジック
+        // アーカイブ・復元・完全削除ロジック
         // ========================================================
         async function archiveTask() {
             if (!confirm("このタスクを（アーカイブ）へ送りますか？")) return;
@@ -1616,7 +1654,10 @@
                     listDiv.innerHTML += `
                         <div style="display:flex; justify-content:space-between; padding:10px; background:rgba(255,255,255,0.05); margin-bottom:8px; border-radius:4px; align-items:center;">
                             <span>${t.title}</span>
-                            <button class="btn btn-danger" style="padding:4px 8px; font-size:12px;" onclick="deleteTaskPermanently(${t.id})">削除</button>
+                            <div>
+                                <button class="btn btn-outline" style="padding:4px 8px; font-size:12px; margin-right: 5px;" onclick="restoreTask(${t.id})">復元</button>
+                                <button class="btn btn-danger" style="padding:4px 8px; font-size:12px;" onclick="deleteTaskPermanently(${t.id})">完全消滅</button>
+                            </div>
                         </div>
                     `;
                 });
@@ -1624,8 +1665,19 @@
             document.getElementById('archiveModal').style.display = 'flex';
         }
 
+        // ★追加：タスクの復元機能
+        async function restoreTask(id) {
+            await fetch(`/api/tasks/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ is_archived: false })
+            });
+            openArchiveModal(); // リストを更新
+            fetchBoardData(); // ボード画面も更新
+        }
+
         async function deleteTaskPermanently(id) {
-            if (!confirm("データを削除させます。復元できません。")) return;
+            if (!confirm("データを完全消滅させます。復元できません。")) return;
             await fetch(`/api/tasks/${id}`, { method: 'DELETE' });
             openArchiveModal();
             fetchBoardData();

@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Depends
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
 from pydantic import BaseModel
 from typing import Optional, List
 from sqlalchemy import create_engine, Column, Integer, String, Boolean, DateTime, text
@@ -73,6 +73,7 @@ class BoardDB(Base):
     __tablename__ = "boards"
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String, index=True)
+    background_url = Column(String, default="") # ★追加：背景画像のURL
 
 class ColumnDB(Base):
     __tablename__ = "columns"
@@ -110,9 +111,16 @@ class CommentDB(Base):
 
 Base.metadata.create_all(bind=engine)
 
+# ★安全なマイグレーション（テーブル構造の自動アップデート）
 try:
     with engine.begin() as conn:
         conn.execute(text("ALTER TABLE tasks ADD COLUMN order_idx INTEGER DEFAULT 0"))
+except Exception:
+    pass
+
+try:
+    with engine.begin() as conn:
+        conn.execute(text("ALTER TABLE boards ADD COLUMN background_url VARCHAR DEFAULT ''"))
 except Exception:
     pass
 
@@ -134,7 +142,6 @@ class ApprovalToggle(BaseModel):
 class PasswordReset(BaseModel):
     new_password: str
 
-# ★追加：ユーザー自身によるパスワード変更用
 class SelfPasswordChange(BaseModel):
     username: str
     current_password: str
@@ -144,7 +151,8 @@ class BoardCreate(BaseModel):
     title: str
 
 class BoardUpdate(BaseModel):
-    title: str
+    title: Optional[str] = None
+    background_url: Optional[str] = None # ★追加：背景画像の更新用
 
 class ColumnCreate(BaseModel):
     board_id: int
@@ -207,20 +215,12 @@ def read_root():
 @app.post("/api/register")
 def register_user(user: UserAuth, db: Session = Depends(get_db)):
     existing = db.query(UserDB).filter(UserDB.username == user.username).first()
-    
-    if existing:
-        return {"error": "このユーザー名は既に使われています"}
+    if existing: return {"error": "このユーザー名は既に使われています"}
     
     is_first_user = db.query(UserDB).count() == 0
     hashed_pw = get_password_hash(user.password)
     
-    new_user = UserDB(
-        username=user.username,
-        password=hashed_pw,
-        is_admin=is_first_user,
-        is_approved=is_first_user
-    )
-    
+    new_user = UserDB(username=user.username, password=hashed_pw, is_admin=is_first_user, is_approved=is_first_user)
     db.add(new_user)
     db.commit()
     
@@ -229,26 +229,14 @@ def register_user(user: UserAuth, db: Session = Depends(get_db)):
         db.add(default_board)
         db.commit()
         
-    return {
-        "message": "Success",
-        "is_approved": is_first_user
-    }
+    return {"message": "Success", "is_approved": is_first_user}
 
 @app.post("/api/login")
 def login_user(user: UserAuth, db: Session = Depends(get_db)):
     target = db.query(UserDB).filter(UserDB.username == user.username).first()
-    
-    if not target or not verify_password(user.password, target.password):
-        return {"error": "ユーザー名かパスワードが間違っています"}
-        
-    if not target.is_approved:
-        return {"error": "管理者の承認待ちです。"}
-        
-    return {
-        "message": "Success",
-        "username": target.username,
-        "is_admin": target.is_admin
-    }
+    if not target or not verify_password(user.password, target.password): return {"error": "ユーザー名かパスワードが間違っています"}
+    if not target.is_approved: return {"error": "管理者の承認待ちです。"}
+    return {"message": "Success", "username": target.username, "is_admin": target.is_admin}
 
 @app.get("/api/users")
 def get_users(db: Session = Depends(get_db)):
@@ -281,14 +269,10 @@ def reset_password(username: str, pwd_data: PasswordReset, db: Session = Depends
         return {"message": "Success"}
     return {"error": "Not found"}
 
-# ★追加：自分自身でのパスワード変更
 @app.put("/api/users/me/password")
 def change_own_password(pwd_data: SelfPasswordChange, db: Session = Depends(get_db)):
     target = db.query(UserDB).filter(UserDB.username == pwd_data.username).first()
-    
-    if not target or not verify_password(pwd_data.current_password, target.password):
-        return {"error": "現在のパスワードが間違っています"}
-        
+    if not target or not verify_password(pwd_data.current_password, target.password): return {"error": "現在のパスワードが間違っています"}
     target.password = get_password_hash(pwd_data.new_password)
     db.commit()
     return {"message": "Success"}
@@ -319,7 +303,10 @@ def create_board(board: BoardCreate, db: Session = Depends(get_db)):
 def update_board(board_id: int, board: BoardUpdate, db: Session = Depends(get_db)):
     target = db.query(BoardDB).filter(BoardDB.id == board_id).first()
     if target:
-        target.title = board.title
+        if board.title is not None:
+            target.title = board.title
+        if board.background_url is not None:
+            target.background_url = board.background_url
         db.commit()
         return target
     return {"error": "Not found"}
@@ -343,11 +330,7 @@ def get_columns(board_id: int, db: Session = Depends(get_db)):
 @app.post("/api/columns")
 def create_column(column: ColumnCreate, db: Session = Depends(get_db)):
     count = db.query(ColumnDB).filter(ColumnDB.board_id == column.board_id).count()
-    new_column = ColumnDB(
-        board_id=column.board_id, 
-        title=column.title,
-        order_idx=count
-    )
+    new_column = ColumnDB(board_id=column.board_id, title=column.title, order_idx=count)
     db.add(new_column)
     db.commit()
     db.refresh(new_column)
@@ -357,10 +340,8 @@ def create_column(column: ColumnCreate, db: Session = Depends(get_db)):
 def update_column(column_id: int, column: ColumnUpdate, db: Session = Depends(get_db)):
     target = db.query(ColumnDB).filter(ColumnDB.id == column_id).first()
     if target:
-        if column.title is not None:
-            target.title = column.title
-        if column.color is not None:
-            target.color = column.color
+        if column.title is not None: target.title = column.title
+        if column.color is not None: target.color = column.color
         db.commit()
         return target
     return {"error": "Not found"}
@@ -369,8 +350,7 @@ def update_column(column_id: int, column: ColumnUpdate, db: Session = Depends(ge
 def reorder_columns(orders: List[ColumnOrderUpdate], db: Session = Depends(get_db)):
     for order in orders:
         target = db.query(ColumnDB).filter(ColumnDB.id == order.id).first()
-        if target:
-            target.order_idx = order.order_idx
+        if target: target.order_idx = order.order_idx
     db.commit()
     return {"message": "Success"}
 
@@ -391,12 +371,7 @@ def get_tasks(board_id: int, db: Session = Depends(get_db)):
 @app.post("/api/tasks")
 def create_task(task: TaskCreate, db: Session = Depends(get_db)):
     count = db.query(TaskDB).filter(TaskDB.column_id == task.column_id).count()
-    new_task = TaskDB(
-        board_id=task.board_id,
-        column_id=task.column_id,
-        title=task.title,
-        order_idx=count
-    )
+    new_task = TaskDB(board_id=task.board_id, column_id=task.column_id, title=task.title, order_idx=count)
     db.add(new_task)
     db.commit()
     db.refresh(new_task)
@@ -406,16 +381,11 @@ def create_task(task: TaskCreate, db: Session = Depends(get_db)):
 def update_task(task_id: int, task_update: TaskUpdate, db: Session = Depends(get_db)):
     target = db.query(TaskDB).filter(TaskDB.id == task_id).first()
     if target:
-        if task_update.title is not None:
-            target.title = task_update.title
-        if task_update.column_id is not None:
-            target.column_id = task_update.column_id
-        if task_update.description is not None:
-            target.description = task_update.description
-        if task_update.is_archived is not None:
-            target.is_archived = task_update.is_archived
-        if task_update.due_date is not None:
-            target.due_date = task_update.due_date
+        if task_update.title is not None: target.title = task_update.title
+        if task_update.column_id is not None: target.column_id = task_update.column_id
+        if task_update.description is not None: target.description = task_update.description
+        if task_update.is_archived is not None: target.is_archived = task_update.is_archived
+        if task_update.due_date is not None: target.due_date = task_update.due_date
         db.commit()
         db.refresh(target)
         return target
@@ -447,10 +417,7 @@ def get_checklist(task_id: int, db: Session = Depends(get_db)):
 
 @app.post("/api/tasks/{task_id}/checklist")
 def create_checklist_item(task_id: int, item: ChecklistItemCreate, db: Session = Depends(get_db)):
-    new_item = ChecklistItemDB(
-        task_id=task_id, 
-        title=item.title
-    )
+    new_item = ChecklistItemDB(task_id=task_id, title=item.title)
     db.add(new_item)
     db.commit()
     db.refresh(new_item)
@@ -482,11 +449,7 @@ def get_comments(task_id: int, db: Session = Depends(get_db)):
 
 @app.post("/api/tasks/{task_id}/comments")
 def create_comment(task_id: int, comment: CommentCreate, db: Session = Depends(get_db)):
-    new_comment = CommentDB(
-        task_id=task_id, 
-        content=comment.content, 
-        author=comment.author
-    )
+    new_comment = CommentDB(task_id=task_id, content=comment.content, author=comment.author)
     db.add(new_comment)
     db.commit()
     db.refresh(new_comment)
@@ -510,3 +473,30 @@ def delete_comment(comment_id: int, db: Session = Depends(get_db)):
         db.commit()
         return {"message": "Deleted"}
     return {"error": "Not found"}
+
+# =========================================================
+# 6. バックアップ機能（全データのエクスポート）
+# =========================================================
+@app.get("/api/backup")
+def export_backup(db: Session = Depends(get_db)):
+    users = db.query(UserDB).all()
+    boards = db.query(BoardDB).all()
+    columns = db.query(ColumnDB).all()
+    tasks = db.query(TaskDB).all()
+    checklists = db.query(ChecklistItemDB).all()
+    comments = db.query(CommentDB).all()
+    
+    backup_data = {
+        "export_date": datetime.now().isoformat(),
+        "users": [{"id": u.id, "username": u.username, "is_admin": u.is_admin} for u in users],
+        "boards": [{"id": b.id, "title": b.title, "background_url": b.background_url} for b in boards],
+        "columns": [{"id": c.id, "board_id": c.board_id, "title": c.title, "color": c.color, "order_idx": c.order_idx} for c in columns],
+        "tasks": [{"id": t.id, "board_id": t.board_id, "column_id": t.column_id, "title": t.title, "description": t.description, "due_date": t.due_date, "is_archived": t.is_archived, "order_idx": t.order_idx} for t in tasks],
+        "checklists": [{"id": i.id, "task_id": i.task_id, "title": i.title, "is_checked": i.is_checked} for i in checklists],
+        "comments": [{"id": c.id, "task_id": c.task_id, "author": c.author, "content": c.content, "created_at": c.created_at.isoformat() if c.created_at else None} for c in comments]
+    }
+    
+    return JSONResponse(
+        content=backup_data, 
+        headers={"Content-Disposition": 'attachment; filename="orbit_backup.json"'}
+    )
