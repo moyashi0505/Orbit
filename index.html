@@ -16,8 +16,8 @@
            ======================================================== */
         body {
             font-family: 'Segoe UI', sans-serif;
-            background-color: #030013; /* 背景画像がない時のベースカラー */
-            background-image: linear-gradient(135deg, #02001f 0%, #0b093a 40%, #17115c 70%, #030013 100%); /* デフォルト背景 */
+            background-color: #030013; 
+            background-image: linear-gradient(135deg, #02001f 0%, #0b093a 40%, #17115c 70%, #030013 100%); 
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -305,7 +305,7 @@
             font-size: 14px;
             cursor: pointer;
             transition: background 0.2s, transform 0.1s;
-            backdrop-filter: blur(5px); /* 背景を入れた時用に見やすく */
+            backdrop-filter: blur(5px);
         }
 
         .card:hover {
@@ -580,7 +580,10 @@
     </style>
 </head>
 <body>
-    <div class="beta-badge">BETA v1.3</div>
+    <div class="beta-badge">BETA v1.1</div>
+    
+    <input type="file" id="bgFileInput" accept="image/png, image/jpeg" style="display: none;" onchange="uploadBackground(event)">
+
     <div id="authOverlay">
         <div class="auth-box">
             <h2 style="margin-bottom: 5px;">Orbit Identity</h2>
@@ -611,7 +614,7 @@
                     <div class="board-controls-top">
                         <select id="boardSelect" class="board-selector" onchange="switchBoard()"></select>
                         <button class="btn btn-outline" onclick="renameCurrentBoard()">✏️ 名前変更</button>
-                        <button id="bgChangeBtn" class="btn btn-outline" style="display: none; color: #10b981; border-color: rgba(16, 185, 129, 0.4);" onclick="changeBoardBackground()">🌌 背景変更</button>
+                        <button id="bgChangeBtn" class="btn btn-outline" style="display: none; color: #10b981; border-color: rgba(16, 185, 129, 0.4);" onclick="promptBackgroundChange()">🌌 背景変更</button>
                         <button class="btn btn-outline" style="color: #ff7676; border-color: rgba(255, 118, 118, 0.4);" onclick="deleteCurrentBoard()">🗑️ 削除</button>
                     </div>
                 </div>
@@ -728,9 +731,9 @@
         let draggedTask = null;
         let isHideCompleted = true; 
         
-        window.allBoards = []; // ★全ボード情報を一時保存する用
+        window.allBoards = []; 
 
-        const SESSION_TIMEOUT_MS = 24 * 60 * 60 * 1000; // 24時間
+        const SESSION_TIMEOUT_MS = 24 * 60 * 60 * 1000; 
 
         function hexToRgba(hex, alpha) {
             let r = parseInt(hex.slice(1, 3), 16);
@@ -764,10 +767,10 @@
                 
                 if (isCurrentUserAdmin) {
                     document.getElementById('adminBadge').style.display = 'inline-block';
-                    document.getElementById('bgChangeBtn').style.display = 'inline-block'; // ★背景変更ボタンを表示
+                    document.getElementById('bgChangeBtn').style.display = 'inline-block'; 
                 } else {
                     document.getElementById('adminBadge').style.display = 'none';
-                    document.getElementById('bgChangeBtn').style.display = 'none'; // ★背景変更ボタンを隠す
+                    document.getElementById('bgChangeBtn').style.display = 'none'; 
                 }
                 
                 document.getElementById('authOverlay').style.display = 'none';
@@ -920,9 +923,27 @@
             document.getElementById('accountModal').style.display = 'flex';
         }
 
-        function downloadBackup() {
+        // ★追加：確実にJSONファイルとしてダウンロードさせる処理
+        async function downloadBackup() {
             if(confirm("全フライトデータをJSON形式でダウンロードしますか？\n※アップデート作業の前には必ず実施してください。")) {
-                window.open('/api/backup', '_blank');
+                try {
+                    const res = await fetch('/api/backup');
+                    const blob = await res.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    
+                    const date = new Date();
+                    const dateStr = date.getFullYear() + String(date.getMonth() + 1).padStart(2, '0') + String(date.getDate()).padStart(2, '0');
+                    
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `orbit_backup_${dateStr}.json`;
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    window.URL.revokeObjectURL(url);
+                } catch(e) {
+                    alert("ダウンロードに失敗しました。");
+                }
             }
         }
 
@@ -1027,7 +1048,7 @@
         async function fetchBoards() {
             const res = await fetch('/api/boards');
             const boards = await res.json();
-            window.allBoards = boards; // ★背景適用のためグローバルに保存
+            window.allBoards = boards; 
             
             const select = document.getElementById('boardSelect');
             select.innerHTML = '';
@@ -1134,18 +1155,50 @@
             fetchBoards();
         }
 
-        // ★追加：管理者専用 背景変更ロジック
-        async function changeBoardBackground() {
-            if (!currentBoardId) return;
-            const url = prompt("背景画像のURLを入力してください\n※クリアする場合は空欄のままOKを押してください。");
-            if (url === null) return; // キャンセル時
+        // ★追加：背景変更の選択ダイアログ
+        function promptBackgroundChange() {
+            const action = prompt("背景の変更:\n1: PCから新しい画像をアップロード\n2: 画像URLを直接指定\n3: 背景をクリア(リセット)\n\n番号(1〜3)を入力してください:", "1");
             
+            if (action === "1") {
+                document.getElementById('bgFileInput').click();
+            } else if (action === "2") {
+                const url = prompt("画像のURLを入力してください:");
+                if (url) updateBackgroundUrl(url);
+            } else if (action === "3") {
+                updateBackgroundUrl("");
+            }
+        }
+
+        // ★追加：ローカル画像のBase64変換とアップロード処理
+        function uploadBackground(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            // データベース容量圧迫を防ぐため2MB制限
+            if (file.size > 2 * 1024 * 1024) {
+                alert("申し訳ありません、画像サイズは2MB以下にしてください。\n（データベース保護のため）");
+                event.target.value = '';
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const base64String = e.target.result;
+                updateBackgroundUrl(base64String);
+            };
+            reader.readAsDataURL(file);
+            event.target.value = ''; // 連続アップロード可能にするためのリセット
+        }
+
+        // ★追加：データベースに背景URL(またはBase64)を保存
+        async function updateBackgroundUrl(url) {
+            if (!currentBoardId) return;
             await fetch(`/api/boards/${currentBoardId}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ background_url: url })
             });
-            fetchBoards(); // 再読み込みして適用
+            fetchBoards();
         }
 
         async function deleteCurrentBoard() {
@@ -1166,7 +1219,6 @@
         async function fetchBoardData() {
             currentBoardId = localStorage.getItem('orbit_current_board_id') ? parseInt(localStorage.getItem('orbit_current_board_id')) : currentBoardId;
 
-            // ★背景画像の適用処理
             const currentBoardData = window.allBoards.find(b => b.id === currentBoardId);
             if (currentBoardData && currentBoardData.background_url) {
                 document.body.style.backgroundImage = `linear-gradient(rgba(2, 0, 31, 0.7), rgba(3, 0, 19, 0.9)), url('${currentBoardData.background_url}')`;
@@ -1665,15 +1717,14 @@
             document.getElementById('archiveModal').style.display = 'flex';
         }
 
-        // ★追加：タスクの復元機能
         async function restoreTask(id) {
             await fetch(`/api/tasks/${id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ is_archived: false })
             });
-            openArchiveModal(); // リストを更新
-            fetchBoardData(); // ボード画面も更新
+            openArchiveModal(); 
+            fetchBoardData(); 
         }
 
         async function deleteTaskPermanently(id) {
