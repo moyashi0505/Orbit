@@ -1,0 +1,256 @@
+{
+  "export_date": "2026-06-06T04:17:31.082943",
+  "users": [],
+  "boards": [
+    {
+      "id": 1,
+      "title": "自分の Trello ボード",
+      "background_url": ""
+    }
+  ],
+  "columns": [
+    {
+      "id": 1,
+      "board_id": 1,
+      "title": "Trello Starter Guide",
+      "color": "#0b0d22",
+      "order_idx": 0
+    },
+    {
+      "id": 2,
+      "board_id": 1,
+      "title": "Today",
+      "color": "#0b0d22",
+      "order_idx": 1
+    },
+    {
+      "id": 3,
+      "board_id": 1,
+      "title": "This Week",
+      "color": "#0b0d22",
+      "order_idx": 2
+    },
+    {
+      "id": 4,
+      "board_id": 1,
+      "title": "Later",
+      "color": "#0b0d22",
+      "order_idx": 3
+    }
+  ],
+  "tasks": [
+    {
+      "id": 1,
+      "board_id": 1,
+      "column_id": 1,
+      "title": "https://www.loom.com/share/0e6813b76cd44ca48d892af56be658f5?sid=80638cfb-e43b-42df-8940-63f4811bb13f",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 0
+    },
+    {
+      "id": 2,
+      "board_id": 1,
+      "column_id": 1,
+      "title": "Capture from email, Slack, and Teams",
+      "description": "**Quickly add to-dos from email, Slack, Microsoft Teams, and more!**\n\n- **Send emails to your Trello Inbox as cards** for reminders and to-dos by forwarding an email to [inbox@app.trello.com](mailto:inbox@app.trello.com \"‌\"). Find out more by [visiting our help page](https://support.atlassian.com/trello/docs/creating-cards-by-email/ \"‌\").\n- **Save important messages from Slack and Microsoft Teams** **to your Inbox** so you can read, process, and prioritize them later. Try out the different ways in the checklist below!\n\n[https://www.loom.com/share/f6b5f37a57904b56ae05ce6f1a4c5225?sid=e0eb8092-414f-4eaf-99c4-d13f864fcb05](https://www.loom.com/share/f6b5f37a57904b56ae05ce6f1a4c5225?sid=e0eb8092-414f-4eaf-99c4-d13f864fcb05 \"smartCard-embed\")\n\n[https://www.loom.com/share/edbf69cbd3074bc1a9bbc5569b5f4d60?sid=e225b951-a4b8-4d0f-b2e2-69299423aab4](https://www.loom.com/share/edbf69cbd3074bc1a9bbc5569b5f4d60?sid=e225b951-a4b8-4d0f-b2e2-69299423aab4 \"smartCard-embed\")\n\n[https://www.loom.com/share/5893d52dac36450f8e1f1190d8e92282](https://www.loom.com/share/5893d52dac36450f8e1f1190d8e92282 \"smartCard-embed\")",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 1
+    },
+    {
+      "id": 3,
+      "board_id": 1,
+      "column_id": 1,
+      "title": "Dive into Trello basics",
+      "description": "- **Organize your to-dos with boards** by curating Lists and using card features\n- **Schedule with Planner** by connecting your calendar to Trello and scheduling time to focus on getting things done.\n- **Tie it all together** by viewing your Inbox, boards, and Planner side-by-side to organize all your to-dos. You can expand or collapse each panel using the navigation bar.\n\n[https://www.loom.com/share/0b76968e11e74f54affba7e080800c91?sid=aef7ae51-8273-4cfc-9e66-0226e8084592](https://www.loom.com/share/0b76968e11e74f54affba7e080800c91?sid=aef7ae51-8273-4cfc-9e66-0226e8084592 \"smartCard-embed\")",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 2
+    },
+    {
+      "id": 4,
+      "board_id": 1,
+      "column_id": 1,
+      "title": "Download the mobile app",
+      "description": "**Trello brings all your ideas, to-dos, and tools together wherever you go!**\n\n[Get the mobile app](https://trello.com/platforms \"‌\") :iphone: and escape the clutter and chaos of scattered tasks.\n\n[https://www.loom.com/share/c9fcc8326c86478b9d052be88b133ba4?sid=40430591-d8bd-4b61-9074-ee220f083422](https://www.loom.com/share/c9fcc8326c86478b9d052be88b133ba4?sid=40430591-d8bd-4b61-9074-ee220f083422 \"smartCard-embed\")",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 3
+    },
+    {
+      "id": 5,
+      "board_id": 1,
+      "column_id": 1,
+      "title": "Work smarter",
+      "description": "Supercharge your productivity in Trello with features like **automation, AI, card mirroring,** and **Power-ups**.",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 4
+    },
+    {
+      "id": 6,
+      "board_id": 1,
+      "column_id": 1,
+      "title": "Manage your team's projects",
+      "description": "**With Trello and Jira together, you can accomplish anything with cross-functional teams.**\n\nLove the ease of Trello but looking for project management features for your cross-functional teams? Check out **Jira**!\n\nJira combines powerful features _(subtasks, reporting, and more!)_ with an easy-to-use interface. Because it’s brought to you by the same company as Trello, it will also integrate with your Trello board through **Jira lists**, letting you manage your work wherever feels right to you.\n\n### Curious? [Try Jira now](https://www.atlassian.com/software/jira \"‌\")",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 5
+    },
+    {
+      "id": 7,
+      "board_id": 1,
+      "column_id": 2,
+      "title": "ああ",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 140737488355328
+    }
+  ],
+  "checklists": [
+    {
+      "id": 1,
+      "task_id": 6,
+      "title": "Sign up for Jira https://www.atlassian.com/software/jira",
+      "is_checked": false
+    },
+    {
+      "id": 2,
+      "task_id": 6,
+      "title": "Create a Jira list in Trello to track and manage a list of Jira issues",
+      "is_checked": false
+    },
+    {
+      "id": 3,
+      "task_id": 4,
+      "title": "Get the Trello mobile app https://trello.com/platforms",
+      "is_checked": false
+    },
+    {
+      "id": 4,
+      "task_id": 4,
+      "title": "Add a to-do to :inbox_tray: Inbox from :iphone: mobile",
+      "is_checked": false
+    },
+    {
+      "id": 5,
+      "task_id": 4,
+      "title": "Use :microphone: voice-to-capture from your iPhone to add a to-do to Inbox by saying \"Hey Siri, add [Card name] to Trello\"",
+      "is_checked": false
+    },
+    {
+      "id": 6,
+      "task_id": 2,
+      "title": "Send an email to inbox@app.trello.com from the email associated with your Trello account",
+      "is_checked": false
+    },
+    {
+      "id": 7,
+      "task_id": 2,
+      "title": "[Open Trello in Slack](https://slack.com/app_redirect?app=A074YH40Z)",
+      "is_checked": false
+    },
+    {
+      "id": 8,
+      "task_id": 2,
+      "title": "Add a Trello card from Slack by using Slack's 'Save for later' feature",
+      "is_checked": false
+    },
+    {
+      "id": 9,
+      "task_id": 2,
+      "title": "Add a Trello card from Slack by reacting to a message with the :inbox_tray: emoji",
+      "is_checked": false
+    },
+    {
+      "id": 10,
+      "task_id": 2,
+      "title": "[Connect your Trello and Microsoft Teams accounts](https://teams.microsoft.com/l/app/49e6f432-d79c-49e8-94f7-89b94f3672fd)",
+      "is_checked": false
+    },
+    {
+      "id": 11,
+      "task_id": 2,
+      "title": "Add a Trello card from Microsoft Teams by clicking on the message in Teams and selecting 'Create card'",
+      "is_checked": false
+    },
+    {
+      "id": 12,
+      "task_id": 3,
+      "title": "Organize your to-dos by dragging and dropping a card from :inbox_tray: Inbox to :arrow_right: board",
+      "is_checked": false
+    },
+    {
+      "id": 13,
+      "task_id": 3,
+      "title": "Add a due date :calendar: to the card of an upcoming to-do",
+      "is_checked": false
+    },
+    {
+      "id": 14,
+      "task_id": 3,
+      "title": "Add and apply labels or custom fields to organize your cards (i.e. work, personal, high, medium, or low)",
+      "is_checked": false
+    },
+    {
+      "id": 15,
+      "task_id": 3,
+      "title": "Mark a to-do as complete by hovering over a card and selecting \"mark complete\" :white_check_mark:",
+      "is_checked": false
+    },
+    {
+      "id": 16,
+      "task_id": 3,
+      "title": "Connect your calendar :calendar:",
+      "is_checked": false
+    },
+    {
+      "id": 17,
+      "task_id": 3,
+      "title": "Schedule time for your to-dos by dragging and dropping a card from :inbox_tray: Inbox to :arrow_right: Planner :calendar:",
+      "is_checked": false
+    },
+    {
+      "id": 18,
+      "task_id": 3,
+      "title": "Toggle :left_right_arrow: the icons in the navigation bar to see different views of your boards, Inbox, Planner, and the Board Switcher",
+      "is_checked": false
+    },
+    {
+      "id": 19,
+      "task_id": 5,
+      "title": "Improve your communication with cardback descriptions or comments with Trello AI :sparkles: https://www.atlassian.com/blog/trello/introducing-ai-powered-trello",
+      "is_checked": false
+    },
+    {
+      "id": 20,
+      "task_id": 5,
+      "title": "Set up a :repeat: repeatable task with automation https://trello.com/guide/automate-anything",
+      "is_checked": false
+    },
+    {
+      "id": 21,
+      "task_id": 5,
+      "title": "Mirror :eyes: a card to view or edit it from more than one board",
+      "is_checked": false
+    },
+    {
+      "id": 22,
+      "task_id": 5,
+      "title": "Get more Trello superpowers and integrations by adding Power-ups :sparkles: https://trello.com/power-ups",
+      "is_checked": false
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "task_id": 7,
+      "content": "aiueo",
+      "author": "SHOHEI YAMASAKI (Trello)",
+      "created_at": "2026-06-05T19:13:22.228"
+    }
+  ]
+}

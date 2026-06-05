@@ -11,9 +11,6 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><ellipse cx=%2250%22 cy=%2250%22 rx=%2246%22 ry=%2216%22 transform=%22rotate(-30 50 50)%22 fill=%22none%22 stroke=%22%2300d2ff%22 stroke-width=%228%22/><g transform=%22rotate(20 50 50)%22><rect x=%2220%22 y=%2246%22 width=%2260%22 height=%228%22 fill=%22%23ffffff%22/><rect x=%228%22 y=%2236%22 width=%2224%22 height=%2228%22 rx=%224%22 fill=%22%2310b981%22/><rect x=%2268%22 y=%2236%22 width=%2224%22 height=%2228%22 rx=%224%22 fill=%22%2310b981%22/><rect x=%2236%22 y=%2220%22 width=%2228%22 height=%2260%22 rx=%226%22 fill=%22%23ffffff%22/><circle cx=%2250%22 cy=%2235%22 r=%226%22 fill=%22%2302001f%22/><circle cx=%2250%22 cy=%2265%22 r=%224%22 fill=%22%2300d2ff%22/></g></svg>">
     
     <style>
-        /* ========================================================
-           1. ベース・宇宙デザインスタイル
-           ======================================================== */
         body {
             font-family: 'Segoe UI', sans-serif;
             background-color: #030013; 
@@ -41,9 +38,6 @@
             white-space: nowrap;
         }
 
-        /* ========================================================
-           2. ログイン画面（認証オーバーレイ）
-           ======================================================== */
         #authOverlay {
             position: fixed;
             top: 0px;
@@ -107,9 +101,6 @@
             text-align: left;
         }
 
-        /* ========================================================
-           3. メインアプリケーションUI
-           ======================================================== */
         #appContainer {
             display: none;
         }
@@ -386,9 +377,6 @@
             background: rgba(255, 255, 255, 0.1);
         }
 
-        /* ========================================================
-           4. モーダル ＆ 詳細デザイン
-           ======================================================== */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -580,9 +568,10 @@
     </style>
 </head>
 <body>
-    <div class="beta-badge">BETA v1.1</div>
+    <div class="beta-badge">BETA v1.5</div>
     
     <input type="file" id="bgFileInput" accept="image/png, image/jpeg" style="display: none;" onchange="uploadBackground(event)">
+    <input type="file" id="restoreFileInput" accept=".json" style="display: none;" onchange="uploadRestoreFile(event)">
 
     <div id="authOverlay">
         <div class="auth-box">
@@ -888,7 +877,10 @@
                 listDiv.innerHTML = `
                     <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top:30px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom:5px;">
                         <p style="color:#00d2ff; font-size:12px; margin: 0;">🛠️ 全メンバーの権限管理（管理者専用）</p>
-                        <button class="btn btn-success" style="font-size: 12px; padding: 4px 10px;" onclick="downloadBackup()">💾 全データバックアップ</button>
+                        <div>
+                            <button class="btn btn-outline" style="font-size: 12px; padding: 4px 10px; border-color: #f59e0b; color: #f59e0b; margin-right: 10px;" onclick="document.getElementById('restoreFileInput').click()">📥 復元(読込)</button>
+                            <button class="btn btn-success" style="font-size: 12px; padding: 4px 10px;" onclick="downloadBackup()">💾 バックアップ(保存)</button>
+                        </div>
                     </div>
                 `;
                 
@@ -926,7 +918,6 @@
             document.getElementById('accountModal').style.display = 'flex';
         }
 
-        // ★追加：確実にJSONファイルとしてダウンロードさせる処理
         async function downloadBackup() {
             if(confirm("全フライトデータをJSON形式でダウンロードしますか？\n※アップデート作業の前には必ず実施してください。")) {
                 try {
@@ -948,6 +939,43 @@
                     alert("ダウンロードに失敗しました。");
                 }
             }
+        }
+
+        // ★追加：アップロードと復元の処理
+        function uploadRestoreFile(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            if (!confirm("⚠️ 警告：現在のすべてのボードとタスクが消去され、選択したバックアップファイルの状態に上書きされます。\n本当によろしいですか？")) {
+                event.target.value = '';
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = async function(e) {
+                try {
+                    const jsonData = JSON.parse(e.target.result);
+                    
+                    const res = await fetch('/api/backup/restore', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(jsonData)
+                    });
+                    
+                    const data = await res.json();
+                    
+                    if (data.message === "Success") {
+                        alert("✅ データの復元が完了しました！画面を更新します。");
+                        location.reload(); 
+                    } else {
+                        alert("復元エラー: " + data.error);
+                    }
+                } catch(err) {
+                    alert("ファイルの読み込みに失敗しました。正しいJSONファイルか確認してください。");
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = ''; 
         }
 
         async function changeMyPassword() {
@@ -1158,7 +1186,6 @@
             fetchBoards();
         }
 
-        // ★追加：背景変更の選択ダイアログ
         function promptBackgroundChange() {
             const action = prompt("背景の変更:\n1: PCから新しい画像をアップロード\n2: 画像URLを直接指定\n3: 背景をクリア(リセット)\n\n番号(1〜3)を入力してください:", "1");
             
@@ -1172,12 +1199,10 @@
             }
         }
 
-        // ★追加：ローカル画像のBase64変換とアップロード処理
         function uploadBackground(event) {
             const file = event.target.files[0];
             if (!file) return;
             
-            // データベース容量圧迫を防ぐため2MB制限
             if (file.size > 2 * 1024 * 1024) {
                 alert("申し訳ありません、画像サイズは2MB以下にしてください。\n（データベース保護のため）");
                 event.target.value = '';
@@ -1190,10 +1215,9 @@
                 updateBackgroundUrl(base64String);
             };
             reader.readAsDataURL(file);
-            event.target.value = ''; // 連続アップロード可能にするためのリセット
+            event.target.value = ''; 
         }
 
-        // ★追加：データベースに背景URL(またはBase64)を保存
         async function updateBackgroundUrl(url) {
             if (!currentBoardId) return;
             await fetch(`/api/boards/${currentBoardId}`, {
@@ -1224,7 +1248,6 @@
 
             const currentBoardData = window.allBoards.find(b => b.id === currentBoardId);
             if (currentBoardData && currentBoardData.background_url) {
-                // ★暗幕（linear-gradient）を外し、画像だけを直接表示する
                 document.body.style.backgroundImage = `url('${currentBoardData.background_url}')`;
             } else {
                 document.body.style.backgroundImage = "linear-gradient(135deg, #02001f 0%, #0b093a 40%, #17115c 70%, #030013 100%)";

@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, Request
 from fastapi.responses import FileResponse, JSONResponse
 from pydantic import BaseModel
 from typing import Optional, List
@@ -73,7 +73,7 @@ class BoardDB(Base):
     __tablename__ = "boards"
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String, index=True)
-    background_url = Column(String, default="") # ★追加：背景画像のURL
+    background_url = Column(String, default="") 
 
 class ColumnDB(Base):
     __tablename__ = "columns"
@@ -111,7 +111,7 @@ class CommentDB(Base):
 
 Base.metadata.create_all(bind=engine)
 
-# ★安全なマイグレーション（テーブル構造の自動アップデート）
+# マイグレーション
 try:
     with engine.begin() as conn:
         conn.execute(text("ALTER TABLE tasks ADD COLUMN order_idx INTEGER DEFAULT 0"))
@@ -152,7 +152,7 @@ class BoardCreate(BaseModel):
 
 class BoardUpdate(BaseModel):
     title: Optional[str] = None
-    background_url: Optional[str] = None # ★追加：背景画像の更新用
+    background_url: Optional[str] = None
 
 class ColumnCreate(BaseModel):
     board_id: int
@@ -475,7 +475,7 @@ def delete_comment(comment_id: int, db: Session = Depends(get_db)):
     return {"error": "Not found"}
 
 # =========================================================
-# 6. バックアップ機能（全データのエクスポート）
+# 6. バックアップ・復元機能
 # =========================================================
 @app.get("/api/backup")
 def export_backup(db: Session = Depends(get_db)):
@@ -500,3 +500,32 @@ def export_backup(db: Session = Depends(get_db)):
         content=backup_data, 
         headers={"Content-Disposition": 'attachment; filename="orbit_backup.json"'}
     )
+
+@app.post("/api/backup/restore")
+async def restore_backup(request: Request, db: Session = Depends(get_db)):
+    try:
+        data = await request.json()
+        
+        db.query(BoardDB).delete()
+        db.query(ColumnDB).delete()
+        db.query(TaskDB).delete()
+        db.query(ChecklistItemDB).delete()
+        db.query(CommentDB).delete()
+        
+        for b in data.get("boards", []):
+            db.add(BoardDB(id=b["id"], title=b["title"], background_url=b.get("background_url", "")))
+        for c in data.get("columns", []):
+            db.add(ColumnDB(id=c["id"], board_id=c["board_id"], title=c["title"], color=c["color"], order_idx=c["order_idx"]))
+        for t in data.get("tasks", []):
+            db.add(TaskDB(id=t["id"], board_id=t["board_id"], column_id=t["column_id"], title=t["title"], description=t["description"], is_archived=t["is_archived"], due_date=t["due_date"], order_idx=t["order_idx"]))
+        for i in data.get("checklists", []):
+            db.add(ChecklistItemDB(id=i["id"], task_id=i["task_id"], title=i["title"], is_checked=i["is_checked"]))
+        for c in data.get("comments", []):
+            created_at = datetime.fromisoformat(c["created_at"]) if c["created_at"] else datetime.now()
+            db.add(CommentDB(id=c["id"], task_id=c["task_id"], content=c["content"], author=c["author"], created_at=created_at))
+            
+        db.commit()
+        return {"message": "Success"}
+    except Exception as e:
+        db.rollback()
+        return {"error": str(e)}
