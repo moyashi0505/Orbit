@@ -1243,7 +1243,24 @@
         // ========================================================
         // 列とタスクの取得・表示
         // ========================================================
+        // ========================================================
+        // 列とタスクの取得・表示
+        // ========================================================
         async function fetchBoardData() {
+            // ★1. 更新前の「スクロール位置」を記憶する
+            const boardDiv = document.getElementById('board');
+            const scrollPositions = {
+                boardLeft: boardDiv.scrollLeft,
+                taskLists: {}
+            };
+            const taskListElements = boardDiv.querySelectorAll('.column');
+            taskListElements.forEach(col => {
+                const listDiv = col.querySelector('.task-list');
+                if (listDiv) {
+                    scrollPositions.taskLists[col.id] = listDiv.scrollTop;
+                }
+            });
+
             currentBoardId = localStorage.getItem('orbit_current_board_id') ? parseInt(localStorage.getItem('orbit_current_board_id')) : currentBoardId;
 
             const currentBoardData = window.allBoards.find(b => b.id === currentBoardId);
@@ -1254,19 +1271,19 @@
             }
 
             if (!currentBoardId) {
-                const boardDiv = document.getElementById('board');
                 boardDiv.innerHTML = '';
                 return;
             }
             
-            const boardDiv = document.getElementById('board');
-            boardDiv.innerHTML = ''; 
-            
+            // ★2. APIで最新データを取得（この間は古い画面を残したままにしてチラつきを防ぐ）
             const columnsRes = await fetch(`/api/boards/${currentBoardId}/columns`);
             const columns = await columnsRes.json();
             
             const tasksRes = await fetch(`/api/boards/${currentBoardId}/tasks`);
             const tasks = await tasksRes.json();
+
+            // 最新データが届いたら、ここで初めて画面をクリアして再構築
+            boardDiv.innerHTML = ''; 
 
             columns.forEach(column => {
                 const colDiv = document.createElement('div');
@@ -1359,6 +1376,18 @@
                 
                 colDiv.appendChild(addTaskBtn);
                 boardDiv.appendChild(colDiv);
+            });
+
+            // ★3. 記憶しておいたスクロール位置を復元する
+            boardDiv.scrollLeft = scrollPositions.boardLeft;
+            const newColumns = boardDiv.querySelectorAll('.column');
+            newColumns.forEach(col => {
+                if (scrollPositions.taskLists[col.id] !== undefined) {
+                    const listDiv = col.querySelector('.task-list');
+                    if (listDiv) {
+                        listDiv.scrollTop = scrollPositions.taskLists[col.id];
+                    }
+                }
             });
         }
 

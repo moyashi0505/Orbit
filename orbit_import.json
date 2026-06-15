@@ -1,10 +1,10 @@
 {
-  "export_date": "2026-06-06T04:17:31.082943",
+  "export_date": "2026-06-06T22:09:45.530820",
   "users": [],
   "boards": [
     {
       "id": 1,
-      "title": "自分の Trello ボード",
+      "title": "GRAPHIUM",
       "background_url": ""
     }
   ],
@@ -12,30 +12,107 @@
     {
       "id": 1,
       "board_id": 1,
-      "title": "Trello Starter Guide",
+      "title": "Readme",
       "color": "#0b0d22",
       "order_idx": 0
     },
     {
       "id": 2,
       "board_id": 1,
-      "title": "Today",
+      "title": "全体，雑務",
       "color": "#0b0d22",
       "order_idx": 1
     },
     {
       "id": 3,
       "board_id": 1,
-      "title": "This Week",
+      "title": "コンプトンカメラ",
       "color": "#0b0d22",
       "order_idx": 2
     },
     {
       "id": 4,
       "board_id": 1,
-      "title": "Later",
+      "title": "空力FF制御",
       "color": "#0b0d22",
       "order_idx": 3
+    },
+    {
+      "id": 5,
+      "board_id": 1,
+      "title": "航法",
+      "color": "#0b0d22",
+      "order_idx": 4
+    },
+    {
+      "id": 6,
+      "board_id": 1,
+      "title": "誘導，最終軌道どうするか",
+      "color": "#0b0d22",
+      "order_idx": 5
+    },
+    {
+      "id": 7,
+      "board_id": 1,
+      "title": "分離シーケンス",
+      "color": "#0b0d22",
+      "order_idx": 6
+    },
+    {
+      "id": 8,
+      "board_id": 1,
+      "title": "TMコンフィグ",
+      "color": "#0b0d22",
+      "order_idx": 7
+    },
+    {
+      "id": 9,
+      "board_id": 1,
+      "title": "分離機構",
+      "color": "#0b0d22",
+      "order_idx": 8
+    },
+    {
+      "id": 10,
+      "board_id": 1,
+      "title": "AOCS",
+      "color": "#0b0d22",
+      "order_idx": 9
+    },
+    {
+      "id": 11,
+      "board_id": 1,
+      "title": "電源系",
+      "color": "#0b0d22",
+      "order_idx": 10
+    },
+    {
+      "id": 12,
+      "board_id": 1,
+      "title": "熱系",
+      "color": "#0b0d22",
+      "order_idx": 11
+    },
+    {
+      "id": 13,
+      "board_id": 1,
+      "title": "構造系",
+      "color": "#0b0d22",
+      "order_idx": 12
+    },
+    {
+      "id": 14,
+      "board_id": 1,
+      "title": "CDH/Comm",
+      "color": "#0b0d22",
+      "order_idx": 13
+    },
+    {
+      "id": 15,
+      "board_id": 1,
+      "title": "camera系",
+      "color": "#0b0d22",
+      "order_idx": 14
     }
   ],
   "tasks": [
@@ -43,7 +120,7 @@
       "id": 1,
       "board_id": 1,
       "column_id": 1,
-      "title": "https://www.loom.com/share/0e6813b76cd44ca48d892af56be658f5?sid=80638cfb-e43b-42df-8940-63f4811bb13f",
+      "title": "タスク完了はアーカイブでOK",
       "description": "",
       "due_date": "",
       "is_archived": false,
@@ -53,8 +130,8 @@
       "id": 2,
       "board_id": 1,
       "column_id": 1,
-      "title": "Capture from email, Slack, and Teams",
-      "description": "**Quickly add to-dos from email, Slack, Microsoft Teams, and more!**\n\n- **Send emails to your Trello Inbox as cards** for reminders and to-dos by forwarding an email to [inbox@app.trello.com](mailto:inbox@app.trello.com \"‌\"). Find out more by [visiting our help page](https://support.atlassian.com/trello/docs/creating-cards-by-email/ \"‌\").\n- **Save important messages from Slack and Microsoft Teams** **to your Inbox** so you can read, process, and prioritize them later. Try out the different ways in the checklist below!\n\n[https://www.loom.com/share/f6b5f37a57904b56ae05ce6f1a4c5225?sid=e0eb8092-414f-4eaf-99c4-d13f864fcb05](https://www.loom.com/share/f6b5f37a57904b56ae05ce6f1a4c5225?sid=e0eb8092-414f-4eaf-99c4-d13f864fcb05 \"smartCard-embed\")\n\n[https://www.loom.com/share/edbf69cbd3074bc1a9bbc5569b5f4d60?sid=e225b951-a4b8-4d0f-b2e2-69299423aab4](https://www.loom.com/share/edbf69cbd3074bc1a9bbc5569b5f4d60?sid=e225b951-a4b8-4d0f-b2e2-69299423aab4 \"smartCard-embed\")\n\n[https://www.loom.com/share/5893d52dac36450f8e1f1190d8e92282](https://www.loom.com/share/5893d52dac36450f8e1f1190d8e92282 \"smartCard-embed\")",
+      "title": "PMが管理，基本MTGで確認する",
+      "description": "",
       "due_date": "",
       "is_archived": false,
       "order_idx": 1
@@ -62,195 +139,2798 @@
     {
       "id": 3,
       "board_id": 1,
-      "column_id": 1,
-      "title": "Dive into Trello basics",
-      "description": "- **Organize your to-dos with boards** by curating Lists and using card features\n- **Schedule with Planner** by connecting your calendar to Trello and scheduling time to focus on getting things done.\n- **Tie it all together** by viewing your Inbox, boards, and Planner side-by-side to organize all your to-dos. You can expand or collapse each panel using the navigation bar.\n\n[https://www.loom.com/share/0b76968e11e74f54affba7e080800c91?sid=aef7ae51-8273-4cfc-9e66-0226e8084592](https://www.loom.com/share/0b76968e11e74f54affba7e080800c91?sid=aef7ae51-8273-4cfc-9e66-0226e8084592 \"smartCard-embed\")",
+      "column_id": 2,
+      "title": "学生PMの設立",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 0
+    },
+    {
+      "id": 4,
+      "board_id": 1,
+      "column_id": 2,
+      "title": "2月PDR目標",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 1
+    },
+    {
+      "id": 5,
+      "board_id": 1,
+      "column_id": 2,
+      "title": "システム関連文書の整理・確認",
+      "description": "- リソース管理表\n- ハーネス管理\n- 基板、コンポーネント管理\n- システムダイアグラム",
       "due_date": "",
       "is_archived": false,
       "order_idx": 2
     },
     {
-      "id": 4,
+      "id": 6,
       "board_id": 1,
-      "column_id": 1,
-      "title": "Download the mobile app",
-      "description": "**Trello brings all your ideas, to-dos, and tools together wherever you go!**\n\n[Get the mobile app](https://trello.com/platforms \"‌\") :iphone: and escape the clutter and chaos of scattered tasks.\n\n[https://www.loom.com/share/c9fcc8326c86478b9d052be88b133ba4?sid=40430591-d8bd-4b61-9074-ee220f083422](https://www.loom.com/share/c9fcc8326c86478b9d052be88b133ba4?sid=40430591-d8bd-4b61-9074-ee220f083422 \"smartCard-embed\")",
+      "column_id": 2,
+      "title": "SNSアカウント",
+      "description": "",
       "due_date": "",
       "is_archived": false,
       "order_idx": 3
     },
     {
-      "id": 5,
+      "id": 7,
       "board_id": 1,
-      "column_id": 1,
-      "title": "Work smarter",
-      "description": "Supercharge your productivity in Trello with features like **automation, AI, card mirroring,** and **Power-ups**.",
+      "column_id": 2,
+      "title": "内閣府宇宙活動法",
+      "description": "",
       "due_date": "",
       "is_archived": false,
       "order_idx": 4
     },
     {
-      "id": 6,
+      "id": 8,
       "board_id": 1,
-      "column_id": 1,
-      "title": "Manage your team's projects",
-      "description": "**With Trello and Jira together, you can accomplish anything with cross-functional teams.**\n\nLove the ease of Trello but looking for project management features for your cross-functional teams? Check out **Jira**!\n\nJira combines powerful features _(subtasks, reporting, and more!)_ with an easy-to-use interface. Because it’s brought to you by the same company as Trello, it will also integrate with your Trello board through **Jira lists**, letting you manage your work wherever feels right to you.\n\n### Curious? [Try Jira now](https://www.atlassian.com/software/jira \"‌\")",
+      "column_id": 2,
+      "title": "24年度高い&長納期買い物",
+      "description": "- 基板類 → ACUF，ACUC類，mPDU再発注．座間見→東京ドロウィング\n- 通信系 → アドニクスDRU,DHUが撤退？iqspace？ひばりの地上品？\n- アンテナ→東北坂本？戸村先生が開発が濃厚．サブ案でうみつばめのやつ．\n- スラスタ，paleblue．今年度に執行はしたいが，，電気モデル触ってからがいい？3月執行はする！デモ機を借りちゃっていい，最短12月納品．\n- EPOS2 → 20台くらい目安に．発注済み．\n- モータ（ギア，IncEnc.），EM2台，11月中発注\n- レゾルバ（多摩川），RDC（多摩川orルネサス），11月中発注\n- 駆動系のボックス，11月中発注\n- 太陽電池セル or SAPごと → セルだけにしたい．シャープガラスカバー1000万\n- ADCS MTQ → NewSpaceか，自作1本だけ載せる？\n- SASはある, GAS → NewSpace, cubespace？アルプス．箱自作．\n- ピンプラー → HDRM．1個100万，1，2個試しに買うか．→試しに買ってもやることはないので後でいい",
       "due_date": "",
       "is_archived": false,
       "order_idx": 5
     },
     {
-      "id": 7,
+      "id": 9,
       "board_id": 1,
       "column_id": 2,
-      "title": "ああ",
-      "description": "",
+      "title": "25年度買い物",
+      "description": "XTx → 発注\n\nスラスタEMハーネス → 納品待ち，納品済み\n\nレゾルバ　→ 発注済み\n\n基板類　→ 東ドロ，末発注．作成の準備中，ディスコンICはひばりあまりを渡す，mPDUの改修をするか？しないなら納期2ヶ月，200万円\n\nヒートスプレッダ　納期半年程度，発注済み\n\nグラファイトシートはPETREL用のある\n\n銀テフ　50万円\n\nセル接着剤．EM用は提供してくれる\n\nFM用モータ（真空対応），数ヶ月\n\nEM筐体，ギアボックス\nリリースナット，見積もり\n\nフィル材\nMLI 三月のうひん",
       "due_date": "",
       "is_archived": false,
-      "order_idx": 140737488355328
-    }
-  ],
-  "checklists": [
-    {
-      "id": 1,
-      "task_id": 6,
-      "title": "Sign up for Jira https://www.atlassian.com/software/jira",
-      "is_checked": false
-    },
-    {
-      "id": 2,
-      "task_id": 6,
-      "title": "Create a Jira list in Trello to track and manage a list of Jira issues",
-      "is_checked": false
-    },
-    {
-      "id": 3,
-      "task_id": 4,
-      "title": "Get the Trello mobile app https://trello.com/platforms",
-      "is_checked": false
-    },
-    {
-      "id": 4,
-      "task_id": 4,
-      "title": "Add a to-do to :inbox_tray: Inbox from :iphone: mobile",
-      "is_checked": false
-    },
-    {
-      "id": 5,
-      "task_id": 4,
-      "title": "Use :microphone: voice-to-capture from your iPhone to add a to-do to Inbox by saying \"Hey Siri, add [Card name] to Trello\"",
-      "is_checked": false
-    },
-    {
-      "id": 6,
-      "task_id": 2,
-      "title": "Send an email to inbox@app.trello.com from the email associated with your Trello account",
-      "is_checked": false
-    },
-    {
-      "id": 7,
-      "task_id": 2,
-      "title": "[Open Trello in Slack](https://slack.com/app_redirect?app=A074YH40Z)",
-      "is_checked": false
-    },
-    {
-      "id": 8,
-      "task_id": 2,
-      "title": "Add a Trello card from Slack by using Slack's 'Save for later' feature",
-      "is_checked": false
-    },
-    {
-      "id": 9,
-      "task_id": 2,
-      "title": "Add a Trello card from Slack by reacting to a message with the :inbox_tray: emoji",
-      "is_checked": false
+      "order_idx": 6
     },
     {
       "id": 10,
-      "task_id": 2,
-      "title": "[Connect your Trello and Microsoft Teams accounts](https://teams.microsoft.com/l/app/49e6f432-d79c-49e8-94f7-89b94f3672fd)",
-      "is_checked": false
+      "board_id": 1,
+      "column_id": 2,
+      "title": "打ち上げ機の交渉 → 谷津さん",
+      "description": "イプシロンが可能性，テストフライトとして革新が載る枠",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 7
     },
     {
       "id": 11,
-      "task_id": 2,
-      "title": "Add a Trello card from Microsoft Teams by clicking on the message in Teams and selecting 'Create card'",
-      "is_checked": false
+      "board_id": 1,
+      "column_id": 2,
+      "title": "ロガーとか買いたい",
+      "description": "安定化電源",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 8
     },
     {
       "id": 12,
-      "task_id": 3,
-      "title": "Organize your to-dos by dragging and dropping a card from :inbox_tray: Inbox to :arrow_right: board",
-      "is_checked": false
+      "board_id": 1,
+      "column_id": 2,
+      "title": "イプシロンSとしてIF相談",
+      "description": "質量：70kgまでいけるか\n\nLightband径：構造強度，コンプトンカメラの視野角の店から15inch\n\nインヒビット：SAP保持機構はインヒビット必要？",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 9
     },
     {
       "id": 13,
-      "task_id": 3,
-      "title": "Add a due date :calendar: to the card of an upcoming to-do",
-      "is_checked": false
+      "board_id": 1,
+      "column_id": 2,
+      "title": "イプシロンとして，SAP保持機構はインヒビット必要か",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 10
     },
     {
       "id": 14,
-      "task_id": 3,
-      "title": "Add and apply labels or custom fields to organize your cards (i.e. work, personal, high, medium, or low)",
-      "is_checked": false
+      "board_id": 1,
+      "column_id": 2,
+      "title": "内閣府，電波申請の流れ",
+      "description": "TMについて\n\n内閣府にElsadなどがどうしてたのか，事例を聞く．\n\n内閣府にも，tmはハンガリーのもの，としとけば楽かも（得体が知れている）\n\n東工大としてファイリングをつくってしまうか　→　SEDに投げる\n\n総務省にまずは相談　→ 2025/05/12．\n\nハンガリーで免許はとってくれる\n\nAWSでの受信も考えている（赤外の要求で）",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 11
     },
     {
       "id": 15,
-      "task_id": 3,
-      "title": "Mark a to-do as complete by hovering over a card and selecting \"mark complete\" :white_check_mark:",
-      "is_checked": false
+      "board_id": 1,
+      "column_id": 2,
+      "title": "電波申請，実験計画書",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 12
     },
     {
       "id": 16,
-      "task_id": 3,
-      "title": "Connect your calendar :calendar:",
-      "is_checked": false
+      "board_id": 1,
+      "column_id": 2,
+      "title": "10月放射線試験",
+      "description": "ICHU\n\nGaNPCU電源素子，選定\n\nTM，MPPT LT〜",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 13
     },
     {
       "id": 17,
-      "task_id": 3,
-      "title": "Schedule time for your to-dos by dragging and dropping a card from :inbox_tray: Inbox to :arrow_right: Planner :calendar:",
-      "is_checked": false
+      "board_id": 1,
+      "column_id": 2,
+      "title": "TID試験のまとめ",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 14
     },
     {
       "id": 18,
-      "task_id": 3,
-      "title": "Toggle :left_right_arrow: the icons in the navigation bar to see different views of your boards, Inbox, Planner, and the Board Switcher",
-      "is_checked": false
+      "board_id": 1,
+      "column_id": 2,
+      "title": "放射線試験",
+      "description": "SEE，データ解析→ 座間見\n\nTID（川口，高橋，座間見，やすだ，，，，荒井，，，，やまだ，）",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 15
     },
     {
       "id": 19,
-      "task_id": 5,
-      "title": "Improve your communication with cardback descriptions or comments with Trello AI :sparkles: https://www.atlassian.com/blog/trello/introducing-ai-powered-trello",
-      "is_checked": false
+      "board_id": 1,
+      "column_id": 2,
+      "title": "AWS",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 16
     },
     {
       "id": 20,
-      "task_id": 5,
-      "title": "Set up a :repeat: repeatable task with automation https://trello.com/guide/automate-anything",
-      "is_checked": false
+      "board_id": 1,
+      "column_id": 2,
+      "title": "衛星名，ミッション名/機器の名前",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 17
     },
     {
       "id": 21,
-      "task_id": 5,
-      "title": "Mirror :eyes: a card to view or edit it from more than one board",
-      "is_checked": false
+      "board_id": 1,
+      "column_id": 2,
+      "title": "軌道制御系のコンフィグ",
+      "description": "通信IFの拡張ボード．要求仕様をまとめて東どろか",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 18
     },
     {
       "id": 22,
-      "task_id": 5,
-      "title": "Get more Trello superpowers and integrations by adding Power-ups :sparkles: https://trello.com/power-ups",
-      "is_checked": false
+      "board_id": 1,
+      "column_id": 3,
+      "title": "観測手法．衛星軌道面内 vs 反太陽",
+      "description": "・面内は日照でマヌーバ必要だが，熱設計しやすい\n\n・観測時間 - 銀径の谷の偏りが観測系としてはどちらかというとありがたい",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 0
+    },
+    {
+      "id": 23,
+      "board_id": 1,
+      "column_id": 3,
+      "title": "25/1月 構造モデル振動試験",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 1
+    },
+    {
+      "id": 24,
+      "board_id": 1,
+      "column_id": 3,
+      "title": "銀河面から少し離れた天体の観測を含めて成立するか",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 2
+    },
+    {
+      "id": 25,
+      "board_id": 1,
+      "column_id": 3,
+      "title": "観測時間の計算",
+      "description": "・銀河面から少し離れた天体の観測を含めて成立するか\n\n・ダウンリンクやアップリンクの時間",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 3
+    },
+    {
+      "id": 26,
+      "board_id": 1,
+      "column_id": 3,
+      "title": "カメラ系のシステムコンフィグ",
+      "description": "DAQボックスとmaincamボックスは別のが楽なのでそうなる予定\n\nCHUはカメラと1：1で搭載．今回は3台で取りまとめの基板",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 4
+    },
+    {
+      "id": 27,
+      "board_id": 1,
+      "column_id": 3,
+      "title": "CHUの仕様",
+      "description": "xink，ultrascale，versal",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 5
+    },
+    {
+      "id": 28,
+      "board_id": 1,
+      "column_id": 3,
+      "title": "CHUにラズパイ（linux）の機能も載せて直で使う",
+      "description": "ソフトウェアの仕様を東ドロに渡して，実装（移植）もしてもらう方針．仕様を渡すのは5月中",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 6
+    },
+    {
+      "id": 29,
+      "board_id": 1,
+      "column_id": 3,
+      "title": "電源遮断のテスト",
+      "description": "SAAなどでは電源をどこまで落とすか？high vol, analogも\n\n段階的に電源を切っていくことはない，mPDUで\n\n電源遮断も，\n\nSAA，オーロラ帯ではデータ量が増える可能性があるので，その場合電源OFF．コマンド量に余裕があるか",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 7
+    },
+    {
+      "id": 30,
+      "board_id": 1,
+      "column_id": 3,
+      "title": "観測とダウンリンクとの競合",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 8
+    },
+    {
+      "id": 31,
+      "board_id": 1,
+      "column_id": 3,
+      "title": "アップリンクコマンド数",
+      "description": "最初は今までのようなコマンドアップリンク手法で，ある程度落ち着いてきたら，衛星がテーブルを持って，ある程度自律でやれるようにするのも視野",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 9
+    },
+    {
+      "id": 32,
+      "board_id": 1,
+      "column_id": 3,
+      "title": "コンプトンカメラ内部の断熱度合いを調整",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 10
+    },
+    {
+      "id": 33,
+      "board_id": 1,
+      "column_id": 3,
+      "title": "CHUデバッグポート",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 11
+    },
+    {
+      "id": 34,
+      "board_id": 1,
+      "column_id": 4,
+      "title": "工学ミッションで使える時間，タイミング　→ 全体で相談",
+      "description": "3ヶ月くらいは欲しい",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 0
+    },
+    {
+      "id": 35,
+      "board_id": 1,
+      "column_id": 4,
+      "title": "論文サーベイ，実装．スプレッドシートで管理",
+      "description": "スプレッドシートに記入\n\n[https://docs.google.com/spreadsheets/d/1e87uvFmirwb_AMFG9iK-qDIlTIdr4evtZz7H3oI4RSI/edit#gid=1633145144](https://docs.google.com/spreadsheets/d/1e87uvFmirwb_AMFG9iK-qDIlTIdr4evtZz7H3oI4RSI/edit#gid=1633145144 \"smartCard-inline\")",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 1
+    },
+    {
+      "id": 36,
+      "board_id": 1,
+      "column_id": 4,
+      "title": "制御精度，オーダー，支配的誤差？",
+      "description": "- 大気密度など誤差を入れたときの制御誤差蓄積，推進剤消費量の見積もり\n- 1km未満のFF維持の成立性",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 2
+    },
+    {
+      "id": 37,
+      "board_id": 1,
+      "column_id": 4,
+      "title": "Bevilaqua式制御手法実装",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 3
+    },
+    {
+      "id": 38,
+      "board_id": 1,
+      "column_id": 4,
+      "title": "大気密度推定手法",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 4
+    },
+    {
+      "id": 39,
+      "board_id": 1,
+      "column_id": 4,
+      "title": "スラスタと比較したときの意義",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 5
+    },
+    {
+      "id": 40,
+      "board_id": 1,
+      "column_id": 4,
+      "title": "将来アプリケーションの検討",
+      "description": "空力は精度が出せないが，燃料を使わない\n\n軌道上組み立てやswarmを主張すべきか",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 6
+    },
+    {
+      "id": 41,
+      "board_id": 1,
+      "column_id": 4,
+      "title": "アプリケーション．オーロラステレオ観測",
+      "description": "相対軌道形状",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 7
+    },
+    {
+      "id": 42,
+      "board_id": 1,
+      "column_id": 4,
+      "title": "分離シーケンス",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 8
+    },
+    {
+      "id": 43,
+      "board_id": 1,
+      "column_id": 4,
+      "title": "FFシミュレータ書き換え",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 9
+    },
+    {
+      "id": 44,
+      "board_id": 1,
+      "column_id": 5,
+      "title": "論文サーベイ",
+      "description": "[https://docs.google.com/spreadsheets/d/1e87uvFmirwb_AMFG9iK-qDIlTIdr4evtZz7H3oI4RSI/edit#gid=1329025252](https://docs.google.com/spreadsheets/d/1e87uvFmirwb_AMFG9iK-qDIlTIdr4evtZz7H3oI4RSI/edit#gid=1329025252 \"smartCard-inline\")",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 0
+    },
+    {
+      "id": 45,
+      "board_id": 1,
+      "column_id": 5,
+      "title": "S帯相互通信",
+      "description": "地上用のアンテナ，通信機と何が違うのか？流用できそうじゃない？",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 1
+    },
+    {
+      "id": 46,
+      "board_id": 1,
+      "column_id": 5,
+      "title": "Angle Only Nav. の調査，基本原理の理解",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 2
+    },
+    {
+      "id": 47,
+      "board_id": 1,
+      "column_id": 5,
+      "title": "VBSに必要な撮影頻度→ CHUへの要求",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 3
+    },
+    {
+      "id": 48,
+      "board_id": 1,
+      "column_id": 5,
+      "title": "実証されている内容のサーベイ",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 4
+    },
+    {
+      "id": 49,
+      "board_id": 1,
+      "column_id": 5,
+      "title": "光通信",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 5
+    },
+    {
+      "id": 50,
+      "board_id": 1,
+      "column_id": 5,
+      "title": "有効範囲，精度",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 6
+    },
+    {
+      "id": 51,
+      "board_id": 1,
+      "column_id": 5,
+      "title": "実装方法．オンラインでどこまで？",
+      "description": "今回はどの機器が軌道推定計算するのか",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 7
+    },
+    {
+      "id": 52,
+      "board_id": 1,
+      "column_id": 5,
+      "title": "GPS情報の相互通信，その後の計算",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 8
+    },
+    {
+      "id": 53,
+      "board_id": 1,
+      "column_id": 5,
+      "title": "試験方法の検討",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 9
+    },
+    {
+      "id": 54,
+      "board_id": 1,
+      "column_id": 5,
+      "title": "どういった条件での分離，撮影ならTMを識別しやすいのか？",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 10
+    },
+    {
+      "id": 55,
+      "board_id": 1,
+      "column_id": 6,
+      "title": "論文サーベイ",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 0
+    },
+    {
+      "id": 56,
+      "board_id": 1,
+      "column_id": 6,
+      "title": "ref軌道 つくり",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 1
+    },
+    {
+      "id": 57,
+      "board_id": 1,
+      "column_id": 6,
+      "title": "delta e を変えるか，変えないか． 軌道制御の観点と，オーロラ観測の観点",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 2
+    },
+    {
+      "id": 58,
+      "board_id": 1,
+      "column_id": 6,
+      "title": "ei分離とか",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 3
+    },
+    {
+      "id": 59,
+      "board_id": 1,
+      "column_id": 6,
+      "title": "イントラック軌道",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 4
+    },
+    {
+      "id": 60,
+      "board_id": 1,
+      "column_id": 6,
+      "title": "レコード盤軌道",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 5
+    },
+    {
+      "id": 61,
+      "board_id": 1,
+      "column_id": 7,
+      "title": "論文サーベイ",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 0
+    },
+    {
+      "id": 62,
+      "board_id": 1,
+      "column_id": 7,
+      "title": "何も軌道制御できなくても最低何日維持できる？",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 1
+    },
+    {
+      "id": 63,
+      "board_id": 1,
+      "column_id": 7,
+      "title": "CWで1体解析",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 2
+    },
+    {
+      "id": 64,
+      "board_id": 1,
+      "column_id": 7,
+      "title": "運動方程式で1体解析",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 3
+    },
+    {
+      "id": 65,
+      "board_id": 1,
+      "column_id": 7,
+      "title": "打ち出し速度への要求",
+      "description": "どのような速度で打ち出すと，衝突リスク，消散リスクが少ないか？",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 4
+    },
+    {
+      "id": 66,
+      "board_id": 1,
+      "column_id": 7,
+      "title": "分離速度誤差に対する感度",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 5
+    },
+    {
+      "id": 67,
+      "board_id": 1,
+      "column_id": 7,
+      "title": "シナリオ作り",
+      "description": "放出から相対軌道形成まで\n\n軌道から摂動で外れた場合の再形成\n\nのシナリオを作ることがまずの目標\n\n\\#################################################\n\n分離シナリオの作成．2,3日離してからスラスタを吹いて戻ってくる想定．\n\nSafe…の論文では2回スラスタ噴射をして戻ってくる（Picoとの通信などERATOと条件が異なる）．\n\n例としてこれをERATOに適用したりして，燃料をどれくらい消費して戻ってこれるかシナリオを出す．",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 6
+    },
+    {
+      "id": 68,
+      "board_id": 1,
+      "column_id": 7,
+      "title": "スラスタ軌道制御手法",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 7
+    },
+    {
+      "id": 69,
+      "board_id": 1,
+      "column_id": 7,
+      "title": "低推力で大丈夫か",
+      "description": "もしかしたら，効率を下げて高推力できるかも（procyonがそれ）",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 8
+    },
+    {
+      "id": 70,
+      "board_id": 1,
+      "column_id": 8,
+      "title": "質量，体積",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 0
+    },
+    {
+      "id": 71,
+      "board_id": 1,
+      "column_id": 8,
+      "title": "搭載機器",
+      "description": "LED，バッテリ（or キャパシタ），GPSR",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 1
+    },
+    {
+      "id": 72,
+      "board_id": 1,
+      "column_id": 8,
+      "title": "ハンガリーC3SとMTG",
+      "description": "OWL，アマチュアバンドでダウンリンク可能．TMの弾道係数が不確定になる？\n\n高橋インターン？",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 2
+    },
+    {
+      "id": 73,
+      "board_id": 1,
+      "column_id": 8,
+      "title": "VBSでどの距離で見れるか",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 3
+    },
+    {
+      "id": 74,
+      "board_id": 1,
+      "column_id": 8,
+      "title": "空力FFを考えた時の最適な形状？表面特性？",
+      "description": "要求\n\n・衛星側との弾道係数一致　→ TMが取りうる弾道係数を計算\n\n・VBSでどの距離で見れるか",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 4
+    },
+    {
+      "id": 75,
+      "board_id": 1,
+      "column_id": 8,
+      "title": "OWL1個150万円（1万ユーロ）",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 5
+    },
+    {
+      "id": 76,
+      "board_id": 1,
+      "column_id": 8,
+      "title": "アンテナ展開までの時間は要求できる",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 6
+    },
+    {
+      "id": 77,
+      "board_id": 1,
+      "column_id": 8,
+      "title": "NDA後にドキュメントをもらえる",
+      "description": "アンテナ展開までの時間は要求できる",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 7
+    },
+    {
+      "id": 78,
+      "board_id": 1,
+      "column_id": 8,
+      "title": "OWLにバッテリが搭載．放出するときに枯渇してないか",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 8
+    },
+    {
+      "id": 79,
+      "board_id": 1,
+      "column_id": 9,
+      "title": "まずは直動ばねで実験をする",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 0
+    },
+    {
+      "id": 80,
+      "board_id": 1,
+      "column_id": 9,
+      "title": "分離機構の簡易作成＆実験",
+      "description": "3Dプリンタ",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 1
+    },
+    {
+      "id": 81,
+      "board_id": 1,
+      "column_id": 9,
+      "title": "分離の試験方法",
+      "description": "ロボットアームを使うまでいくか？",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 2
+    },
+    {
+      "id": 82,
+      "board_id": 1,
+      "column_id": 9,
+      "title": "アクチュエーターを何使うか",
+      "description": "ピンプラー＋ばね？\n\nリリースナット？",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 3
+    },
+    {
+      "id": 83,
+      "board_id": 1,
+      "column_id": 10,
+      "title": "スラスタ調査",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 0
+    },
+    {
+      "id": 84,
+      "board_id": 1,
+      "column_id": 10,
+      "title": "駆動系",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 1
+    },
+    {
+      "id": 85,
+      "board_id": 1,
+      "column_id": 10,
+      "title": "電気結合",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 2
+    },
+    {
+      "id": 86,
+      "board_id": 1,
+      "column_id": 10,
+      "title": "OCUF組み込みソフト",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 3
+    },
+    {
+      "id": 87,
+      "board_id": 1,
+      "column_id": 10,
+      "title": "加速度計調査，IMUとしてか",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 4
+    },
+    {
+      "id": 88,
+      "board_id": 1,
+      "column_id": 10,
+      "title": "OCUFのモータドライバ部分のソフト",
+      "description": "RZマイコン\n\nBBMを用いた試験",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 5
+    },
+    {
+      "id": 89,
+      "board_id": 1,
+      "column_id": 10,
+      "title": "GimbalCNT設計",
+      "description": "リミットスイッチ\n\nRDC\n\nリミットスイッチとインクリメンタルエンコーダで絶対角度知れるように",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 6
+    },
+    {
+      "id": 90,
+      "board_id": 1,
+      "column_id": 10,
+      "title": "振動試験後のIMUF動確レポート，TIDのレポート→シリコンへ",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 7
+    },
+    {
+      "id": 91,
+      "board_id": 1,
+      "column_id": 10,
+      "title": "MTQ の自作",
+      "description": "- 谷津研のB2学生がやってくれている．パラメータの理解が終わっている\n  - パラメータを振って2，3個試作してくれる\n- 電流値の上限検討",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 8
+    },
+    {
+      "id": 92,
+      "board_id": 1,
+      "column_id": 10,
+      "title": "駆動試験，EM振動試験前後で",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 9
+    },
+    {
+      "id": 93,
+      "board_id": 1,
+      "column_id": 10,
+      "title": "GyroCの成立性．できればシリコンセンシングの使いたい",
+      "description": "DMU11，SEE，TIDは通ってる\n\n通信IF的にもう無理",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 10
+    },
+    {
+      "id": 94,
+      "board_id": 1,
+      "column_id": 10,
+      "title": "DMU41-01 も載せて欲しいがbyシリコンセンシング",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 11
+    },
+    {
+      "id": 95,
+      "board_id": 1,
+      "column_id": 10,
+      "title": "スラスタELM動作確認",
+      "description": "ハーネス発注，コネクタが曲者\n\nコマンド確認，動作確認\n\nモード移行確認\n\n実際の運用を想定して使用，",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 12
+    },
+    {
+      "id": 96,
+      "board_id": 1,
+      "column_id": 10,
+      "title": "SASのソフトウェアテーブルが間違っていそう",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 13
+    },
+    {
+      "id": 97,
+      "board_id": 1,
+      "column_id": 10,
+      "title": "GyroF",
+      "description": "dmu41はSEE, TIDは通ってる",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 14
+    },
+    {
+      "id": 98,
+      "board_id": 1,
+      "column_id": 10,
+      "title": "tinyGPSの限界",
+      "description": "うみつばめで使っていたが、情報が欠落している。\n\nNMEAを理解して入れたい情報を抽出\n\nex. 位置精度低下率(PDOP)Position Dilution of Precision, 水平精度低下率(HDOP)Horizontal Dilution of Precision, 垂直精度低下率(VDOP)Vertical Dilution of Precision",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 15
+    },
+    {
+      "id": 99,
+      "board_id": 1,
+      "column_id": 10,
+      "title": "姿勢安定度は",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 16
+    },
+    {
+      "id": 100,
+      "board_id": 1,
+      "column_id": 10,
+      "title": "ACUF/OCUF、不揮発メモリとしてフラッシュ使いたい",
+      "description": "うみつばめではACUCのFRAMから読みだしているが、限界が来ているので自身で持ちたい",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 17
+    },
+    {
+      "id": 101,
+      "board_id": 1,
+      "column_id": 10,
+      "title": "TRIAD/QUESTのバグ",
+      "description": "- 磁気モデルからの磁場読み取りがおかしい？値は吐くけどそれっぽくないらしい\n- SASとGASから3軸姿勢を計算する\n- アルゴリズムへの理解を深めると同時にソフトウェアの欠陥を見つける\n- WMM の更新",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 18
+    },
+    {
+      "id": 102,
+      "board_id": 1,
+      "column_id": 10,
+      "title": "acos(dot(a,b))を使ったときのNaN",
+      "description": "- あるときにNaNを吐く\n- ライブラリ内のエラー処理を見る",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 19
+    },
+    {
+      "id": 103,
+      "board_id": 1,
+      "column_id": 10,
+      "title": "test",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 20
+    },
+    {
+      "id": 104,
+      "board_id": 1,
+      "column_id": 10,
+      "title": "GASの値がたまに変わらない",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 21
+    },
+    {
+      "id": 105,
+      "board_id": 1,
+      "column_id": 10,
+      "title": "おお",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 22
+    },
+    {
+      "id": 106,
+      "board_id": 1,
+      "column_id": 10,
+      "title": "GNSSR調査",
+      "description": "Dual fqを使うことで精度があがる．\nGRAPHIUMで新たに作る？買う？2024年当時\n\nPPSが2つ来てしまうとどちらを信じていいかわからなくなる\n2つのGPSをチューニングしてだしてくれるものは売っているのでそれを買うか検討？",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 23
+    },
+    {
+      "id": 107,
+      "board_id": 1,
+      "column_id": 10,
+      "title": "SASのシリアル番号とロットの確認をしてメーカに問い合わせ",
+      "description": "- 異常のある可能性があるSASの確認をしたい\n- SASを湿気のある環境に置いといたらうみつばめと同じ問題が再現するか\n- 再現したら真空引きして直るのか",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 24
+    },
+    {
+      "id": 108,
+      "board_id": 1,
+      "column_id": 10,
+      "title": "スプレセンスのgyroC",
+      "description": "- 今のコンフィグと同様にして使えるようにする\n- メインボードにスタックしなくても単体で使えるようにしたい\n- 通信電圧の変更\n- 今のgyroc基板の設計が変更になるイメージ",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 25
+    },
+    {
+      "id": 109,
+      "board_id": 1,
+      "column_id": 10,
+      "title": "mPDU基板rev2の抵抗実装",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 26
+    },
+    {
+      "id": 110,
+      "board_id": 1,
+      "column_id": 11,
+      "title": "SAPサイジング",
+      "description": "・各季節で観測ミッションを行えるか？\n\n・LVLHを維持できるか？空力制御パドルにもセルあってもよい．空力パドルの大きさへの要求にできるか？",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 0
+    },
+    {
+      "id": 111,
+      "board_id": 1,
+      "column_id": 11,
+      "title": "バッテリサイジング",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 1
+    },
+    {
+      "id": 112,
+      "board_id": 1,
+      "column_id": 11,
+      "title": "太陽電池セルの選定",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 2
+    },
+    {
+      "id": 113,
+      "board_id": 1,
+      "column_id": 11,
+      "title": "TM用の太陽電池セル",
+      "description": "ハンガリー工科経済大学，ピコサットはどうしてるのか？聞く\n\n[https://www.rtl-sdr.com/smog-1-pocketqube-satellite-successfully-launched-and-in-orbit/](https://www.rtl-sdr.com/smog-1-pocketqube-satellite-successfully-launched-and-in-orbit/ \"smartCard-inline\")\n\n‌\n\nmicrolink deviceは100万円くらい",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 3
+    },
+    {
+      "id": 114,
+      "board_id": 1,
+      "column_id": 11,
+      "title": "リリースナットを使うとして，展開方法の成立性確認",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 4
+    },
+    {
+      "id": 115,
+      "board_id": 1,
+      "column_id": 11,
+      "title": "リセット基板作成",
+      "description": "高橋電機さんとのかみ合わせ，試験目的を次回MTGで認識あわせ",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 5
+    },
+    {
+      "id": 116,
+      "board_id": 1,
+      "column_id": 11,
+      "title": "SAP直貼？セル基板？",
+      "description": "EL試験と模擬太陽光を当てる試験のそれぞれの目的，\n\n・受け入れ試験での太陽光模擬試験が大変なので，治具用意か割り切ってやらないか\n\n・ハーネス含めコンフィグ",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 6
+    },
+    {
+      "id": 117,
+      "board_id": 1,
+      "column_id": 11,
+      "title": "スタスタ運用中の電力成立性",
+      "description": "ヒーターとの兼ね合い，",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 7
+    },
+    {
+      "id": 118,
+      "board_id": 1,
+      "column_id": 11,
+      "title": "mPDUのコードを引き継ぐ",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 8
+    },
+    {
+      "id": 119,
+      "board_id": 1,
+      "column_id": 11,
+      "title": "クリティカルシーケンスをRWで成立するか？",
+      "description": "クリティカルの成立性コストを考えるとRWでできた方がいい\n\nセーフモードを考えるとクリティカルでRWで成立させる必要は薄い",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 9
+    },
+    {
+      "id": 120,
+      "board_id": 1,
+      "column_id": 11,
+      "title": "GaNPCU FMパラメータ決定",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 10
+    },
+    {
+      "id": 121,
+      "board_id": 1,
+      "column_id": 11,
+      "title": "太陽電池セル集約基板の作成・必要物品の発注",
+      "description": "・パターン設計\n\n・microDコネクタポスト発注",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 11
+    },
+    {
+      "id": 122,
+      "board_id": 1,
+      "column_id": 11,
+      "title": "ボディマウントセル用の基板発注",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 12
+    },
+    {
+      "id": 123,
+      "board_id": 1,
+      "column_id": 11,
+      "title": "ｍPDU改修",
+      "description": "改修後の動作確認，CHU，スラスタ・パドル系との結合作業（消費電力，突入電流計測）\nソースコード，動作確認手順の引継ぎ",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 13
+    },
+    {
+      "id": 124,
+      "board_id": 1,
+      "column_id": 11,
+      "title": "GaN-PCU EMの動作確認",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 14
+    },
+    {
+      "id": 125,
+      "board_id": 1,
+      "column_id": 11,
+      "title": "太陽電池セル割ってEL試験",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 15
+    },
+    {
+      "id": 126,
+      "board_id": 1,
+      "column_id": 11,
+      "title": "GaNPCU停波手順確認",
+      "description": "BAT 起動電源ON/OFFをご質問のパッシブテレメトリでモニタ出来る理解であっています。\n当初は軌道上でBAT起動電源OFFやOBCでモニタすることを高橋電機さんは想定していたようですが、試験用とすることで整理がついた理解です。日照時に Killsw2をOFF（RS422）し、SAP起動電源OFF(RS422）したあと、日陰になれば、次は起動しないという整理がついています。\nその手順のあと、SAP電源を投入しても起動しないことを確認していただけると幸いです。\n\n[22:33](https://petrelhq.slack.com/archives/C05V75F8AV6/p1765978415710269 \"‌\")\n\nEMの単体動作試験時にお願いしたいです。 ",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 16
+    },
+    {
+      "id": 127,
+      "board_id": 1,
+      "column_id": 11,
+      "title": "ハーネス動確",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 17
+    },
+    {
+      "id": 128,
+      "board_id": 1,
+      "column_id": 11,
+      "title": "ハーネス発注",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 18
+    },
+    {
+      "id": 129,
+      "board_id": 1,
+      "column_id": 11,
+      "title": "熱真空前にBATの試験を行う?",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 19
+    },
+    {
+      "id": 130,
+      "board_id": 1,
+      "column_id": 11,
+      "title": "MSPで温度センサを読む",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 20
+    },
+    {
+      "id": 131,
+      "board_id": 1,
+      "column_id": 11,
+      "title": "新しいmPDUの動作確認",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 21
+    },
+    {
+      "id": 132,
+      "board_id": 1,
+      "column_id": 12,
+      "title": "簡易熱解析により成立性の確認．必要放熱面，ヒータ量の見積もり",
+      "description": "ある程度は1接点\n\nミッションカメラ用のラジエータの必要有無は多節点",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 0
+    },
+    {
+      "id": 133,
+      "board_id": 1,
+      "column_id": 12,
+      "title": "必要ヒーター量",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 1
+    },
+    {
+      "id": 134,
+      "board_id": 1,
+      "column_id": 12,
+      "title": "DAQ部の配置をどうするか",
+      "description": "シンチレータ(0degCくらいを要求)をバスと断熱側に持って行った方が良さげなので，DAQはシンチと別パネルがいいか\n\nシンチレータはおそらくフランジで結合なので，筐体との熱結合は弱くなる．",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 2
+    },
+    {
+      "id": 135,
+      "board_id": 1,
+      "column_id": 12,
+      "title": "赤外の成立性検討",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 3
+    },
+    {
+      "id": 136,
+      "board_id": 1,
+      "column_id": 12,
+      "title": "MLIの作成，外注したい",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 4
+    },
+    {
+      "id": 137,
+      "board_id": 1,
+      "column_id": 12,
+      "title": "TD構築",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 5
+    },
+    {
+      "id": 138,
+      "board_id": 1,
+      "column_id": 12,
+      "title": "数節点解析",
+      "description": "過渡解析を含めて10月くらいまでにやる",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 6
+    },
+    {
+      "id": 139,
+      "board_id": 1,
+      "column_id": 12,
+      "title": "太陽電池セル熱試験",
+      "description": "接着剤，AESに貼り付け依頼，CFRPの入手\n\nセルはFM予備を待てるなら待つ",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 7
+    },
+    {
+      "id": 140,
+      "board_id": 1,
+      "column_id": 12,
+      "title": "ミッション時に成立するか",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 8
+    },
+    {
+      "id": 141,
+      "board_id": 1,
+      "column_id": 12,
+      "title": "システム熱真空のコンフィグ",
+      "description": "太陽電池セル → 余りもないし，なしでいいか\n\nガンマ線カメラ → 深宇宙指向模擬はできない",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 9
+    },
+    {
+      "id": 142,
+      "board_id": 1,
+      "column_id": 12,
+      "title": "MOTOR_UNIT単体熱真空試験？",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 10
+    },
+    {
+      "id": 143,
+      "board_id": 1,
+      "column_id": 12,
+      "title": "スラスタの熱真空試験",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 11
+    },
+    {
+      "id": 144,
+      "board_id": 1,
+      "column_id": 12,
+      "title": "スラスタの熱モデル",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 12
+    },
+    {
+      "id": 145,
+      "board_id": 1,
+      "column_id": 12,
+      "title": "XTX単体熱真空試験？",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 13
+    },
+    {
+      "id": 146,
+      "board_id": 1,
+      "column_id": 12,
+      "title": "TM熱解析",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 14
+    },
+    {
+      "id": 147,
+      "board_id": 1,
+      "column_id": 12,
+      "title": "EMシステム熱真空の施設予約",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 15
+    },
+    {
+      "id": 148,
+      "board_id": 1,
+      "column_id": 12,
+      "title": "BATとパネルの熱結合検討",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 16
+    },
+    {
+      "id": 149,
+      "board_id": 1,
+      "column_id": 12,
+      "title": "スラスタ，現状だとヒーター消費電力が大きすぎて電力が足りない．",
+      "description": "熱モデルの詳細化，電力マージン，\n\nアウトプット：結局スラスタはどのくらいのデューティで吹けるのか",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 17
+    },
+    {
+      "id": 150,
+      "board_id": 1,
+      "column_id": 12,
+      "title": "TDの外注先",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 18
+    },
+    {
+      "id": 151,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "6月末にEM筐体発注目標",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 0
+    },
+    {
+      "id": 152,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "EM振動試験のコンフィグ",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 1
+    },
+    {
+      "id": 153,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "コンポ振動試験のリスト",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 2
+    },
+    {
+      "id": 154,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "展開機構の駆動・振動試験",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 3
+    },
+    {
+      "id": 155,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "スラスタのインターフェース調整",
+      "description": "・取り付け方法，1面固定で大丈夫か．衝撃試験をできるモデルをもらえないか．\n\n・",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 4
+    },
+    {
+      "id": 156,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "機器搭載可非",
+      "description": "IF面に観測機器複数載っているが，強度的にどうなのか．",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 5
+    },
+    {
+      "id": 157,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "DAQ部の配置",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 6
+    },
+    {
+      "id": 158,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "展開方法の検討",
+      "description": "構体サイズを一回り大きくすればSAP多段展開はいらなくなるか？検討\n\nSAP，空力パドルをどう保持するか",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 7
+    },
+    {
+      "id": 159,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "特にIF面の機器搭載位置を変えて，強度概算",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 8
+    },
+    {
+      "id": 160,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "グレンエア　vs dcubed",
+      "description": "dcubedは実績がない，pierisと揃えるなら？\n\n中村さんは実績重視でグレンエアだが，\n\ndcubedの「実績があるもの」と「実績がない今回のもの」で差を聞いてみる\n\n‌\n\ndcubedはコーンズが扱っている",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 9
+    },
+    {
+      "id": 161,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "DAQの配置，2分するか",
+      "description": "構造的には背が高いと重心オフセットで問題出るかも",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 10
+    },
+    {
+      "id": 162,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "SAP，保持機構の強度解析",
+      "description": "SAPのハニカムのモデル化 → テクノソルバへ質問（前訪問して教えてもらったときの延長）",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 11
+    },
+    {
+      "id": 163,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "ラズパイカメラボックスの設計",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 12
+    },
+    {
+      "id": 164,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "スラスタの搭載方法",
+      "description": "ノズル何個載せるか，ノズルとタンクを別にするのか\n\n構造系から要求があればいい．（どのくらい推進剤載せられるのか）",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 13
+    },
+    {
+      "id": 165,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "赤外の成立性",
+      "description": "3U x 2台は入りそう",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 14
+    },
+    {
+      "id": 166,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "空力パドルの面積上限",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 15
+    },
+    {
+      "id": 167,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "CHU筐体設計 8月中",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 16
+    },
+    {
+      "id": 168,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "宇宙研振動試験の手続き",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 17
+    },
+    {
+      "id": 169,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "太陽電池パドルカバー作る(急ぎ)",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 18
+    },
+    {
+      "id": 170,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "INSPIREの固定フランジ設計",
+      "description": "ベースパネルの板厚による．\n\n直付とどちらが軽く作成できるか",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 19
+    },
+    {
+      "id": 171,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "構体発注",
+      "description": "加工5週+表面処理1週\n\n年末年始に注意",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 20
+    },
+    {
+      "id": 172,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "小野電機発注",
+      "description": "- BRIDGE (2種, 未設計，最悪振動試験ではなくともよい)\n- ~~HINGE*4 (設計済→図面OK)~~\n- STOPPER類(SAP\\_2, ACE\\_4, PANEL*2, 設計変更OK, 残り図面のみ)\n- ~~ACE*2(図面途中→OK)~~\n- DEBUGPORT(~~2種，未設計，最悪振動試験では適当に肉ぬいたパネルでよい(自作可能)~~→設計完了，図面作成中)\n- GIMBAL ガワ\n  - ~~リミットスイッチがまだ(最悪振動試験ではいらない)~~\n  - 設計は完了，必要部品だけ図面作成する→新人\n- STT台座(設計途中，最悪ダミーを兼ねた塊を載せるでOK)",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 21
+    },
+    {
+      "id": 173,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "吊具周り問題ないか確認",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 22
+    },
+    {
+      "id": 174,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "組み立て手順書作成",
+      "description": "～12月末ごろ\n\n新人にお願いしたい",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 23
+    },
+    {
+      "id": 175,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "加速度ピックアップ手配",
+      "description": "オリックスレンテック：3軸×17台 運送料込みで50万円\n\nSMFLレンタル：3軸×17台 運送料込みで41万円．ただし在庫が少ないのですべて用意できない可能性あり",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 24
+    },
+    {
+      "id": 176,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "衛星組立",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 25
+    },
+    {
+      "id": 177,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "振動試験搭載コンポーネント洗い出し→電気系に引き渡し",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 26
+    },
+    {
+      "id": 178,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "EM振動試験計画書作成",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 27
+    },
+    {
+      "id": 179,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "発注必要物",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 28
+    },
+    {
+      "id": 180,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "ダミーマス設計",
+      "description": "- IR\n- VIS\n- CHU\n- TM/TM_DEPLOYER\n- BAT\n- PCU\n- 6CELL*8\n- SASMTQ_DRIVER\n- MTQ*3 (※ パネルの切り欠きに入るサイズにすること)\n- OCUF_UNIT (中央の重りブロックのみでOK)\n- THRUSTER",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 29
+    },
+    {
+      "id": 181,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "振動試験用構造数学モデル",
+      "description": "最終版パネルの反映\n\nもし間に合わなくても，ダミーマス質量だけは反映する",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 30
+    },
+    {
+      "id": 182,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "試験場手配",
+      "description": "IMV：251120時点で2/6(金)~2/13(金)を仮予約．2/16~21も空いているかもしれない\n\nつくばAES：2月中は空いていない",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 31
+    },
+    {
+      "id": 183,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "輸送手配",
+      "description": "年末年始を挟むし年度末なので12月中くらいには",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 32
+    },
+    {
+      "id": 184,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "PAF手配",
+      "description": "IA全任せ\n\n12月頭につつき",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 33
+    },
+    {
+      "id": 185,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "ジンバル機構設計改修",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 34
+    },
+    {
+      "id": 186,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "ジンバル駆動試験",
+      "description": "ジンバル単体試験→\n\nACEつけて駆動試験→1月第二週ごろ",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 35
+    },
+    {
+      "id": 187,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "TC105検討",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 36
+    },
+    {
+      "id": 188,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "保持解放機構設計修正 ~5月半ば",
+      "description": "preloadを大きくする\n\nつばを付けて外れにくくする\n\n展開衝撃を緩和するため，樹脂材を入れれるようにする",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 37
+    },
+    {
+      "id": 189,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "リリースナット誤展開 原因究明",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 38
+    },
+    {
+      "id": 190,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "SAPの亀裂原因究明",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 39
+    },
+    {
+      "id": 191,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "空力パドルがSAPに接触する問題 解決",
+      "description": "金子さんに検討してもらっている",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 40
+    },
+    {
+      "id": 192,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "SIDE+Y, SIDE-Y 組み立て治具設計",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 41
+    },
+    {
+      "id": 193,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "赤外つつく",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 42
+    },
+    {
+      "id": 194,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "コンポーネント実績比較",
+      "description": "3/23の週には実施する",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 43
+    },
+    {
+      "id": 195,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "コンポ振動環境抽出",
+      "description": "4月初週までにはほしい",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 44
+    },
+    {
+      "id": 196,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "Rnut展開試験",
+      "description": "Rnut単体試験→12/8の週\n\nSAP展開試験→組み立ての時",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 45
+    },
+    {
+      "id": 197,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "リリースナット展開衝撃緩和 検討",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 46
+    },
+    {
+      "id": 198,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "Gimbal_CNTケース設計",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 47
+    },
+    {
+      "id": 199,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "基板ケース詳細設計",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 48
+    },
+    {
+      "id": 200,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "振動試験時構造数学モデル更新",
+      "description": "4月中には",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 49
+    },
+    {
+      "id": 201,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "九大構造解析バッチ処理ツールづくり",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 50
+    },
+    {
+      "id": 202,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "コンポ振動試験",
+      "description": "6月ごろ実施予定",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 51
+    },
+    {
+      "id": 203,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "SAP金沢大学",
+      "description": "原因はわからないので，こっちでも振ってみるしかなさそう．EMシステムでセルを貼って",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 52
+    },
+    {
+      "id": 204,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "FM設計",
+      "description": "5~6月にかけて\n\nランダム環境が悪いところはローカルに補強を検討",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 53
+    },
+    {
+      "id": 205,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "SAP貼り付け用RTV購入",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 54
+    },
+    {
+      "id": 206,
+      "board_id": 1,
+      "column_id": 13,
+      "title": "GASケース再設計",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 55
+    },
+    {
+      "id": 207,
+      "board_id": 1,
+      "column_id": 14,
+      "title": "通信量計算，HKと工学ミッションデータ",
+      "description": "理学では1日1GB程度\n\n工学実験側でミッションデータを見積り\n\nXダウンリンクは戸塚使えない可能性高い",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 0
+    },
+    {
+      "id": 208,
+      "board_id": 1,
+      "column_id": 14,
+      "title": "Xダウン中にSアップリンク？",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 1
+    },
+    {
+      "id": 209,
+      "board_id": 1,
+      "column_id": 14,
+      "title": "戸村研，アンテナ設計",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 2
+    },
+    {
+      "id": 210,
+      "board_id": 1,
+      "column_id": 14,
+      "title": "Xダウンリンクは戸塚使えない可能性高い",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 3
+    },
+    {
+      "id": 211,
+      "board_id": 1,
+      "column_id": 14,
+      "title": "TMの地上可視性",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 4
+    },
+    {
+      "id": 212,
+      "board_id": 1,
+      "column_id": 14,
+      "title": "CFRP板上に接地してよいのか",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 5
+    },
+    {
+      "id": 213,
+      "board_id": 1,
+      "column_id": 14,
+      "title": "s帯通信系の購入",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 6
+    },
+    {
+      "id": 214,
+      "board_id": 1,
+      "column_id": 14,
+      "title": "アンテナ",
+      "description": "",
+      "due_date": "",
+      "is_archived": true,
+      "order_idx": 7
+    },
+    {
+      "id": 215,
+      "board_id": 1,
+      "column_id": 15,
+      "title": "CHU周りのシステムブロック図の決定",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 0
+    },
+    {
+      "id": 216,
+      "board_id": 1,
+      "column_id": 15,
+      "title": "SSD/SDの発注",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 1
+    },
+    {
+      "id": 217,
+      "board_id": 1,
+      "column_id": 15,
+      "title": "debug portコネクタ形状,サイズ",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 2
+    },
+    {
+      "id": 218,
+      "board_id": 1,
+      "column_id": 15,
+      "title": "mPDUのuartでの動作",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 3
+    },
+    {
+      "id": 219,
+      "board_id": 1,
+      "column_id": 15,
+      "title": "ICHUの環境構築",
+      "description": "",
+      "due_date": "",
+      "is_archived": false,
+      "order_idx": 4
     }
   ],
+  "checklists": [],
   "comments": [
     {
       "id": 1,
+      "task_id": 131,
+      "content": "ポートONOFF，電流流れるか，通信できるか",
+      "author": "SHOMA ABE (Trello)",
+      "created_at": "2026-06-04T06:32:47.419"
+    },
+    {
+      "id": 2,
+      "task_id": 129,
+      "content": "充放電の結果をまとめる",
+      "author": "SHOMA ABE (Trello)",
+      "created_at": "2026-06-04T06:23:46.934"
+    },
+    {
+      "id": 3,
+      "task_id": 124,
+      "content": "MPPTトラッキングの精度確認\n(AstreX_PCUのような現象が起こらないことを念のため確認?)",
+      "author": "SHOMA ABE (Trello)",
+      "created_at": "2026-06-02T05:21:07.722"
+    },
+    {
+      "id": 4,
+      "task_id": 109,
+      "content": "mPDU_ACUFの抵抗実装をする",
+      "author": "斎藤康太 (Trello)",
+      "created_at": "2026-05-29T07:33:56.769"
+    },
+    {
+      "id": 5,
+      "task_id": 108,
+      "content": "動作確認は終わっている",
+      "author": "斎藤康太 (Trello)",
+      "created_at": "2026-05-29T07:22:40.696"
+    },
+    {
+      "id": 6,
+      "task_id": 102,
+      "content": "熱真空でいないときにやってもらう\n山崎",
+      "author": "斎藤康太 (Trello)",
+      "created_at": "2026-05-29T07:15:17.613"
+    },
+    {
+      "id": 7,
+      "task_id": 139,
+      "content": "破壊するかまで見たい，サイクルはやれればやる",
+      "author": "畑田拳志 (Trello)",
+      "created_at": "2026-05-29T07:09:57.744"
+    },
+    {
+      "id": 8,
+      "task_id": 137,
+      "content": "熱真空試験後に詳細TD構築予定\n作業時間：1ヶ月",
+      "author": "畑田拳志 (Trello)",
+      "created_at": "2026-05-29T07:09:11.036"
+    },
+    {
+      "id": 9,
+      "task_id": 100,
+      "content": "acufのフラッシュは2つある．\n軌道上書き換えで2つとも使っているので，1つにする",
+      "author": "斎藤康太 (Trello)",
+      "created_at": "2026-05-29T07:08:21.792"
+    },
+    {
+      "id": 10,
+      "task_id": 100,
+      "content": "斎藤 or 松川",
+      "author": "斎藤康太 (Trello)",
+      "created_at": "2026-05-29T07:07:16.130"
+    },
+    {
+      "id": 11,
+      "task_id": 96,
+      "content": "まず，だいきさんに聞いてみる\n最終的にはメーカに聞く",
+      "author": "斎藤康太 (Trello)",
+      "created_at": "2026-05-29T07:02:35.684"
+    },
+    {
+      "id": 12,
+      "task_id": 106,
+      "content": "gpsに興味ある人\n優先順位は低い",
+      "author": "斎藤康太 (Trello)",
+      "created_at": "2026-05-29T06:59:24.746"
+    },
+    {
+      "id": 13,
+      "task_id": 92,
+      "content": "田中君がやる",
+      "author": "斎藤康太 (Trello)",
+      "created_at": "2026-05-29T06:54:15.616"
+    },
+    {
+      "id": 14,
+      "task_id": 90,
+      "content": "解析自体は終わっていて，提出するだけ\n振動試験前後で変わった軸について重点的に聞く",
+      "author": "斎藤康太 (Trello)",
+      "created_at": "2026-05-29T06:49:31.333"
+    },
+    {
+      "id": 15,
+      "task_id": 89,
+      "content": "BBM動確と全体の基板設計を分ける？",
+      "author": "斎藤康太 (Trello)",
+      "created_at": "2026-05-29T06:48:50.646"
+    },
+    {
+      "id": 16,
+      "task_id": 89,
+      "content": "レゾルバをocufで読み込めるように通信変換と電圧の変換をする",
+      "author": "斎藤康太 (Trello)",
+      "created_at": "2026-05-29T06:43:53.944"
+    },
+    {
+      "id": 17,
+      "task_id": 88,
+      "content": "rzマイコンのコードを書いてocufに組み込む",
+      "author": "斎藤康太 (Trello)",
+      "created_at": "2026-05-29T06:42:19.197"
+    },
+    {
+      "id": 18,
+      "task_id": 88,
+      "content": "モータドライバーとpeachの通信",
+      "author": "斎藤康太 (Trello)",
+      "created_at": "2026-05-29T06:41:27.612"
+    },
+    {
+      "id": 19,
+      "task_id": 88,
+      "content": "山田君の引継ぎ",
+      "author": "斎藤康太 (Trello)",
+      "created_at": "2026-05-29T06:40:49.090"
+    },
+    {
+      "id": 20,
+      "task_id": 86,
+      "content": "hkちゃんと作れてる？",
+      "author": "斎藤康太 (Trello)",
+      "created_at": "2026-05-28T13:10:51.680"
+    },
+    {
+      "id": 21,
+      "task_id": 104,
+      "content": "新入生タスク",
+      "author": "斎藤康太 (Trello)",
+      "created_at": "2026-05-28T11:29:24.330"
+    },
+    {
+      "id": 22,
+      "task_id": 104,
+      "content": "磁石を近付けても同じ問題が起こるか確認",
+      "author": "斎藤康太 (Trello)",
+      "created_at": "2026-05-28T11:29:04.742"
+    },
+    {
+      "id": 23,
+      "task_id": 85,
+      "content": "gasは1つ前のデータと同じ値になっちるとoldになる\n解析して，前の値と同じ値になっているか確認",
+      "author": "斎藤康太 (Trello)",
+      "created_at": "2026-05-28T05:16:09.556"
+    },
+    {
+      "id": 24,
+      "task_id": 85,
+      "content": "gyrocは解決",
+      "author": "斎藤康太 (Trello)",
+      "created_at": "2026-05-28T05:14:23.887"
+    },
+    {
+      "id": 25,
+      "task_id": 85,
+      "content": "gyroCとGASがupdateとoldを行き来する問題を解決したい．",
+      "author": "斎藤康太 (Trello)",
+      "created_at": "2026-05-23T08:51:01.055"
+    },
+    {
+      "id": 26,
+      "task_id": 85,
+      "content": "RTC SyncではRW駆動含めて問題はなさそう",
+      "author": "斎藤康太 (Trello)",
+      "created_at": "2026-05-23T08:33:14.465"
+    },
+    {
+      "id": 27,
+      "task_id": 85,
+      "content": "PPS同期モードにするために以下に設定したが，RTC Sync のままだった\n\n- コントローラ系\n  - time\\_sys.pps\\_sync\\_flag = compo\\_state\\_.pps\\_sync_flag;\n  - LocalMemoty.hのTimesystemのpps\\_sync\\_flag(true), CompoStateのpps\\_sync\\_flag(true)\n- ACUC\n  - LocalMemoty.hのTimesystemのsync\\_mode(PPS\\_SYNC)\n- ACUF\n  - LocalMemoty.hのTimesystemのpps\\_sync\\_flag(true)",
+      "author": "斎藤康太 (Trello)",
+      "created_at": "2026-05-23T08:32:38.589"
+    },
+    {
+      "id": 28,
+      "task_id": 86,
+      "content": "peachのuart0のTxをロジアナで見たら常にhighになっている．ACUF基板に書き込んでロジアナで見ても同じ現象が見られる．",
+      "author": "斎藤康太 (Trello)",
+      "created_at": "2026-05-23T08:09:09.132"
+    },
+    {
+      "id": 29,
+      "task_id": 86,
+      "content": "ACUFのコードをいじって時刻のみを上位に送れるようにした？",
+      "author": "斎藤康太 (Trello)",
+      "created_at": "2026-05-23T08:06:00.830"
+    },
+    {
+      "id": 30,
+      "task_id": 92,
+      "content": "駆動はしている。結果の比較はしていない。",
+      "author": "渡邉 (Trello)",
+      "created_at": "2026-05-20T02:04:23.797"
+    },
+    {
+      "id": 31,
+      "task_id": 89,
+      "content": "レベルシフト素子のBBM動確と、全体の基板設計を進めている",
+      "author": "渡邉 (Trello)",
+      "created_at": "2026-05-20T02:03:58.933"
+    },
+    {
+      "id": 32,
+      "task_id": 91,
+      "content": "作成のめどが立った。2026年7月中に試作ができる予定。",
+      "author": "渡邉 (Trello)",
+      "created_at": "2026-05-20T02:02:41.760"
+    },
+    {
+      "id": 33,
+      "task_id": 130,
+      "content": "恒温槽で取ってみる",
+      "author": "SHOMA ABE (Trello)",
+      "created_at": "2026-05-11T06:52:08.431"
+    },
+    {
+      "id": 34,
+      "task_id": 129,
+      "content": "取り付けの後になりそう",
+      "author": "SHOMA ABE (Trello)",
+      "created_at": "2026-05-11T06:50:09.404"
+    },
+    {
+      "id": 35,
+      "task_id": 129,
+      "content": "充放電の用意\n放電ハーネス",
+      "author": "SHOMA ABE (Trello)",
+      "created_at": "2026-04-30T04:31:29.286"
+    },
+    {
+      "id": 36,
+      "task_id": 130,
+      "content": "CCstudioバージョンの確認",
+      "author": "SHOMA ABE (Trello)",
+      "created_at": "2026-04-30T04:27:43.819"
+    },
+    {
+      "id": 37,
+      "task_id": 200,
+      "content": "熱真空の裏で荒井がやる．",
+      "author": "荒井湧介 (Trello)",
+      "created_at": "2026-04-17T05:47:46.971"
+    },
+    {
+      "id": 38,
+      "task_id": 200,
+      "content": "リブが実際と違うところをやり直す必要はない．\n\n空力パドルのモデル化・ダミーマスの質量反映だけやる．",
+      "author": "荒井湧介 (Trello)",
+      "created_at": "2026-04-17T05:46:50.307"
+    },
+    {
+      "id": 39,
+      "task_id": 199,
+      "content": "10月ごろまで",
+      "author": "荒井湧介 (Trello)",
+      "created_at": "2026-04-17T05:41:01.594"
+    },
+    {
+      "id": 40,
+      "task_id": 198,
+      "content": "金子さんか佐藤君予定\n5月末まで．熱真空リハの裏",
+      "author": "荒井湧介 (Trello)",
+      "created_at": "2026-04-17T05:35:01.224"
+    },
+    {
+      "id": 41,
+      "task_id": 192,
+      "content": "5/8までに購入する",
+      "author": "荒井湧介 (Trello)",
+      "created_at": "2026-04-17T05:27:52.593"
+    },
+    {
+      "id": 42,
+      "task_id": 187,
+      "content": "両面テープでつけるでOK",
+      "author": "荒井湧介 (Trello)",
+      "created_at": "2026-04-17T05:15:35.647"
+    },
+    {
+      "id": 43,
+      "task_id": 187,
+      "content": "タイラップあるか確認",
+      "author": "荒井湧介 (Trello)",
+      "created_at": "2026-04-17T05:15:10.731"
+    },
+    {
+      "id": 44,
+      "task_id": 185,
+      "content": "動確終わったら削る．来週やる",
+      "author": "荒井湧介 (Trello)",
+      "created_at": "2026-04-17T05:11:52.924"
+    },
+    {
+      "id": 45,
+      "task_id": 129,
+      "content": "うみつばめの熱真空前にどうしていたか確認",
+      "author": "SHOMA ABE (Trello)",
+      "created_at": "2026-04-14T05:28:02.380"
+    },
+    {
+      "id": 46,
+      "task_id": 128,
+      "content": "KillSWの分はCDHとピンアサイン確認",
+      "author": "SHOMA ABE (Trello)",
+      "created_at": "2026-04-10T06:53:24.406"
+    },
+    {
+      "id": 47,
+      "task_id": 128,
+      "content": "デバッグポートの分を発注",
+      "author": "SHOMA ABE (Trello)",
+      "created_at": "2026-04-10T06:46:41.048"
+    },
+    {
+      "id": 48,
+      "task_id": 116,
+      "content": "4月に実施することになりそう",
+      "author": "SHOMA ABE (Trello)",
+      "created_at": "2026-03-31T08:27:44.906"
+    },
+    {
+      "id": 49,
+      "task_id": 189,
+      "content": "4/1 dcubedと打合せ",
+      "author": "荒井湧介 (Trello)",
+      "created_at": "2026-03-31T08:03:27.627"
+    },
+    {
+      "id": 50,
+      "task_id": 185,
+      "content": "EM熱真空用は今あるやつをCNCで加工する\n\n4月初週予定",
+      "author": "荒井湧介 (Trello)",
+      "created_at": "2026-03-31T08:00:44.257"
+    },
+    {
+      "id": 51,
+      "task_id": 116,
+      "content": "動作確認方法要相談",
+      "author": "SHOMA ABE (Trello)",
+      "created_at": "2026-03-31T01:54:28.128"
+    },
+    {
+      "id": 52,
+      "task_id": 114,
+      "content": "冗長性の考え方，システムブロック図",
+      "author": "SHOMA ABE (Trello)",
+      "created_at": "2026-03-24T08:57:43.754"
+    },
+    {
+      "id": 53,
+      "task_id": 114,
+      "content": "電子負荷でやってる",
+      "author": "渡邉 (Trello)",
+      "created_at": "2026-03-24T07:45:44.126"
+    },
+    {
+      "id": 54,
+      "task_id": 17,
+      "content": "新B2に頼んだ",
+      "author": "渡邉 (Trello)",
+      "created_at": "2026-03-24T07:23:03.594"
+    },
+    {
+      "id": 55,
+      "task_id": 116,
+      "content": "熱衝撃試験\n熱系と相談",
+      "author": "SHOMA ABE (Trello)",
+      "created_at": "2026-03-17T06:01:53.264"
+    },
+    {
+      "id": 56,
+      "task_id": 124,
+      "content": "FMのFGをPCU内部で落とすかどうか\n→内部では落とさない方針",
+      "author": "SHOMA ABE (Trello)",
+      "created_at": "2026-03-17T06:00:20.888"
+    },
+    {
+      "id": 57,
+      "task_id": 126,
+      "content": "停波復帰手順をもらった\n不明点確認中",
+      "author": "SHOMA ABE (Trello)",
+      "created_at": "2026-03-17T05:58:30.848"
+    },
+    {
+      "id": 58,
+      "task_id": 115,
+      "content": "回路図修正",
+      "author": "SHOMA ABE (Trello)",
+      "created_at": "2026-03-17T05:30:33.481"
+    },
+    {
+      "id": 59,
+      "task_id": 114,
+      "content": "評価基板が来た、試験。",
+      "author": "渡邉 (Trello)",
+      "created_at": "2026-03-10T08:48:26.961"
+    },
+    {
+      "id": 60,
+      "task_id": 137,
+      "content": "スケジュール更新\n・解析の用意：-3月3週\n\n・解析：3月3-4週\n\n・表面特性決め：3月3-4周\n\n・試験コンフィグ決定：-3月4週\n\n・MLI,銀テフ加工：4月1-2週（できるMLIは3月末にやりたい）\n\n・組立・実装：4月3-5週\n\n（5月頭：マージン）",
+      "author": "畑田拳志 (Trello)",
+      "created_at": "2026-03-10T08:29:52.330"
+    },
+    {
+      "id": 61,
+      "task_id": 122,
+      "content": "セル基板",
+      "author": "SHOMA ABE (Trello)",
+      "created_at": "2026-03-09T08:42:29.999"
+    },
+    {
+      "id": 62,
+      "task_id": 117,
+      "content": "川口さんに引継ぎしてもらう",
+      "author": "SHOMA ABE (Trello)",
+      "created_at": "2026-03-09T08:40:35.276"
+    },
+    {
+      "id": 63,
+      "task_id": 124,
+      "content": "残項目\n異常フラグ：コマンド受信エラー，H/W異常，UVC，LLM，OT，UT\nUVC\nLMM\n異常フラグリセット",
+      "author": "SHOMA ABE (Trello)",
+      "created_at": "2026-03-09T06:04:37.455"
+    },
+    {
+      "id": 64,
+      "task_id": 124,
+      "content": "リセットは終了",
+      "author": "SHOMA ABE (Trello)",
+      "created_at": "2026-03-09T05:55:22.746"
+    },
+    {
+      "id": 65,
+      "task_id": 19,
+      "content": "AWSと直接はやりにくそう。社内にも専門の人間が少ないから変復調はしない。\n\nインフォステラがまとめてて、配信してくれる。\n\n1パス1万程度、コンパチなど初期費用500万円。アップもできる、テレメを確認しながら。\n\nQPSも使ってる。受送信器が同じなので、調整はいらなそう。",
+      "author": "渡邉 (Trello)",
+      "created_at": "2026-03-05T08:15:35.339"
+    },
+    {
+      "id": 66,
+      "task_id": 137,
+      "content": "・解析の用意：～2月3週\n\n・解析：2月2週～4週\n\n・表面特性決め：2月4週～3月1周\n\n・試験コンフィグ決定：～3月3週\n\n・MLI縫い：2月4週～3月3週\n\n（3月4週：マージン）\n\n組立・実装：4月\n\n（5月頭：マージン）",
+      "author": "畑田拳志 (Trello)",
+      "created_at": "2026-03-03T07:26:09.616"
+    },
+    {
+      "id": 67,
+      "task_id": 117,
+      "content": "熱系に確認",
+      "author": "toukou tarou (Trello)",
+      "created_at": "2026-02-12T02:10:23.729"
+    },
+    {
+      "id": 68,
+      "task_id": 116,
+      "content": "２月末納品\nその後振動試験(3/9の週)\n3/16以降で熱衝撃試験",
+      "author": "toukou tarou (Trello)",
+      "created_at": "2026-02-12T02:01:25.178"
+    },
+    {
+      "id": 69,
+      "task_id": 115,
+      "content": "2/19,20にPCBレビュー目標",
+      "author": "toukou tarou (Trello)",
+      "created_at": "2026-02-12T01:59:13.424"
+    },
+    {
+      "id": 70,
+      "task_id": 114,
+      "content": "・SHAREピンをジャンパで繋ぐ（足出す改修必要か．電流上限ある機器がある？）\n・2~3Aで1ポート，軌道上では動くけど地上だと展開まではいかない\n・外側合流，DCDCが対応できてるのか？",
+      "author": "渡邉 (Trello)",
+      "created_at": "2026-02-10T07:51:09.529"
+    },
+    {
+      "id": 71,
+      "task_id": 215,
+      "content": "赤外冷凍機の電源供給経路の決定",
+      "author": "uv petrel (Trello)",
+      "created_at": "2026-01-07T01:58:04.008"
+    },
+    {
+      "id": 72,
+      "task_id": 116,
+      "content": "AESがパスバー業者に見積もり中",
+      "author": "Kawaguchi Yusei (Trello)",
+      "created_at": "2025-12-09T05:17:33.379"
+    },
+    {
+      "id": 73,
+      "task_id": 115,
+      "content": "2月中旬発注目標（納期3月中旬，LT1か月として）\n\n12/15までに回路図ひき，その週で有識者にレビュー\n\n合意取れ次第，パターン設計に移行",
+      "author": "Kawaguchi Yusei (Trello)",
+      "created_at": "2025-12-02T05:32:35.104"
+    },
+    {
+      "id": 74,
+      "task_id": 178,
+      "content": "12月中に振動試験発注するか決めたい(出張申請の期限が早いから)\n\n計画書もそこまでにあってほしい",
+      "author": "荒井湧介 (Trello)",
+      "created_at": "2025-11-20T13:05:20.270"
+    },
+    {
+      "id": 75,
+      "task_id": 53,
+      "content": "STTに星画像を見せるシミュレータというよりは，星リストをACUFに渡すHiLSシステムで切り分ける．",
+      "author": "渡邉 (Trello)",
+      "created_at": "2025-11-13T07:04:42.643"
+    },
+    {
+      "id": 76,
+      "task_id": 12,
+      "content": "2025/11/5 IA MTG\n\n- 環境条件\n  - 基本変わらない\n- 安全審査はJAXA（射場がJAXAだから）\n- 15inch，simplePAFでOK\n  - EM振動試験はKHIに借りる，FM用はこちらで買う\n  - 買い方はIA経由で\n- 現状，台の上に3機タイプ（風車タイプの搭載ではない）ので，包絡域はきっちり決まっていない．他衛星による．質量も，ただ70kgはいけそう．",
+      "author": "渡邉 (Trello)",
+      "created_at": "2025-11-13T07:01:54.393"
+    },
+    {
+      "id": 77,
       "task_id": 7,
-      "content": "aiueo",
-      "author": "SHOHEI YAMASAKI (Trello)",
-      "created_at": "2026-06-05T19:13:22.228"
+      "content": "2025/11/12 キックオフ\n\n- TM放出の条件\n  - 地上で位置把握->10cm以上が基準になっているドキュメントが多い．表面特性を工夫すれば？？\n  - 他の衛星，特にISSに危害を与えないことの証明．メイン衛星についてはロケット側でやっている？ので同じ方法で．\n- スラスタを持ち，軌道制御能力を持つので，衝突回避マヌーバをする，と言わないといけないかも\n- 終了措置の定義はTMにも．\n- 接近するので，「軌道上サービスを〜〜」のガイドラインも参照にしたほうがよあっそう",
+      "author": "渡邉 (Trello)",
+      "created_at": "2025-11-13T06:52:16.123"
+    },
+    {
+      "id": 78,
+      "task_id": 125,
+      "content": "振動試験，熱衝撃試験で問題が起きたらやる？？\n定量的に評価するかどうかで試験工数が大きく変わりそう…",
+      "author": "Kawaguchi Yusei (Trello)",
+      "created_at": "2025-08-08T05:54:12.306"
+    },
+    {
+      "id": 79,
+      "task_id": 116,
+      "content": "SAPの熱衝撃試験の準備（~9月中？），熱系とコンフィグ相談\n\n- CFRPの端材\n- 接着剤（あまりを使う）\n- セル（ひばり．うみつばめの余りで対応），溶接の条件だし用のセル（SHARP）を使いまわせないか検討",
+      "author": "Kawaguchi Yusei (Trello)",
+      "created_at": "2025-08-08T05:45:33.814"
+    },
+    {
+      "id": 80,
+      "task_id": 117,
+      "content": "スラスターの詳細熱モデル待ち",
+      "author": "Kawaguchi Yusei (Trello)",
+      "created_at": "2025-08-08T05:34:38.194"
+    },
+    {
+      "id": 81,
+      "task_id": 114,
+      "content": "mPDUから給電した方がよい見込みはある．周辺回路作成やパラメタ調整をリリースナット本体の納品に合わせて行いたい（振動試験は直安でリリースする？）",
+      "author": "Kawaguchi Yusei (Trello)",
+      "created_at": "2025-08-08T05:30:02.254"
+    },
+    {
+      "id": 82,
+      "task_id": 124,
+      "content": "質問事項をまとめてお盆休み明けに送付，放射線試験のためのFETの情報を提供してもらう（川口）",
+      "author": "Kawaguchi Yusei (Trello)",
+      "created_at": "2025-08-08T05:16:14.155"
+    },
+    {
+      "id": 83,
+      "task_id": 203,
+      "content": "なんで割れたのか",
+      "author": "渡邉 (Trello)",
+      "created_at": "2025-08-08T02:35:04.657"
+    },
+    {
+      "id": 84,
+      "task_id": 124,
+      "content": "うみつばめのPCUにない機能を高橋電機にレクチャーしてもらう．\n・充電停止機能，便利だがリスキー",
+      "author": "渡邉 (Trello)",
+      "created_at": "2025-07-25T07:05:05.313"
+    },
+    {
+      "id": 85,
+      "task_id": 114,
+      "content": "地上試験の仕方．地上では4A流す必要があるが，このときはPCU経由ではなく外部給電でいいか",
+      "author": "渡邉 (Trello)",
+      "created_at": "2025-07-18T07:28:57.465"
+    },
+    {
+      "id": 86,
+      "task_id": 149,
+      "content": "もらった試験データから熱モデルを作成する",
+      "author": "渡邉 (Trello)",
+      "created_at": "2025-07-04T07:47:33.554"
+    },
+    {
+      "id": 87,
+      "task_id": 117,
+      "content": "電力の観点から，現状だと1周回に13.5分噴射できる．噴射以外の時間はプレスラストモードで温度一定",
+      "author": "渡邉 (Trello)",
+      "created_at": "2025-07-04T07:45:17.421"
+    },
+    {
+      "id": 88,
+      "task_id": 67,
+      "content": "TLEの反映と地上との通信がネックで，分離時のドリフトとめにはスラスタがあった方が有利か？",
+      "author": "Keito Otsubo (Trello)",
+      "created_at": "2024-06-06T10:02:10.473"
+    },
+    {
+      "id": 89,
+      "task_id": 68,
+      "content": "１面にしかない場合，姿勢制御間に合う？\nスラスト方向，吹く時間\nこのあたりを調査",
+      "author": "Keito Otsubo (Trello)",
+      "created_at": "2024-03-21T08:28:01.201"
     }
   ]
 }

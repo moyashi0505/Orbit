@@ -502,9 +502,16 @@ def export_backup(db: Session = Depends(get_db)):
     )
 
 @app.post("/api/backup/restore")
+@app.post("/api/backup/restore")
 async def restore_backup(request: Request, db: Session = Depends(get_db)):
     try:
         data = await request.json()
+        
+        # もしJSONにパスワード付きのユーザー情報が含まれていればユーザーもリセットして復元する
+        if "users" in data and len(data["users"]) > 0 and "password" in data["users"][0]:
+            db.query(UserDB).delete()
+            for u in data["users"]:
+                db.add(UserDB(id=u["id"], username=u["username"], password=u.get("password", ""), is_admin=u["is_admin"], is_approved=u.get("is_approved", True)))
         
         db.query(BoardDB).delete()
         db.query(ColumnDB).delete()
@@ -525,6 +532,19 @@ async def restore_backup(request: Request, db: Session = Depends(get_db)):
             db.add(CommentDB(id=c["id"], task_id=c["task_id"], content=c["content"], author=c["author"], created_at=created_at))
             
         db.commit()
+
+        # =========================================================
+        # ★追加：PostgreSQLの「次のID番号」のズレを自動修正する処理
+        # =========================================================
+        if "postgres" in DATABASE_URL:
+            tables = ["users", "boards", "columns", "tasks", "checklist_items", "comments"]
+            for t in tables:
+                try:
+                    db.execute(text(f"SELECT setval('{t}_id_seq', COALESCE((SELECT MAX(id) FROM {t}), 1));"))
+                except Exception as e:
+                    print(f"Warning: Failed to reset sequence for {t}: {e}")
+            db.commit()
+            
         return {"message": "Success"}
     except Exception as e:
         db.rollback()
