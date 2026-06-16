@@ -6,7 +6,7 @@ from sqlalchemy import create_engine, text
 RENDER_URL = "postgresql://orbit_db_ukn1_user:8mmRODuzOuNQukGtOjvxogWY9iJossT8@dpg-d8duo7urnols739oe8eg-a.virginia-postgres.render.com/orbit_db_ukn1"
 
 # Hugging Faceに入力した、SupabaseのURL (ポート6543のもの)
-SUPABASE_URL = "postgresql://postgres.xybqjdhnfplcrspegwpj:Piis1592L19S98S@aws-1-ap-northeast-1.pooler.supabase.com:5432/postgres"
+SUPABASE_URL = "postgresql://postgres.xybqjdhnfplcrspegwpj:Piis1592L19S98S@aws-1-ap-northeast-1.pooler.supabase.com:6543/postgres"
 
 # SQLAlchemy用にURLの先頭を補正
 if RENDER_URL.startswith("postgres://"):
