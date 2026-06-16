@@ -286,6 +286,23 @@ def delete_user(username: str, db: Session = Depends(get_db)):
         return {"message": "Deleted"}
     return {"error": "Not found"}
 
+@app.put("/api/user/name")
+async def update_user_name(request: Request, db: Session = Depends(get_db)):
+    # ログイン中のユーザーIDを取得（既存の認証ロジックに合わせてください）
+    user_id = request.session.get("user_id") 
+    if not user_id:
+        return JSONResponse(status_code=401, content={"message": "Unauthorized"})
+    
+    data = await request.json()
+    new_name = data.get("new_name")
+    
+    user = db.query(UserDB).filter(UserDB.id == user_id).first()
+    if user:
+        user.username = new_name
+        db.commit()
+        return {"message": "ユーザー名を更新しました"}
+    return JSONResponse(status_code=404, content={"message": "User not found"})
+
 # --- ボード (Board) ---
 @app.get("/api/boards")
 def get_boards(db: Session = Depends(get_db)):
