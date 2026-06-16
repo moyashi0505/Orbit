@@ -724,7 +724,10 @@
         const response = await fetch('/api/user/name', {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ new_name: newName })
+            body: JSON.stringify({ 
+                username: currentUser,  // ← ここを追加！
+                new_name: newName 
+            })
         });
 
         if (response.ok) {
