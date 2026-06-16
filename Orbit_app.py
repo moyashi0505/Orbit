@@ -286,35 +286,17 @@ def delete_user(username: str, db: Session = Depends(get_db)):
         return {"message": "Deleted"}
     return {"error": "Not found"}
 
-@app.put("/api/user/name")
-def update_user_name(request: Request, db: Session = Depends(get_db)):
-    # ユーザー名の更新を受け取るルール
-    class NameUpdate(BaseModel):
-        new_name: str
-        
-    # リクエストデータから新しい名前を取得するロジック（簡易的）
-    # ※現在のHTMLから送られてくるJSON構造に合わせています
-    import json
-    # FastAPIの依存関係で Request から取得
-    # ここでは便宜上、JSONデータを読み取って更新します
-    from fastapi import Body
-    
-    # セッション機能の代わりに、現在はLocalStorageのユーザー名を利用しているため
-    # 特定ユーザーの更新を許可するAPIにする必要があります
-    # 既存のログインユーザー情報を取得するロジックを優先します
-    
-    # 修正：現在の認証システムに合わせるため、名前更新のためのエンドポイントを構成
-    pass
+# --- ユーザー名変更のためのデータ定義 ---
+class UserNameUpdate(BaseModel):
+    username: str
+    new_name: str
 
+# --- ユーザー名変更API ---
 @app.put("/api/user/name")
-def update_user_name(data: dict, db: Session = Depends(get_db)):
-    # ブラウザから送られた username と new_name を取得
-    username = data.get("username")
-    new_name = data.get("new_name")
-    
-    target = db.query(UserDB).filter(UserDB.username == username).first()
+def update_user_name(data: UserNameUpdate, db: Session = Depends(get_db)):
+    target = db.query(UserDB).filter(UserDB.username == data.username).first()
     if target:
-        target.username = new_name
+        target.username = data.new_name
         db.commit()
         return {"message": "Success"}
     return {"error": "User not found"}
