@@ -288,20 +288,26 @@ def delete_user(username: str, db: Session = Depends(get_db)):
 
 @app.put("/api/user/name")
 async def update_user_name(request: Request, db: Session = Depends(get_db)):
-    # ログイン中のユーザーIDを取得（既存の認証ロジックに合わせてください）
-    user_id = request.session.get("user_id") 
+    # セッションからユーザー情報を取得
+    user_id = request.session.get("user_id")
+    
+    # 【デバッグ用】もしIDが取れていなければエラーログを出す
     if not user_id:
-        return JSONResponse(status_code=401, content={"message": "Unauthorized"})
+        print("エラー: ログインユーザーのIDが見つかりません")
+        return JSONResponse(status_code=401, content={"message": "ログインしてください"})
     
     data = await request.json()
     new_name = data.get("new_name")
     
+    # ユーザー検索
     user = db.query(UserDB).filter(UserDB.id == user_id).first()
     if user:
         user.username = new_name
         db.commit()
+        print(f"ユーザー名を {user.username} に変更しました") # 成功時にターミナルに表示
         return {"message": "ユーザー名を更新しました"}
-    return JSONResponse(status_code=404, content={"message": "User not found"})
+    
+    return JSONResponse(status_code=404, content={"message": "ユーザーが見つかりません"})
 
 # --- ボード (Board) ---
 @app.get("/api/boards")
