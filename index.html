@@ -1612,11 +1612,25 @@
 
         async function saveDescription() {
             const desc = document.getElementById('modalDescription').value;
-            await fetch(`/api/tasks/${currentTaskId}`, {
+            const res = await fetch(`/api/tasks/${currentTaskId}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ description: desc })
             });
+            
+            if (res.ok) {
+                // 保存成功時に通知を表示
+                showToast("保存しました");
+            }
+        }
+
+        // 画面のどこかにこの関数を追加しておくと便利です
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.textContent = message;
+            toast.style.cssText = "position:fixed; bottom:20px; right:20px; background:#10b981; color:white; padding:10px 20px; border-radius:5px; z-index:9999;";
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 2000);
         }
 
         async function saveDueDate() {
@@ -1818,6 +1832,15 @@
         }
 
         window.onload = checkAuth;
+        // 5秒おきに最新データを取りに行く
+        setInterval(() => {
+            if (currentUser && currentBoardId) {
+                // モーダルが開いていない時だけ自動更新すると邪魔になりません
+                if (document.getElementById('taskModal').style.display === 'none') {
+                    fetchBoardData();
+                }
+            }
+        }, 5000); // 5000ms = 5秒
     </script>
 </body>
 </html>
